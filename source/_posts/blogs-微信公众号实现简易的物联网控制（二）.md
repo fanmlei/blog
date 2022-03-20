@@ -1,0 +1,106 @@
+
+<h3>命令下发</h3>
+<div>先来看一段OneNet文档说明：</div>
+<div>
+<p>命令是指应用发送命令数据给OneNet设备云、再由OneNet设备云转发给终端设备、终端设备收到命令后可以向设备云反馈响应的一种工作机制。命令下发后，应用可以通过API查询命令状态和提取命令的响应数据。</p>
+<p>命令的执行步骤如下：</p>
+<p>1、&nbsp; 应用通过API向设备云发送命令数据；</p>
+<p>2、&nbsp; 设备云生成该命令的uuid作为该命令的唯一标识并向应用返回，同时向终端设备转发命令数据；</p>
+<p>3、&nbsp; 终端设备收到命令数据后执行命令数据，可以生成响应，也可以不响应；</p>
+<p>4、&nbsp; 设备云跟踪记录命令的响应，如果设备有响应，就关联命令uuid和响应结果；</p>
+<p>5、&nbsp; 应用通过API向设备云提取命令执行结果(API请求中携带命令uuid标识)。</p>
+<p>特别说明：</p>
+<p>命令下发到终端设备后，如果终端设备10秒内未收到响应，则此命令的状态将被设置为超时，应用通过API查询命令状态时，会反馈超时。超过10秒后收到的响应会被丢弃。</p>
+<p>终端设备针对同一条命令回复多条命令响应，只有在未超时时间内收到的第一条是有效响应，后续的响应包将会被直接丢弃。因此终端设备应该对每个命令只有一个响应包。</p>
+<p><br>
+</p>
+<p>下面是请求&#26684;式，这个地方有些坑，和官网的公开协议产品指南有所不同，刚开始按照官网的来实现始终报，后来在其他文档里面找到了这个才最终调试通了</p>
+<br>
+<table border="1" cellspacing="0" cellpadding="0" width="621">
+<tbody>
+<tr>
+<td valign="top">
+<p>HTTP方法</p>
+</td>
+<td valign="top">
+<p>POST</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p>URL</p>
+</td>
+<td valign="top">
+<p><span style="color:#333333; background:#F9F9F9">http://&lt;API_ADDRESS&gt;</span><span style="color:#333333; background:white">/cmds</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p>HTTP头部</p>
+</td>
+<td valign="top">
+<p>api-key:xxxx-ffff-zzzzz，必须master key</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p>URL参数</p>
+</td>
+<td valign="top">
+<p>device_id = //接收该数据的设备ID，必填。</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p>HTTP内容</p>
+</td>
+<td valign="top">
+<p>用户自定义Json或二进制数据（小于64K）</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p>成功返回</p>
+</td>
+<td valign="top">
+<p>{</p>
+<p>&quot;errno&quot;: 0,</p>
+<p>&quot;error&quot;:“succ”，</p>
+<p>&quot;data&quot;:{</p>
+<p><em>//不超过64个字符字符串</em></p>
+<p>&quot;cmd_uuid&quot;:“2302-312-FWs”</p>
+<p>}</p>
+<p>}</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+<br>
+</div>
+<div><pre name="code" class="python">import requests
+
+class OneNet():
+    def __init__(self,key,dev_id,cmd):
+        self.api_key = key
+        self.dev_id = dev_id
+        self.cmd = cmd
+        self.header = {'api-key': self.api_key}
+    def send_cmd(self):
+        params = {'device_id':self.dev_id}
+        url = &quot;http://api.heclouds.com/cmds?&quot;
+        r = requests.session()
+        res = r.post(url, headers=self.header, params=params,data=self.cmd)
+        print(res.content)
+
+t = OneNet(you api_key,your dec_id, cmd)
+t.send_cmd()</pre>使用自带的requests库来实现post请求</div>
+<div><br>
+</div>
+<div>最后的结果</div>
+<div><br>
+</div>
+<div><pre name="code" class="python">{&quot;errno&quot;:0,&quot;data&quot;:{&quot;cmd_uuid&quot;:&quot;5bdaf1a9-3854-5e5f-b662-b1e3ef57ea6e&quot;},&quot;error&quot;:&quot;succ&quot;}</pre><br>
+<br>
+<br>
+</div>

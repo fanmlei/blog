@@ -1,0 +1,49 @@
+<h3>算法思路：</h3>
+
+<p style="text-indent:50px;">我们之前提到过计数排序，计数排序在某些情况下并不太适合，例如元素范围太大的情况，桶排序算是对于计数排序的一种改进，桶排序首先根据元素大小放置到不同的桶中，然后在对每一个桶内元素进行排序。</p>
+
+<p style="text-indent:50px;">例如数组[29,25,3,49,9,37,21,43]，可以以10为区间来存放元素，具体操作如下图：</p>
+
+<p style="text-align:center;"><img alt="" class="has" height="439" src="https://img-blog.csdn.net/20181024224916708?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="696" /></p>
+
+<p style="text-indent:50px;">关于“桶”这个结构怎么实现，在python里面可以用二位数组来表示[ [  ], [   ], [  ] ....]，总得来说桶排序步骤：<br />
+            1 . 建桶<br />
+            2.  元素存放到桶里面<br />
+            3.  桶内元素进行排序（第二步和第三步可以合并到一起，因为初始的桶为空是有序的，每次只需执行一次插入即可保持有序<br />
+            4.  依次取出每个桶内元素</p>
+
+<p style="text-indent:50px;">时间复杂度：平均O(n+k)， 最坏O(n^2 * k)都放到一个桶里面了</p>
+
+<p style="text-indent:50px;">空间复杂度：O(nk)</p>
+
+<h3>代码实现：</h3>
+
+<pre class="has">
+<code class="language-python">def bucket_sort(nums, buckets):
+    """
+    桶排序
+    :param nums: 无序数组
+    :param buckets: 桶个数
+    :return: 有序数组
+    """
+    bucket = [[] for x in range(buckets)]  # 创建空桶
+    num = max(nums) - min(nums) + 1
+    l = num // buckets + 1 if num % buckets else num // buckets   # 计算每个桶大小
+    for i in nums:
+        bucket_num = i // l # 计算元素应该放入到哪一个桶里面
+        bucket[bucket_num].append(i)
+        # 维护桶内元素有序。
+        # 因为之前的桶内是有序的，插入一个新的元素可以使用插入排序继续保持桶内有序
+        tmp = i
+        j = len(bucket[bucket_num]) - 2
+        while j &gt;= 0 and bucket[bucket_num][j] &gt; tmp:  # 执行插入操作
+            bucket[bucket_num][j + 1] = bucket[bucket_num][j]
+            j -= 1
+        bucket[bucket_num][j+1] = tmp
+    res = []
+    # 依次取出桶内元素
+    for i in bucket:
+        res.extend(i)
+    return res</code></pre>
+
+<p> </p>

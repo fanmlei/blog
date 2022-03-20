@@ -1,0 +1,47 @@
+<h3>$SYS-系统主题</h3>
+
+<p style="text-indent:50px;">先来看一段EMQ对于系统主题的介绍：EMQ 消息服务器周期性发布自身运行状态、MQTT 协议统计、客户端上下线状态到 $SYS/ 开头系统主题。$SYS 主题路径以 “$SYS/brokers/{node}/” 开头，’${node}’ 是 Erlang 节点名称</p>
+
+<p style="text-indent:50px;">系统主题主要包括一下几大部分：<br />
+               1 ：服务器版本、启动时间与描述消息<br />
+               2 ：MQTT 客户端上下线状态消息<br />
+               3 ：系统统计消息</p>
+
+<p style="text-indent:50px;">详细的介绍请看EMQ官方文档：<a href="http://www.emqtt.com/docs/v2/guide.html#sys">http://www.emqtt.com/docs/v2/guide.html#sys</a>，就目前来说呢好像只有上下线状态有点用，另外两个以后要是用到了在详细说明。</p>
+
+<p style="text-indent:50px;">客户端上下线状态消息的$SYS 主题前缀为: $SYS/brokers/${node}/clients/，可选择具体客户端${clientid}/connected的上下线消息，也可以选择所有设备的上下线消息：#，这里选择接收说有设备的上下线消息，那么需要订阅的主题为$SYS/brokers/emq@127.0.0.1/clients/#</p>
+
+<h3>修改访问控制规则</h3>
+
+<p style="text-indent:50px;">EMQ默认情况下只有本地的dashboard才能订阅系统消息，因此还需要对EMQ配置做一些修改。方法很简单，以linux系统为例，首先进入到/etc/emqttd/目录下，找到acl.conf文件， 使用vim打开编辑<br /><img alt="" class="has" height="41" src="https://img-blog.csdnimg.cn/2018110417264799.png" width="440" /></p>
+
+<p style="text-indent:50px;">在文本末尾增加<span style="color:#f33b45;">{allow, all, subscribe, ["$SYS/brokers/+/clients/#"]}. </span> 这一行的意思就是允许所有设备订阅$SYS/brokers/+/clients/#主题，也就是所有设备都能获取到其他设备的上下线消息，这里只是为了测试方便，以后为了安全考虑这部分可能会做出修改，保存退出，使用emqttd restart命令重启mqtt服务，至此控制访问规则的编辑完成。<br /><img alt="" class="has" height="164" src="https://img-blog.csdnimg.cn/20181104172921446.png" width="778" /></p>
+
+<h3>测试代码</h3>
+
+<p style="text-indent:50px;">这里我使用python进行编写，用的了paho-mqtt库实现mqtt通信，因为代码不是很复杂，暂时先不展看说明paho-mqtt的使用。通过订阅$SYS/brokers/emq@127.0.0.1/clients/#主题即可接收到其他设备上下线的消息</p>
+
+<pre class="has">
+<code class="language-python">import paho.mqtt.client as mqtt
+
+def on_connect(client, userdata, flags, rc):
+    print("Connected with result code " + str(rc))
+    client.subscribe("$SYS/brokers/emq@127.0.0.1/clients/#")
+
+def on_message(client, userdata, msg):
+    print(msg.topic + " " + str(msg.payload))
+
+client = mqtt.Client(client_id='python_test')
+client.username_pw_set('*****', '*****')  # 设置连接用户名
+client.on_connect = on_connect
+client.on_message = on_message
+
+client.connect("your ip address", 1883, 60)
+
+client.loop_forever()</code></pre>
+
+<p style="text-indent:50px;">运行这段代码，然后呢使用EMQ提供的websocket方式新建一个连接然后断开，看一下在控制台是否能够接收到上下线消息。如果成功将收到分别是上线和下线两条消息，不成功的话那就先在Dashboard的订阅页面查看是否成功订阅了系统消息。</p>
+
+<p style="text-align:center;"><img alt="" class="has" height="87" src="https://img-blog.csdnimg.cn/2018110417530639.png" width="1200" /></p>
+
+<p style="text-align:center;"><img alt="" class="has" height="155" src="https://img-blog.csdnimg.cn/20181104175511362.png" width="1177" /></p>

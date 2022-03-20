@@ -1,0 +1,204 @@
+<p style="text-indent:50px;">微信小程序不支持Cookie的，所以为了保存用户登录状态就必须换一个方式实现，这里采用jwt的方式，关于jwt简单来说就是第一次登录验证成功后对想要保存的信息进行加密，然后将加密过后的内容返回给前端，前端每次请求的时候都携带上这个token，后端拿到token后对其解密就能获取之前保存的信息了。</p>
+
+<h3 style="text-indent:0px;">整体流程：</h3>
+
+<p style="text-indent:0;">这里先看一下小程序官方给的登录流程，这只是最基础的流程，根据设计需要我们还需要添加自己的逻辑进去<br /><img alt="" class="has" height="600" src="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/image/api-login.jpg?t=19031915" width="800" /></p>
+
+<p style="text-indent:0;">下面是具体的流程图，接下来会根据这个流程图具体看看小程序端和后端应该怎么实现。<br /><img alt="" class="has" height="717" src="https://img-blog.csdnimg.cn/20190319205346244.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="800" /></p>
+
+<h3 style="text-indent:0px;">小程序的具体实现</h3>
+
+<p style="text-indent:0;">以index页面为起始页面，当页面进行加载的时候会调用onload函数，所以可以在onload函数中检测storage中是否有jwt</p>
+
+<pre class="has">
+<code class="language-javascript">onLoad: function() { 
+    // 获取本地的jwt，如果有则跳转到home页面，否则重新获取jwt
+    wx.getStorage({
+      key: 'jwt',
+      success: function(res) {
+        wx.switchTab({
+          url: '../home/home'
+        })
+      },
+    })
+  },</code></pre>
+
+<p style="text-indent:0;">如果没有找到jwt，这是会调用登录函数从后端获取jwt</p>
+
+<pre class="has">
+<code class="language-javascript">//用户登录
+let login = function(code) {
+  wx.request({
+    url: login_url,
+    method: 'post',
+    data: {
+      'code': code
+    },
+    success(res) {
+      // 登录成功
+      if (res.data.code === 0) {
+        // 将后台返回的jwt写入storage中保存
+        // 这里要使用同步的方法，避免异步请求的时候没有token
+        wx.setStorageSync('jwt', res.data.data)
+        // 跳回主页
+        wx.switchTab({
+          url: '../home/home'
+        })
+      }
+      // 登录失败没有找到绑定的信息，跳转到绑定页面
+      else {
+        wx.navigateTo({
+          url: '../bind/bind',
+        })
+      }
+    },
+    fail(res) {
+      wx.showToast({
+        title: '服务器错误，登录失败！',
+        duration: 1000,
+        icon: 'none',
+      })
+    }
+  })
+}</code></pre>
+
+<p>在bind页面中，需要填写我们的账户信息，这里使用了小程序的form、input组件，需要对password进行MD5加密处理后再提交输入的内容，后端会验证用户名和密码，如果成功后会将获取到的openID和这个用户绑定，并生成jwt。</p>
+
+<pre class="has">
+<code class="language-javascript">//用户绑定
+let bind = function(username, password) {
+  var password = md5(password)
+  //重新获取code避免长时间code失效
+  wx.login({
+    success: res =&gt; {
+      wx.request({
+        url: bind_url,
+        method: 'POST',
+        data: {
+          'username': username,
+          'password': password,
+          'code': res.code
+        },
+        success(res) {
+          // 绑定成功
+          if (res.data.code === 0) {
+            // 将后台返回的jwt写入storage中保存
+            // 这里要使用同步的方法，避免异步请求的时候没有token
+            wx.setStorageSync('jwt', res.data.data)
+            // 跳回主页
+            wx.switchTab({
+              url: '../home/home'
+            })
+          } else {
+            wx.showToast({
+              title: res.data.msg,
+              duration: 1000,
+              icon: 'none',
+            })
+          }
+        },
+        fail(res) {
+          wx.showToast({
+            title: '服务器错误，绑定失败！',
+            duration: 1000,
+            icon: 'none',
+          })
+        }
+      })
+    }
+  })
+}</code></pre>
+
+<p>注册页面和绑定页面逻辑基本类似就不在此多说了</p>
+
+<h3>后端的具体实现</h3>
+
+<p>这里使用了PyJWT去生成jwt和解码jwt<br /><strong>openid的获取</strong>，下面官方对请求参数的要求<br /><img alt="" class="has" height="292" src="https://img-blog.csdnimg.cn/20190319212824237.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="800" /></p>
+
+<pre class="has">
+<code class="language-python">def get_openid(code):
+    """
+    获取微信的openID
+    :param code:
+    :return: openid 
+    """
+    # 构建请求参数
+    payload = {'appid': settings.WX_APPID,
+               'secret': settings.WX_SECRET,
+               'js_code': code,
+               'grant_type': 'authorization_code'}
+    # 请求微信接口，获取用户的openID
+    recv = requests.get("https://api.weixin.qq.com/sns/jscode2session", params=payload)
+    if recv.status_code == 200:
+        recv = json.loads(recv.text)
+        return recv['openid']
+    else:
+        return ''</code></pre>
+
+<p><strong>用户登录接口</strong>：</p>
+
+<pre class="has">
+<code class="language-python">    def post(request):
+        """
+        微信端登录
+        :param request: data{ code }
+        :return: {'code': 0, 'msg': '', 'data': jwt}
+        """
+        res = {'code': 0, 'msg': '', 'data': ''}
+        try:
+            code = request.data.get('code')
+            if code:
+                openid = get_openid(code)
+                # 通过openID查找用户信息
+                user_obj = UserInfo.objects.filter(wx=openid).first()
+                # 找到用户后生成
+                if user_obj:
+                    # 生成jwt并返回
+                    res['data'] = create_jwt.create_jwt(user_id=user_obj.uid)
+                # 没有查找到对应用户提示先进行绑定
+                else:
+                    res['code'] = 1001
+                    res['msg'] = '请先绑定微信'
+            else:
+                res['code'] = 1002
+                res['msg'] = '登录失败'
+        except Exception :
+            res['code'] = 1003
+            res['msg'] = '登录失败'
+        return JsonResponse(res)</code></pre>
+
+<p><strong>用户绑定接口：</strong></p>
+
+<pre class="has">
+<code class="language-python">    def post(request):
+        """
+        绑定微信
+        :param request: data{username, password, code}
+        :return: {'code': 0, 'msg': '', 'data': jwt}
+        """
+        res = {'code': 0, 'msg': '', 'data': ''}
+        try:
+            print(request.data)
+            code = request.data.get('code')
+            openid = get_openid(code)
+            # 获取openID
+            data = request.data.copy()
+            data['openid'] = openid
+            # 表单验证
+            login_form = LoginForm(data)
+            # 验证失败
+            if not login_form.is_valid():
+                res['code'] = 1
+                for i, error in login_form.errors.items():
+                    res['msg'] = error[0]
+            # 验证成功，生成jwt并返回给客户端
+            else:
+                res['data'] = create_jwt.create_jwt(user_id = login_form.cleaned_data.get('uid'))
+        except Exception:
+            res['code'] = 1
+            res['msg'] = '绑定失败'
+        return JsonResponse(res)</code></pre>
+
+<p>至此这个微信小程序的登录和绑定基本完成了，下面是绑定、注册页面效果图</p>
+
+<p><img alt="" class="has" height="694" src="https://img-blog.csdnimg.cn/20190319210941637.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="391" /><img alt="" class="has" height="699" src="https://img-blog.csdnimg.cn/20190319214039324.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="392" /></p>
