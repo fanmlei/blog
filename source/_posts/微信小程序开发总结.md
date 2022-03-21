@@ -1,0 +1,89 @@
+#### 微信小程序开发
+
+1.数据绑定 {{ name}} ，和vue不同的是如果直接更改data并不会重新渲染，而是要使用setData({name:data})的方法
+
+2.调用组件的方法：
+
+- 获取元素：
+
+  ```
+   const ele = this.selectComponent(id)
+  ```
+
+- 调用组建的method中的方法：
+
+  ```
+   ele.functionName()
+  ```
+
+3.组件中的`properties`和`data`的区别：
+
+- 首先properties是外部可更改的属性，data外部不能修改
+- 两者用法差不多 都是this.data.name来取值
+
+4.小程序中的传参问题
+
+​	首先需要知道的是没有办法和vue中一样 使用函数名(参数)的形式实现，在小程序中如果想要传参数，则需要在绑定的元素中定义属性 data-参数名的形式，在回调函数中通过target.dataset属性获取，例如：
+
+```html
+<view data-streamId='{{stream.id}}' bindtap='test'></view>
+```
+
+```javascript
+test: function (event) {
+  console.log(event.target.dataset.streamid)
+}
+```
+
+5.嵌套传参的问题：
+
+```html
+ <view class='new-container' bindtap='update' data-name='{{item.name}}'>
+  <view class='title'>{{item.title}}</view>
+  <view class='num'>{{item.num}}</view>
+  <view class='tips'>点击刷新</view>
+</view>
+```
+ ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190227130645676.png)
+
+点击内容区域的时候，如果使用target来取值会出现空，而currentTarget则不会
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190227130737881.png)
+
+在官方的文档上是这样介绍两者的![在这里插入图片描述](https://img-blog.csdnimg.cn/20190227130757825.png)
+
+
+6关于setData()修改数组对象的操作， 一般setData()传入的是一个对象,如下name是作为了key的名称
+
+```javascript
+data:{
+    name:'fa',
+    array:[{name:'aa',num:1},{name:'bb',num:2}]
+}
+
+this.setData({
+    name:'wx'
+})
+```
+
+当我们只是想修改array数组中的num的值，这时候按照上面的就没法实现了， 这时候可以采用'array[0].num':2来实现
+
+```javascript
+this.setData({
+    ['array[0].num']:2
+})
+```
+
+但是呢这个’0‘又是不能动态更改的，所以呢还是需要整体修改例如：
+
+```javascript
+for (var i = 0; i < this.data.increase.length; i++) {
+  if (this.data.array[i].name == 'aa'){
+    this.data.increase[i].num = 2
+    break
+  }
+}
+this.setData({
+  array: this.data.array
+})
+```
+

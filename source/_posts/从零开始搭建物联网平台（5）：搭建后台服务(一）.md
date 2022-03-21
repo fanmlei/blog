@@ -1,0 +1,28 @@
+<h3>数据库的设计：</h3>
+
+<p style="text-indent:50px;">后台使用Django web框架实现，Django和python怎么用就不介绍了，东西太多了，看完下面的这些博客就可以了，差不多就够了<a href="https://www.cnblogs.com/wupeiqi/articles/4938499.html">https://www.cnblogs.com/wupeiqi/articles/4938499.html</a></p>
+
+<ol><li style="text-indent:0px;">数据库设计：<br />
+	        我是这样想的，首先会有一个主账户，也是登陆网站的账户，其下可创建设备，每个设备又都可以创建不同的数据流，数据流由设备publish的主题来区分，数据流又由设备发送过来的一个一个的数据点组成，这样一来共需要4张表存放信息，每张表又和下一级一对多的关系。<img alt="" class="has" height="363" src="https://img-blog.csdnimg.cn/20181105155945264.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="751" /></li>
+	<li style="text-indent:0px;">使用Django models创建表结构，代码先不放上来因为后期可能会不断的调整，等项目整个完成之后再开源出来。对应的ER图如下
+	<p style="text-align:center;"><img alt="" class="has" height="393" src="https://img-blog.csdnimg.cn/2018110515492943.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="861" /></p>
+	</li>
+</ol><h3 style="text-indent:0px;">EMQ的MySQL插件配置：</h3>
+
+<p style="text-indent:50px;">之前我们使用MySQL认证的时候使用的是官方给的示例数据库结构，现在为了和后台服务整合到一起还需要再次修改，首先打开dashboard的MySQL插件配置，只需要对两处进行修改，第一处修改认证使用的数据库，第二处修改认证的查询语句。示例：select password from website_userinfo where user_id = '%u' limit 1，修改完成后保存退出，重启插件。</p>
+
+<p style="text-align:center;"><img alt="" class="has" height="106" src="https://img-blog.csdnimg.cn/20181105161204211.png" width="542" /></p>
+
+<p style="text-align:center;"><img alt="" class="has" height="109" src="https://img-blog.csdnimg.cn/2018110516132420.png" width="505" /></p>
+
+<h3 style="text-indent:0px;">连接验证：</h3>
+
+<p style="text-indent:50px;">在连接之前需要先在数据库里面创建一些伪造数据，在website_userinfo里面插入user_id=678518606，password=123然后使用EMQ的websocket连接测试，连接成功则上述的修改完成。</p>
+
+<p style="text-align:center;"><img alt="" class="has" height="351" src="https://img-blog.csdnimg.cn/2018110516380229.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="1056" /></p>
+
+<p style="text-indent:50px;"> </p>
+
+<p style="text-indent:50px;"> </p>
+
+<p style="text-indent:50px;"> </p>

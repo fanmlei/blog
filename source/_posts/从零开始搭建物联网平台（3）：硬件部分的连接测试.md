@@ -1,0 +1,51 @@
+<h3>搭建开发环境：</h3>
+
+<p style="text-indent:50px;">在开篇的时候就说过硬件部分会使用Arduino平台和NodeMCU，只是Arduino平台不能直接对NodeMCU进开发，正好换电脑了也需要重新安装一遍，就顺便说一下。</p>
+
+<p style="text-indent:50px;">首先下载ArduinoIDE安装包官网太慢可以用这个链接：<a href="https://coding.net/u/coloz/p/arduino-installer/git/raw/master/1.8.7/arduino-1.8.7-windows.exe">Arduino 1.8.7</a>我使用的版本是1.8.7，安装完成之后进入到首选项在附加开发板管理器网址处填写：<a href="http://arduino.esp8266.com/stable/package_esp8266com_index.json">http://arduino.esp8266.com/stable/package_esp8266com_index.json</a></p>
+
+<p style="text-align:center;"><img alt="" class="has" height="156" src="https://img-blog.csdnimg.cn/20181104030952144.png" width="712" /></p>
+
+<p style="text-indent:50px;"> </p>
+
+<p style="text-indent:50px;">填写完成之后关闭重启，在工具→开发板→开发板管理器中搜索ESP8266，下载安装，这一步可能会比较慢要等待一段时间。</p>
+
+<p style="text-align:center;"><img alt="" class="has" height="232" src="https://img-blog.csdnimg.cn/20181104031257122.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="951" /></p>
+
+<p style="text-indent:50px;">开发板添加完成之后，再次打开开发板会多出很多型号的开发板，其中就包括我们使用的NodeMCU，关于0.9和1.0两个暂时不知道有什么区别，应该是使用的ESP芯片型号的不同，目前来说选这两个中的任意一个都没有问题。至此NodeMCU开发环境搭建完成了。</p>
+
+<p style="text-align:center;"><img alt="" class="has" height="335" src="https://img-blog.csdnimg.cn/20181104031528431.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="301" /></p>
+
+<h3 style="text-indent:0px;">连接测试：</h3>
+
+<p style="text-indent:50px;">物联网协议采用的是MQTT，本着不造轮子的原则，先看一下有没有对应的库可以使用，在项目→加载库→管理库搜索MQTT，会出现一大堆各种各样的库，根据使用的广泛程度最后选择PubSubClient，点击安装。</p>
+
+<p style="text-align:center;"><img alt="" class="has" height="186" src="https://img-blog.csdnimg.cn/20181104032336364.png" width="931" /></p>
+
+<p style="text-indent:50px;">安装成功后，在文件→示例中可以找到PubSubClient的一些使用例程，选择mqtt_esp8266打开，这个就是需要用到的测试代码。</p>
+
+<p style="text-align:center;"><img alt="" class="has" height="167" src="https://img-blog.csdnimg.cn/20181104032509898.png" width="633" /></p>
+
+<p style="text-indent:50px;">当然呢，代码需要简单的修改一下才可以使用，不出意外按照下面的修改应该是能连接成功的。点击上传等到代码烧录到NodeMCU中。</p>
+
+<pre class="has">
+<code class="language-cpp">//分别填写WIFI名、密码、mqtt服务器IP
+const char* ssid = "........";
+const char* password = "........";
+const char* mqtt_server = "broker.mqtt-dashboard.com";
+
+//由于我们之前mqtt服务器开启了认证功能，这里连接的时候还需要携带用户名和密码
+//大概在95行附近
+if (client.connect("NodeMCU","admin","123456")) {
+
+//如果返回值为4需要检查一下用户名和密码是否正确</code></pre>
+
+<p style="text-indent:50px;">打开串口监视器，如果连接成功会得到下图信息。如果有错根据返回码去查看MQTT连接返回码对应什么问题在一步一步排查。至此硬件于MQTT服务器的连接测试完成，接下来应该会是后台的搭建，也是最困难的一步了。</p>
+
+<p style="text-align:center;"><img alt="" class="has" height="259" src="https://img-blog.csdnimg.cn/20181104033727715.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="840" /></p>
+
+<p><img alt="" class="has" height="350" src="https://img-blog.csdnimg.cn/20181104033847740.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" /></p>
+
+<p> </p>
+
+<p style="text-indent:50px;"> </p>

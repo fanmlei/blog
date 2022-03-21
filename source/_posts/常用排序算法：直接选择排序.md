@@ -1,0 +1,28 @@
+<h3>直接选择排序算法思路：</h3>
+
+<p style="text-indent:50px;">第 1 趟，在待排序记录 r1 ~ r[n]中选出最小的记录，将它与 r1 交换；第 2 趟， 在待排序记录 r2 ~ r[n]中选出最小的记录，将它与 r2 交换；以此类推，第 i 趟在待排序 记录 r[i] ~ r[n]中选出最小的记录，将它与 r[i]交换，使有序序列不断增长直到全部排序 完毕。</p>
+
+<p style="text-indent:50px;">例如[2, 4, 3, 1, 0]，第一趟找到最小值为0，将0和第一位交换，得到[0, 4, 3, 1, 2]，第二趟从[4, 3, 1, 2]中找到最小值1，再和第一位交换得到[0, 1, 3, 4, 2]，以此类推知道排序完成。</p>
+
+<h3>代码实现：</h3>
+
+<pre class="has">
+<code>def select_sort(nums):
+    for i in range(len(nums)):  # 第i趟开始时 无序区为：[i:]
+        min_pos = i  # 最小值位置
+        for j in range(i + 1, len(nums)):  # 在无序区里面找最小值，并记录位置
+            if nums[j] &lt; nums[min_pos]:
+                min_pos = j
+        nums[min_pos], nums[i] = nums[i], nums[min_pos]  # 交换
+        print(nums)
+
+
+select_sort([2, 4, 3, 1, 0])
+
+# [0, 4, 3, 1, 2]
+# [0, 1, 3, 4, 2]
+# [0, 1, 2, 4, 3]
+# [0, 1, 2, 3, 4]
+# [0, 1, 2, 3, 4]</code></pre>
+
+<p> </p>
