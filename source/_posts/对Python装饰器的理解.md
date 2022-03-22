@@ -1,4 +1,12 @@
-
+---
+title: 对Python装饰器的理解
+date: 2019-03-07 02:21:08
+categories: 
+- Python
+tags:
+- 编程语言
+- 编程基础
+---
 想要弄明白装饰器是什么东西，首先我们需要了解一下什么是闭包，因为装饰器是闭包的一种应用。
 #### 闭包
 闭包的定义：
@@ -135,7 +143,7 @@ response(3, 4)
 
 实现了和上一个一样的功能，此时的@outer(1,2)还原成本来样子就是 response = outer(1,2)(response)，我们打上断点看看装饰器是如何运行的
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190307021938395.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70)
+![](1.png)
 
 #### 多个装饰器同时使用
 
@@ -182,7 +190,7 @@ test(1,2)
 5. 然后运行decorator2的内函数,打印出----2----
 6. 最后才会运行test原函数
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2019030702192439.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70)
+![](2.png)
 总结来说，在装饰过程中越靠近被装饰函数越先执行，内函数恰恰相反**
 #### 保留原函数的信息
 
