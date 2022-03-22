@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>fanmlei`s blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="fanmlei`s blog"><meta name="msapplication-TileImage" content="/img/site/avatar.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="fanmlei`s blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta property="og:type" content="blog"><meta property="og:title" content="fanmlei`s blog"><meta property="og:url" content="https://blog.iotforfml.cn/"><meta property="og:site_name" content="fanmlei`s blog"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://blog.iotforfml.cn/img/og_image.png"><meta property="article:author" content="fanmlei"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.iotforfml.cn"},"headline":"fanmlei`s blog","image":["https://blog.iotforfml.cn/img/og_image.png"],"author":{"@type":"Person","name":"fanmlei"},"publisher":{"@type":"Organization","name":"fanmlei`s blog","logo":{"@type":"ImageObject","url":"https://blog.iotforfml.cn/img/site/avatar.png"}},"description":""}</script><link rel="icon" href="/img/site/avatar.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/site/avatar.png" alt="fanmlei`s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item is-active" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:09:40.422Z" title="3/17/2022, 1:09:40 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:09:40.422Z" title="3/17/2022, 1:09:40 AM">2022-03-17</time>更新</span><span class="level-item">9 分钟读完 (大约1313个字)</span></div></div><div class="content"><p>这篇主要说说如何通过微信公众号来查看室内传感器数据，至于硬件部分和物联网平台以后再详细说明。</p>
+<p><br>
+</p>
+<h2>准备工作：</h2>
+<p>1：申请微信公众号</p>
+<p>2：搭建云服务器</p>
+<p><br>
+</p>
+<p>首先说明一下整体流程：用户发送相应的指令到公众号后台，服务器根据指令的内容调用OneNET的API获取传感器数据在返回给用户</p>
+<p><br>
+</p>
+<h2>详细步骤：</h2>
+<h3><span style="font-size:10px; font-weight:normal"><span style="white-space:pre"></span>申请公众号后我们需要启用服务器配置，具体步骤请看微信的开发者文档，这个地方需要注意一下在填写URL的时候不要添加端口号，这样会导致验证不通过的（开发者文档上这个是错误的）</span></h3>
+<div><span style="font-size:10px; font-weight:normal"><span style="white-space:pre"></span>在云服务器上安装运行环境：</span></div>
+<div><br>
+</div>
+<div><span style="font-size:10px; font-weight:normal"><span style="white-space:pre"></span>安装pip</span></div>
+<div><span style="font-size:10px; font-weight:normal"><span style="white-space:pre"><img src="https://img-blog.csdn.net/20171217162858414?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></span></span></div>
+<div><span style="font-size:10px; font-weight:normal"><span style="white-space:pre"><span style="white-space:pre"></span></span></span></div>
+<div><span style="font-size:10px; font-weight:normal"><span style="white-space:pre"></span>安装libxml2</span></div>
+<div><span style="font-size:10px; font-weight:normal"><span style="white-space:pre"><img src="https://img-blog.csdn.net/20171217162935160?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></span></span></div>
+<div><span style="font-size:10px; font-weight:normal"><span style="white-space:pre"><br>
+</span></span></div>
+<div><span style="font-size:10px; font-weight:normal"><span style="white-space:pre"><span style="white-space:pre"></span>安装lxml</span></span></div>
+<div><span style="font-size:10px; white-space:pre"><span style="font-size:10px; white-space:pre"><img src="https://img-blog.csdn.net/20171217162943429?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></span></span><span style="font-size:10px">&nbsp;&nbsp;</span></div>
+<div><span style="white-space:pre"></span></div>
+<div><span style="white-space:pre"></span>安装web.py</div>
+<div><span style="white-space:pre"></span><img src="https://img-blog.csdn.net/20171217163002373?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" style="font-size:10px"></div>
+<div><br>
+</div>
+<div><span style="white-space:pre"></span>我们使用的物联网平台是中国移动的OneNet，它提供了很多API接口可以让我们获取数据、发送指令，在GitHub上有人用python写了常用的API调用示例，这里我们拿来直接使用就好了<a target="_blank" target="_blank" href="https://github.com/jiangxiaobai1989/pythonOneNetAPI">https://github.com/jiangxiaobai1989/pythonOneNetAPI</a></div>
+<div><span style="white-space:pre"></span>首先呢我们需要能够接收用户发过来的消息，使用者发送消息后后台收到的为lxml&#26684;式</div>
+<div><span style="white-space:pre"></span><pre name="code" class="html">&lt;xml&gt;
+&lt;ToUserName&gt;&lt;![CDATA[粉丝号]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[公众号]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;1460541339&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[text]]&gt;&lt;/MsgType&gt;
+&lt;Content&gt;&lt;![CDATA[test]]&gt;&lt;/Content&gt;
+&lt;/xml&gt;</pre><br>
+</div>
+<div><span style="white-space:pre"></span>然后呢我们需要解析这些内容</div>
+<div><span style="white-space:pre"></span><pre name="code" class="python"># -*- coding: utf-8 -*-
+# filename: receive.py
+import xml.etree.ElementTree as ET
+
+<p>def parse_xml(web_data):<br>    if len(web_data) &#x3D;&#x3D; 0:<br>        return None<br>    xmlData &#x3D; ET.fromstring(web_data)<br>    msg_type &#x3D; xmlData.find(‘MsgType’).text<br>    if msg_type &#x3D;&#x3D; ‘text’:<br>        return TextMsg(xmlData)<br>    elif msg_type &#x3D;&#x3D; ‘image’:<br>        return ImageMsg(xmlData)<br>    elif msg_type &#x3D;&#x3D; ‘voice’:<br>    return VoiceMsg(xmlData)</p>
+<p>class Msg(object):<br>    def <strong>init</strong>(self, xmlData):<br>        self.ToUserName &#x3D; xmlData.find(‘ToUserName’).text<br>        self.FromUserName &#x3D; xmlData.find(‘FromUserName’).text<br>        self.CreateTime &#x3D; xmlData.find(‘CreateTime’).text<br>        self.MsgType &#x3D; xmlData.find(‘MsgType’).text<br>        self.MsgId &#x3D; xmlData.find(‘MsgId’).text</p>
+<p>class TextMsg(Msg):<br>    def <strong>init</strong>(self, xmlData):<br>        Msg.<strong>init</strong>(self, xmlData)<br>        self.Content &#x3D; xmlData.find(‘Content’).text.encode(&quot;utf-8&quot;)</p>
+<p>class VoiceMsg(Msg):<br>    def <strong>init</strong>(self, xmlData):<br>        Msg.<strong>init</strong>(self, xmlData)<br>        self.Recognition &#x3D; xmlData.find(‘Recognition’).text.encode(&quot;utf-8&quot;)</pre><br></p>
+</div>
+<div><span style="white-space:pre"></span>获取消息后我们需要服务器做出相应的反应，首先需要判断消息类型和消息内容，然后通过API获取数据后再返回个用户，例如下面这段获取室内温湿度的例子</div>
+<div><pre name="code" class="python"># -*- coding: utf-8 -*-
+# filename: handle.py
+import hashlib
+import reply
+import receive
+import web
+from getData import *
+class Handle(object):
+    def POST(self):
+        try:
+            webData = web.data()
+            print &quot;Handle Post webdata is &quot;, webData   #后台打日志
+            recMsg = receive.parse_xml(webData)
+            if isinstance(recMsg, receive.Msg):
+                toUser = recMsg.FromUserName
+                fromUser = recMsg.ToUserName
+                if recMsg.MsgType == 'text':
+                    if recMsg.Content == '温度':
+                content = str(getData_time('temperature'))+'\n室内温度为'+str(getData_value('temperature')) +'℃'
+              elif recMsg.Content == '湿度':
+                content = str(getData_time('humidity'))+'\n室内湿度为'+str(getData_value('humidity')) +'%'
+            else:
+                content = '抱歉尚未开通这项指令功能，你可以尝试发送‘温度’、‘湿度’来查看最新的室内信息,或者发送相应的语音消息 '
+                       replyMsg = reply.TextMsg(toUser, fromUser, content)
+                       return replyMsg.send()
+                if recMsg.MsgType == 'voice':
+                        if recMsg.Recognition =='温度。':
+                content = str(getData_time('temperature'))+'\n室内温度为'+str(getData_value('temperature')) +'℃'
+            elif recMsg.Recognition =='湿度。':
+                content = str(getData_time('humidity'))+'\n室内湿度为'+str(getData_value('humidity')) +'%'
+            else:
+                content =recMsg.Recognition+'\n无法识别这条语音消息'
+                        replyMsg = reply.TextMsg(toUser, fromUser, content)
+                        return replyMsg.send()
+                else:
+                        return reply.Msg().send()
+            else:
+                print &quot;暂且不处理&quot;
+                return reply.Msg().send()
+        except Exception, Argment:
+            return Argment</pre><br>
+<span style="white-space:pre"></span>通过API调用我们获取到的json数据，这样是不能直接给用户发送过去的，还需要对json进行处理提取主要的数据，例如提取温湿度数据和数据节点时间</div>
+<div><pre name="code" class="python"># -*- coding: UTF-8
+
+<p>from OneNetApi import *<br>import json</p>
+<p>def getData_value(datastreamid):<br>    test &#x3D; OneNetApi(&quot;***************************&quot;) #  your API<br>    datastream_id &#x3D; datastreamid<br>    limit &#x3D; 1<br>    res3 &#x3D; test.datapoint_get(device_id &#x3D; &quot;6975064&quot;, limit &#x3D; limit, datastream_id &#x3D; datastream_id)<br>    data &#x3D; json.loads(res3.content.replace(‘]’,’ ‘).replace(‘[‘,’ ‘))<br>    value &#x3D; data[‘data’][‘datastreams’][‘datapoints’][‘value’]<br>    return value</p>
+<p>def getData_time(datastreamid):<br>    test &#x3D; OneNetApi(&quot;***************************&quot;) #  your API<br>    datastream_id &#x3D; datastreamid<br>    limit &#x3D; 1<br>    res3 &#x3D; test.datapoint_get(device_id &#x3D; &quot;6975064&quot;, limit &#x3D; limit, datastream_id &#x3D; datastream_id)<br>    data &#x3D; json.loads(res3.content.replace(‘]’,’ ‘).replace(‘[‘,’ ‘))<br>    time &#x3D; data[‘data’][‘datastreams’][‘datapoints’][‘at’][0:19]<br>    return time</pre><br><br><span style="white-space:pre"></span>至于返回用户消息呢，依然是按照lxml&amp;#26684;式，将我们获取到的数据和需要返回的用户信息添加进去就可以了<pre name="code" class="python">class TextMsg(Msg):<br>    def <strong>init</strong>(self, toUserName, fromUserName, content):<br>        self.__dict = dict()<br>        self.__dict['ToUserName'] = toUserName<br>        self.__dict['FromUserName'] = fromUserName<br>        self.__dict['CreateTime'] = int(time.time())<br>        self.__dict['Content'] = content</p>
+<pre><code>def send(self):
+    XmlForm = &amp;quot;&amp;quot;&amp;quot;
+    &amp;lt;xml&amp;gt;
+    &amp;lt;ToUserName&amp;gt;&amp;lt;![CDATA[&#123;ToUserName&#125;]]&amp;gt;&amp;lt;/ToUserName&amp;gt;
+    &amp;lt;FromUserName&amp;gt;&amp;lt;![CDATA[&#123;FromUserName&#125;]]&amp;gt;&amp;lt;/FromUserName&amp;gt;
+    &amp;lt;CreateTime&amp;gt;&#123;CreateTime&#125;&amp;lt;/CreateTime&amp;gt;
+    &amp;lt;MsgType&amp;gt;&amp;lt;![CDATA[text]]&amp;gt;&amp;lt;/MsgType&amp;gt;
+    &amp;lt;Content&amp;gt;&amp;lt;![CDATA[&#123;Content&#125;]]&amp;gt;&amp;lt;/Content&amp;gt;
+    &amp;lt;/xml&amp;gt;
+    &amp;quot;&amp;quot;&amp;quot;
+    return XmlForm.format(**self.__dict)&lt;/pre&gt;&lt;br&gt;
+</code></pre>
+</div>
+<div><span style="white-space:pre"></span><span style="white-space:pre"></span>微信后天还提供了语音识别接口，默认是打开的，当用户发送的是语音命令的时候后台接收的lxml中会比text消息多出<span style="color:rgb(51,51,51); font-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif; font-size:14px">Recognition这项，把识别结果当做text一样处理就能让公众号处理语音消息了，再次不再赘述了。</span></div>
+<div><span style="white-space:pre"></span>至此整个流程就结束了，当编写所有的代码后使用 python main.py 80 即可打开这项服务了，下面是效果图</div>
+<div><span style="white-space:pre"></span><img src="https://img-blog.csdn.net/20171217173126601?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</div>
+<div><br>
+</div>
+<div>国际惯例：<a target="_blank" href="https://github.com/FanMLei/wx">源码</a></div>
+<p><br>
+</p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:09:39.165Z" title="3/17/2022, 1:09:39 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:09:39.165Z" title="3/17/2022, 1:09:39 AM">2022-03-17</time>更新</span><span class="level-item">1 分钟读完 (大约170个字)</span></div></div><div class="content"><p><span style="white-space:pre"></span><span style="font-size:18px">使用WinSCP远程登录ubuntu系统后，再进行文件的拖拽操作的时候会提示错误&nbsp;</span>&nbsp;</p>
+<h2><span style="white-space:pre"></span><img src="https://img-blog.csdn.net/20171229194959072?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+<p><span style="white-space:pre"></span><span style="font-size:18px; font-weight:normal">原因是没有这个权限，需要我们使用root用户进行操作，但是WinSCP并不能默认使用root用户进行登录，解决方法是：</span></p>
+<p><span style="font-size:18px; font-weight:normal"><span style="white-space:pre"></span>1：使用 sudo passwd root 设置好密码（已设置可忽略这步）。</span></p>
+<p><span style="font-size:18px; font-weight:normal"><span style="white-space:pre"></span>2：然后在/etc/ssh/sshd_config中找到PermitRootLogin 这一行将后面的参数改为yes 保存退出。</span></p>
+<p><span style="font-size:18px; font-weight:normal"><span style="white-space:pre"></span>3：重启service ssh restart 。</span></p>
+<p><span style="font-size:18px; font-weight:normal"><span style="white-space:pre"></span>4：重新打开winscp 重新编辑登录信息，使用root用户登录就可以直接拖拽文件。</span></p>
+</h2>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:09:37.937Z" title="3/17/2022, 1:09:37 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:09:37.937Z" title="3/17/2022, 1:09:37 AM">2022-03-17</time>更新</span><span class="level-item">1 分钟读完 (大约145个字)</span></div></div><div class="content"><p>使用&nbsp;progressive&nbsp;库实现</p>
+<p>第一步&nbsp;导入模块</p>
+<p><span style="background-color:rgb(240,240,240)">from progressive.bar import Bar</span></p>
+<p>第二步&nbsp;实例化</p>
+<p><span style="background-color:rgb(240,240,240)">&nbsp; &nbsp; bar = Bar(title=&quot;Progress&quot;, max_value=MAX_VALUE, fallback=True)</span></p>
+在源文件中可以<br>
+可以自定义标题、宽度、颜色等等、、、
+<p><img src="https://img-blog.csdn.net/20180210212015819" alt=""><br>
+</p>
+<p>第三步&nbsp;初始化的一些操作</p>
+<p><span style="background-color:rgb(240,240,240)">bar.cursor.clear_lines(1)</span></p>
+<p><span style="background-color:rgb(240,240,240)">bar.cursor.save()</span></p>
+<p><span style="background-color:rgb(240,240,240)">bar.cursor.restore()</span></p>
+<p>第四步&nbsp;显示进度条</p>
+<p><span style="background-color:rgb(240,240,240)">bar.draw(value=NOW_VALUE, newline=False)</span></p>
+在draw这个方法里面value是指当前进度条位置，newline可设置是否在新的一行里面重新显示
+<p>显示效果</p>
+<p><img src="https://img-blog.csdn.net/20180210212729278" alt=""><br>
+</p>
+<p><br>
+</p>
+<br>
+<br>
+<p><br>
+</p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:09:36.621Z" title="3/17/2022, 1:09:36 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:09:36.621Z" title="3/17/2022, 1:09:36 AM">2022-03-17</time>更新</span><span class="level-item">2 分钟读完 (大约290个字)</span></div></div><div class="content"><p>使用QMoive方法实现</p>
+
+<p>导入库文件</p>
+
+<p> </p>
+
+<pre class="has">
+<code class="language-python">from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtGui import QMovie</code></pre>
+
+<p><br />
+创建一个带label控件的窗口，label作为GIF的显示窗体</p>
+
+<p> </p>
+
+<pre class="has">
+<code class="language-python">class Ui_Form(object):
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(517, 361)
+        self.label = QtWidgets.QLabel(Form)
+        self.label.setGeometry(QtCore.QRect(0, 0, 500, 300))
+        self.label.setObjectName("label")
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
+
+    def retranslateUi(self, Form):
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Form"))</code></pre>
+
+<p><br />
+在setupUi()函数里面加入</p>
+
+<p> </p>
+
+<pre class="has">
+<code class="language-python">self.gif = QMovie('qq.gif')
+self.label.setMovie(self.gif)
+self.gif.start()</code></pre>
+
+<p>第一行 实例化一个QMovie对象，传入GIF图片地址</p>
+
+<p>第二行 使用label的setMovie方法导入QMovie对象</p>
+
+<p>第三行 开始播放GIF动画</p>
+
+<p> </p>
+
+<p>效果图：</p>
+
+<p><img alt="" class="has" src="https://img-blog.csdn.net/20180303221947962?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" /></p>
+
+<p> </p>
+
+<p>PyQt的一些其他功能<br />
+#设置窗体无边框<br />
+self.setWindowFlags(Qt.FramelessWindowHint)</p>
+
+<p># 设置背景透明<br />
+# self.setAttribute(Qt.WA_TranslucentBackground)</p>
+
+<p># 显示输入对话框<br />
+# 字符串类型，标题、提示信息、默认输入<br />
+# text,ok=QInputDialog.getText(self, "title", "User name:", QLineEdit.Normal, '&gt;&gt;&gt;:')</p>
+
+<p># 整型类型  标题、提示信息、默认值，（最小值，最大值）可选<br />
+# num,ok = QInputDialog.getInt(self,"输入整数",'输入0-100范围内的数字',30,0,100)</p>
+
+<p><br />
+# 下拉框<br />
+# my_list = ['1','2','3']<br />
+# my_str,ok = QInputDialog.getItem(self,"下拉框",'提示',my_list)<br />
+ </p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:09:35.436Z" title="3/17/2022, 1:09:35 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:09:35.436Z" title="3/17/2022, 1:09:35 AM">2022-03-17</time>更新</span><span class="level-item">2 分钟读完 (大约357个字)</span></div></div><div class="content"><p>由于隐藏了标题栏无法通过点击标题栏来实现窗口的移动，这时候我们可以通过鼠标事件来移动窗口</p>
+<p>第一步：判断鼠标左键是否被按下，如果按下则将flag设为True并获取当前的位置</p>
+<p>第二步：判断鼠标是否移动并且左键被按下，若移动了计算移动的距离在移动窗口</p>
+<p>第三步：若鼠标释放了则将flag设为False</p>
+<p>具体做法：重写窗口类自带的三个函数</p>
+<p><pre name="code" class="python">    def mousePressEvent(self, event):
+        if event.button()==Qt.LeftButton:
+            self.m_flag=True
+            self.m_Position=event.globalPos()-self.pos() #获取鼠标相对窗口的位置
+            event.accept()
+            self.setCursor(QCursor(Qt.OpenHandCursor))  #更改鼠标图标
+            
+<pre><code>def mouseMoveEvent(self, QMouseEvent):
+    if Qt.LeftButton and self.m_flag:  
+        self.move(QMouseEvent.globalPos()-self.m_Position)#更改窗口位置
+        QMouseEvent.accept()
+        
+def mouseReleaseEvent(self, QMouseEvent):
+    self.m_flag=False
+    self.setCursor(QCursor(Qt.ArrowCursor))&lt;/pre&gt;&lt;br&gt;
+</code></pre>
+<p>最后最小化和关闭可以设置两个按钮，通过点击按钮来触发</p></p>
+<p><pre name="code" class="python">    @pyqtSlot()
+    def on_pushButton_clicked(self):
+        &quot;&quot;&quot;
+        关闭窗口
+        &quot;&quot;&quot;
+        self.close()
+    
+<pre><code>@pyqtSlot()
+def on_pushButton_2_clicked(self):
+    &amp;quot;&amp;quot;&amp;quot;
+    最小化窗口
+    &amp;quot;&amp;quot;&amp;quot;
+    self.showMinimized()&lt;/pre&gt;&lt;/p&gt;
+</code></pre>
+<p><br>
+</p>
+<p>ps :设置无边框和背景透明</p>
+<p><pre name="code" class="python"># 设置窗体无边框
+# self.setWindowFlags(Qt.FramelessWindowHint)
+# 设置背景透明
+# self.setAttribute(Qt.WA_TranslucentBackground)</pre><br>
+效果图</p>
+<p><img src="https://img-blog.csdn.net/20180303221110347" alt=""><br>
+</p>
+<p>win10自带的录屏只能录当前软件那个区域。。。。。。。</p>
+<p>就这样吧</p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:09:34.215Z" title="3/17/2022, 1:09:34 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:09:34.215Z" title="3/17/2022, 1:09:34 AM">2022-03-17</time>更新</span><span class="level-item">5 分钟读完 (大约754个字)</span></div></div><div class="content"><h3>连接数据库</h3>
+<p>导入库文件</p>
+<p><pre name="code" class="python">from PyQt5 import QtSql
+from PyQt5.QtSql import QSqlQuery</pre><br>
+QtSql类即QT中的QSqlDatabase类，用于处理与数据库的连接</p>
+<p>QSqlQuery类提供了执行和操作SQL语句打方法</p>
+<p><br>
+</p>
+<p>第一步连接sqlite数据库</p>
+<p><pre name="code" class="python">database = QtSql.QSqlDatabase.addDatabase('QSQLITE')
+database.setDatabaseName('test.db')
+</pre>没有test.db这个文件的时候则会在当前目录新建一个test.db文件</p>
+<p>打开数据库，打开成功返回True</p>
+<p><pre name="code" class="python">database.open()</pre></p>
+<p><br>
+</p>
+<h3>新建表</h3>
+<div>建立一个名为student的表，包含id,name,age三个属性，其中ID为主键</div>
+<div><br>
+</div>
+<p><pre name="code" class="python">query.prepare('create table student (id int primary key, name varchar(30),age int)')
+if not query.exec_():
+    query.lastError()
+else:
+    print('create a table')</pre></p>
+<h3>插入数据</h3>
+<div>addBindValue()将&#20540;添加到列表中，调用顺序决定添加的顺序</div>
+<div><pre name="code" class="python">insert_sql = 'insert into student values (?,?,?)'
+query.prepare(insert_sql)
+query.addBindValue(4)
+query.addBindValue('test3')
+query.addBindValue(1)
+if not query.exec_():
+    print(query.lastError())
+else:
+    print('inserted')</pre><br>
+<br>
+</div>
+<h3>查询</h3>
+查询返回数据使用value(int)函数，例如select id,name,age from student&nbsp; &nbsp;value(0)等于返回id属性的&#20540;，value(2)等于age属性
+<p>exec_()查询成功返回true查询 否则返回false</p>
+<p><pre name="code" class="python">query.prepare('select id,name,age from student')
+if not query.exec_():
+    query.lastError()
+else:
+    while query.next():
+        id = query.value(0)
+        name = query.value(1)
+        age = query.value(2)
+        print(id,name,age)</pre></p>
+<p>可以通过record().indexOf(str)来获取索引&#20540;，<br>
+</p>
+<p><pre name="code" class="python">if query.exec('select id ,name,age from student'):
+    id_index = query.record().indexOf('id')
+    name_index = query.record().indexOf('name')
+    age_index = query.record().indexOf('age')
+    while query.next():
+        id = query.value(id_index)
+        name = query.value(name_index)
+        age = query.value(age_index)
+        print(id, name, age)
+</pre><br>
+<br>
+</p>
+<p><br>
+</p>
+<p><br>
+</p>
+<p>一：使用exec()操作</p>
+<p>指令执行成功则&nbsp;exec_()会返回True并把查询状态设为活跃状态，否则返回false</p>
+<p>另外对于SQLite，查询字符串一次只能包含一条语句。如果给出多个语句，则函数返回false</p>
+<p></p>
+<p><pre name="code" class="python">if query.exec('select id ,name,age from student'):
+    while query.next():
+        id = query.value(0)
+        name = query.value(1)
+        age = query.value(2)
+        print(id, name, age)
+</pre></p>
+<p><br>
+</p>
+二：execBatch()操作
+<p>这个函数是批处理之前准备好的指令，如果数据库不支持批处理他会自己调用exec()来模拟</p>
+<p><pre name="code" class="python">query.prepare('insert into student values (?,?,?)')
+query.addBindValue([6,7,8])
+query.addBindValue(['test5','test6','test7'])
+query.addBindValue([1,1,1])
+if query.execBatch():
+    print(&quot;inserted &quot;)</pre><br>
+</p>
+<p>三：executedQuery()返回最后一个执行成功的指令</p>
+<p><pre name="code" class="python">if query.exec('select id ,name,age from student'):
+    while query.next():
+        id = query.value(0)
+        name = query.value(1)
+        age = query.value(2)
+        print(id, name, age)
+        
+<p>print(query.executedQuery())</pre>执行结果为：select id ,name,age from student</p></p>
+<p><br>
+</p>
+<p>四：&nbsp;其他</p>
+<p>finish()终止当前的操作</p>
+<p>isActive()返回当前是否处于活跃状态<br>
+isNull(int&nbsp;field)返回当前是否不活跃</p>
+<p>isSelect()返回是不是一个查询语句</p>
+next()检索结果中的下一条记录（如果可用），并将查询放在检索到的记录上。请注意，结果必须处于活动状态，并且在调用此函数之前，isSelect（）必须返回true，否则它将不执行任何操作并返回false。
+<p><br>
+</p>
+<div style="top:393px">指令执行成功则&nbsp;exec_()会返回True并把查询状态设为活跃状态，否则返回false</div>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:09:32.833Z" title="3/17/2022, 1:09:32 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:09:32.837Z" title="3/17/2022, 1:09:32 AM">2022-03-17</time>更新</span><span class="level-item">5 分钟读完 (大约716个字)</span></div></div><div class="content"><h3>命令下发</h3>
+<div>先来看一段OneNet文档说明：</div>
+<div>
+<p>命令是指应用发送命令数据给OneNet设备云、再由OneNet设备云转发给终端设备、终端设备收到命令后可以向设备云反馈响应的一种工作机制。命令下发后，应用可以通过API查询命令状态和提取命令的响应数据。</p>
+<p>命令的执行步骤如下：</p>
+<p>1、&nbsp; 应用通过API向设备云发送命令数据；</p>
+<p>2、&nbsp; 设备云生成该命令的uuid作为该命令的唯一标识并向应用返回，同时向终端设备转发命令数据；</p>
+<p>3、&nbsp; 终端设备收到命令数据后执行命令数据，可以生成响应，也可以不响应；</p>
+<p>4、&nbsp; 设备云跟踪记录命令的响应，如果设备有响应，就关联命令uuid和响应结果；</p>
+<p>5、&nbsp; 应用通过API向设备云提取命令执行结果(API请求中携带命令uuid标识)。</p>
+<p>特别说明：</p>
+<p>命令下发到终端设备后，如果终端设备10秒内未收到响应，则此命令的状态将被设置为超时，应用通过API查询命令状态时，会反馈超时。超过10秒后收到的响应会被丢弃。</p>
+<p>终端设备针对同一条命令回复多条命令响应，只有在未超时时间内收到的第一条是有效响应，后续的响应包将会被直接丢弃。因此终端设备应该对每个命令只有一个响应包。</p>
+<p><br>
+</p>
+<p>下面是请求&#26684;式，这个地方有些坑，和官网的公开协议产品指南有所不同，刚开始按照官网的来实现始终报，后来在其他文档里面找到了这个才最终调试通了</p>
+<br>
+<table border="1" cellspacing="0" cellpadding="0" width="621">
+<tbody>
+<tr>
+<td valign="top">
+<p>HTTP方法</p>
+</td>
+<td valign="top">
+<p>POST</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p>URL</p>
+</td>
+<td valign="top">
+<p><span style="color:#333333; background:#F9F9F9">http://&lt;API_ADDRESS&gt;</span><span style="color:#333333; background:white">/cmds</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p>HTTP头部</p>
+</td>
+<td valign="top">
+<p>api-key:xxxx-ffff-zzzzz，必须master key</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p>URL参数</p>
+</td>
+<td valign="top">
+<p>device_id = //接收该数据的设备ID，必填。</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p>HTTP内容</p>
+</td>
+<td valign="top">
+<p>用户自定义Json或二进制数据（小于64K）</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p>成功返回</p>
+</td>
+<td valign="top">
+<p>{</p>
+<p>&quot;errno&quot;: 0,</p>
+<p>&quot;error&quot;:“succ”，</p>
+<p>&quot;data&quot;:{</p>
+<p><em>//不超过64个字符字符串</em></p>
+<p>&quot;cmd_uuid&quot;:“2302-312-FWs”</p>
+<p>}</p>
+<p>}</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+<br>
+</div>
+<div><pre name="code" class="python">import requests
+
+<p>class OneNet():<br>    def <strong>init</strong>(self,key,dev_id,cmd):<br>        self.api_key &#x3D; key<br>        self.dev_id &#x3D; dev_id<br>        self.cmd &#x3D; cmd<br>        self.header &#x3D; {‘api-key’: self.api_key}<br>    def send_cmd(self):<br>        params &#x3D; {‘device_id’:self.dev_id}<br>        url &#x3D; &quot;<a target="_blank" rel="noopener" href="http://api.heclouds.com/cmds">http://api.heclouds.com/cmds</a>?&quot;<br>        r &#x3D; requests.session()<br>        res &#x3D; r.post(url, headers&#x3D;self.header, params&#x3D;params,data&#x3D;self.cmd)<br>        print(res.content)</p>
+<p>t &#x3D; OneNet(you api_key,your dec_id, cmd)<br>t.send_cmd()</pre>使用自带的requests库来实现post请求</div></p>
+<div><br>
+</div>
+<div>最后的结果</div>
+<div><br>
+</div>
+<div><pre name="code" class="python">{&quot;errno&quot;:0,&quot;data&quot;:{&quot;cmd_uuid&quot;:&quot;5bdaf1a9-3854-5e5f-b662-b1e3ef57ea6e&quot;},&quot;error&quot;:&quot;succ&quot;}</pre><br>
+<br>
+<br>
+</div>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:09:31.667Z" title="3/17/2022, 1:09:31 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:09:31.668Z" title="3/17/2022, 1:09:31 AM">2022-03-17</time>更新</span><span class="level-item">1 分钟读完 (大约114个字)</span></div></div><div class="content"><p><span style="white-space:pre"></span>virtualenv可以让用户创建独立的python环境，每个环境互不干扰。<span style="white-space:pre">virtualenvwrapper则可以让我们更方便的管理每个环境。</span></p>
+<p><span style="white-space:pre"><span style="white-space:pre"></span>1：安装virtualenv 和 virtualenvwrapper</span></p>
+<p><span style="white-space:pre"><span style="white-space:pre"></span>pip install virtualenv</span></p>
+<p><span style="white-space:pre"><span style="white-space:pre"></span>pip install<span style="white-space:pre">virtualenvwrapper</span></span></p>
+<p><span style="white-space:pre"><span style="white-space:pre"><span style="white-space:pre"></span>2：配置<span style="white-space:pre">virtualenvwrapper环境</span></span></span></p>
+<p><span style="white-space:pre"><span style="white-space:pre"><span style="white-space:pre"><span style="white-space:pre"></span>打开/etc目录，找到bash.bashrc</span></span></span></p>
+<p><span style="white-space:pre"><span style="white-space:pre"><span style="white-space:pre"><span style="white-space:pre"><img src="https://img-blog.csdn.net/20171229203750937?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></span></span></span></span></p>
+<p><span style="white-space:pre"><span style="white-space:pre"><span style="white-space:pre"><span style="white-space:pre"><span style="white-space:pre"></span>使用vim 打开 ，在最后加入</span></span></span></span></p>
+<p><span style="white-space:pre"><span style="white-space:pre"><span style="white-space:pre"><span style="white-space:pre"><span style="white-space:pre"><img src="https://img-blog.csdn.net/20171229203829946?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></span></span></span></span></span></p>
+<p><span style="white-space:pre"><span style="white-space:pre"><span style="white-space:pre"><span style="white-space:pre"><span style="white-space:pre"><span style="white-space:pre"></span></span></span></span></span></span></p>
+<p><span style="white-space:pre"></span></p>
+<p>保存退出，使用source bash.bashrc命令就完成了</p>
+<p>安装完成后我们可以使用</p>
+<p>常用的几个命令</p>
+<br>
+<img src="https://img-blog.csdn.net/20180310124426258?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:09:30.490Z" title="3/17/2022, 1:09:30 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:09:30.490Z" title="3/17/2022, 1:09:30 AM">2022-03-17</time>更新</span><span class="level-item">7 分钟读完 (大约1103个字)</span></div></div><div class="content"><h4>调用方式</h4>
+<p>python的线程调用有两种方式。一种是直接调用，一种是继承式调用</p>
+<p>直接调用</p>
+<pre class="python">import threading,time
+
+<p>#方法一<br>def run(n):</p>
+<pre><code>print(n)
+time.sleep(2)
+</code></pre>
+<p>t1 &#x3D; threading.Thread(target&#x3D;run,args&#x3D;(&quot;t1&quot;,))<br>t2 &#x3D; threading.Thread(target&#x3D;run,args&#x3D;(&quot;t2&quot;,))<br>t1.start()<br>t2.start()</pre><br>使用类的方法调用</p>
+<pre class="python">#方法二（使用类的方法）
+import threading,time
+class MyThread(threading.Thread):
+    def __init__(self,n):
+        super(MyThread,self).__init__()
+        self.n = n
+
+    def run(self):     #函数名必须为run
+        print(self.n)
+        time.sleep(2)
+
+t1 = MyThread(1)
+t2 = MyThread(2)
+
+t1.start()
+t2.start()</pre>
+<p><br>
+</p>
+<h4>join和Daemon</h4>
+<p><span style="font-family:verdana,Arial,Helvetica,sans-serif; font-size:10px; color:#333333">join()等待线程结束后再往后继续运行</span></p>
+<p><span style="font-family:verdana,Arial,Helvetica,sans-serif; font-size:10px; color:#333333">Daemon()守护线程</span></p>
+<p><span style="font-family:verdana,Arial,Helvetica,sans-serif; font-size:10px; color:#333333">使用setDaemon(True)那么主线程不会等待子线程结束才结束，主线程结束后子线程也会直接结束，必须要在start之前设置否则会报错</span></p>
+<p><span style="font-family:verdana,Arial,Helvetica,sans-serif; font-size:10px; color:#333333">python中默认为setDaemon(False),主线程结束了子线程依然会执行直到完毕。</span></p>
+<p><span style="color:rgb(51,51,51); font-family:verdana,Arial,Helvetica,sans-serif; font-size:10px">join例子：</span></p>
+<pre class="python">import threading,time
+class MyThread(threading.Thread):
+    def __init__(self,n):
+        super(MyThread,self).__init__()
+        self.n = n
+
+<pre><code>def run(self):     #函数名必须为run
+    print(self.n)
+    time.sleep(2)
+    print(&#39;end&#39;)
+</code></pre>
+<p>t1 &#x3D; MyThread(‘t1’)<br>t2 &#x3D; MyThread(‘t2’)<br>t1.start()<br>t1.join()<br>t2.start()<br>t2.join()</pre><br>结果</p>
+<p><span style="font-family:verdana,Arial,Helvetica,sans-serif; font-size:10px; color:#333333"><img src="https://img-blog.csdn.net/20180310153251692?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</span></p>
+<p>setDaemon()例子</p>
+<pre class="python">import threading,time
+class MyThread(threading.Thread):
+    def __init__(self,n):
+        super(MyThread,self).__init__()
+        self.n = n
+
+<pre><code>def run(self):     #函数名必须为run
+    print(self.n)
+    time.sleep(2)
+    print(&#39;end&#39;)
+</code></pre>
+<p>t1 &#x3D; MyThread(‘t1’)<br>t2 &#x3D; MyThread(‘t2’)<br>t1.setDaemon(True)<br>t2.setDaemon(True)<br>t1.start()<br>t2.start()</pre></p>
+<p>结果</p>
+<img src="https://img-blog.csdn.net/20180310153422919?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
+<br>
+<p></p>
+<h4><span style="font-family:verdana,Arial,Helvetica,sans-serif; color:#333333"><span style="font-size:14px">线程锁</span></span></h4>
+<div>子线程可以共享父线程的内存空间，当存在多个子线程需要同时修改一个数据的时候就可能出现问题</div>
+<div>假设两个子线程执行的操作都是num&#43;1，由于线程是同时执行的，第一个子线程先取num = 1 ，第二个线程有取出num依然为1，线程一结束后num更改为2，随之线程二结束num依然被改为2，就与我们的目标出现冲突，这个时候就需要用到线程锁了，当线程一访问num的时候线程二是无法访问num的，线程一结束后释放num线程二才能访问num，这就使得num的结果不会产生冲突了。</div>
+<div>
+<pre class="python">#线程锁示例
+import threading
+
+<p>num &#x3D; 0<br>t_objs &#x3D; []<br>lock &#x3D; threading.Lock()</p>
+<p>def run():<br>    lock.acquire()  #加锁<br>    global num      #声明全局变量<br>    num &amp;#43;&#x3D; 1        #执行加一操作<br>    lock.release()  #释放锁</p>
+<p>for i in range(500):<br>    t &#x3D; threading.Thread(target&#x3D;run)<br>    t.start()<br>    t_objs.append(t)</p>
+<p>for t in t_objs:    #等待所有线程结束<br>    t.join()</p>
+<p>print(num)</pre><br>递归锁则是在一个锁里面又嵌套另外一个线程锁</div></p>
+<div>
+<pre class="python">#递归锁
+import threading
+
+<p>def run1():<br>    lock.acquire()<br>    global num<br>    num &amp;#43;&#x3D; 1<br>    lock.release()<br>    return num</p>
+<p>def run2():<br>    lock.acquire()<br>    global num2<br>    num2 &amp;#43;&#x3D; 1<br>    lock.release()<br>    return num2</p>
+<p>def run3():<br>    lock.acquire()<br>    res &#x3D; run1()<br>    res2 &#x3D; run2()<br>    lock.release()<br>    print(res, res2)</p>
+<p>if <strong>name</strong> &#x3D;&#x3D; ‘<strong>main</strong>‘:</p>
+<pre><code>num, num2 = 0, 0
+lock = threading.RLock()
+for i in range(10):
+    t = threading.Thread(target=run3)
+    t.start()&lt;/pre&gt;
+</code></pre>
+<p>结果<br><br><img src="https://img-blog.csdn.net/20180310173722570?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br></p>
+</div>
+<div><br>
+</div>
+<h4>信号量（Semaphore）</h4>
+<div><span style="margin:0px; padding:0px; color:rgb(51,51,51); font-family:verdana,Arial,Helvetica,sans-serif"><span style="font-size:10px">线程锁每次只允许一个线程操作数据，Semaphore则可同时允许多个线程操作，当达到允许的最大&#20540;的时候后面的则需要等待，前面的线程执行完毕后才可执行，因此操作同一个数据的时候依然有可能出错</span></span></div>
+<div><span style="margin:0px; padding:0px; color:rgb(51,51,51); font-family:verdana,Arial,Helvetica,sans-serif"><span style="font-size:10px"></span></span>
+<pre class="python">#信号量
+
+<p>import threading,time</p>
+<p>def run(num):<br>    semaphore.acquire()<br>    time.sleep(1)<br>    print(num)<br>    semaphore.release()</p>
+<p>semaphore &#x3D; threading.BoundedSemaphore(3) #最多运行三个线程<br>for i in range(10):<br>    t &#x3D; threading.Thread(target&#x3D;run,args&#x3D;(i,))<br>    t.start()</pre></p>
+<h4><span style="margin:0px; padding:0px; color:rgb(51,51,51); font-family:verdana,Arial,Helvetica,sans-serif"><span style="font-size:10px">事件（Event）</span></span></h4>
+</div>
+<div><span style="margin:0px; padding:0px; color:rgb(51,51,51); font-family:verdana,Arial,Helvetica,sans-serif"><span style="font-size:10px">Event默认内置了一个标志，初始&#20540;为False<br>
+</span></span></div>
+<div><span style="margin:0px; padding:0px; color:rgb(51,51,51); font-family:verdana,Arial,Helvetica,sans-serif"><span style="font-size:10px">event总共就四中方法：set()、clear()、wait()、is_set()</span></span></div>
+<div><span style="font-family:verdana,Arial,Helvetica,sans-serif; font-size:10px; color:#333333">set()设置标志位为True</span></div>
+<div><span style="font-family:verdana,Arial,Helvetica,sans-serif; font-size:10px; color:#333333">clear()设置标志位为False</span></div>
+<div><span style="font-family:verdana,Arial,Helvetica,sans-serif; font-size:10px; color:#333333">wait()等待标志位设为True</span></div>
+<div><span style="font-family:verdana,Arial,Helvetica,sans-serif; font-size:10px; color:#333333">is_set()判断标志位是否被设为True</span></div>
+<div><span style="font-family:verdana,Arial,Helvetica,sans-serif; font-size:10px; color:#333333"><br>
+</span></div>
+<div><span style="font-family:verdana,Arial,Helvetica,sans-serif; font-size:10px; color:#333333">已红绿灯为例说明，首先写出交通灯，event.clear()相当于红灯，event.set()相当于绿灯,红灯为5秒绿灯也为5秒，用count来计数，当count超过10的时候重置count，这样红绿灯就能以5秒为间隔循环运行</span></div>
+<div><span style="margin:0px; padding:0px; color:rgb(51,51,51); font-family:verdana,Arial,Helvetica,sans-serif"><span style="font-size:10px"></span></span>
+<pre class="python">import time,threading
+
+<p>event &#x3D; threading.Event()</p>
+<p>def light():<br>    count &#x3D; 0<br>    while True:<br>        if count &gt;&#x3D; 5 and count &lt; 10:<br>            event.clear()     #相当于红灯了<br>            print(&quot;red light please wait…&quot;)<br>        elif count &gt; 10 :<br>            event.set()       #相当于绿灯<br>            count &#x3D; 0<br>        else:<br>            print(&quot;go go go …&quot;)<br>        time.sleep(1)<br>        count &amp;#43;&#x3D; 1</pre><br>再来写car</div></p>
+<div><span style="margin:0px; padding:0px; color:rgb(51,51,51); font-family:verdana,Arial,Helvetica,sans-serif"><span style="font-size:10px"></span></span>
+<pre class="python">def car():
+    while True:
+        if event.is_set():  #判断event是否被set，相当于检测是否为绿灯
+            print('run...')
+            time.sleep(1)
+        else:
+            print('waiting for green light..')
+            event.wait()
+            print('green light is on go...')</pre>
+运行</div>
+<div><span style="margin:0px; padding:0px; color:rgb(51,51,51); font-family:verdana,Arial,Helvetica,sans-serif"><span style="font-size:10px"></span></span>
+<pre class="python">l = threading.Thread(target=light)
+c = threading.Thread(target=car)
+l.start()
+c.start()</pre>
+最终的结果</div>
+<div><span style="margin:0px; padding:0px; color:rgb(51,51,51); font-family:verdana,Arial,Helvetica,sans-serif"><span style="font-size:10px"><img src="https://img-blog.csdn.net/20180310202538695?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
+<br>
+<br>
+</span></span></div>
+<div></div>
+<p></p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:09:29.277Z" title="3/17/2022, 1:09:29 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:09:29.278Z" title="3/17/2022, 1:09:29 AM">2022-03-17</time>更新</span><span class="level-item">4 分钟读完 (大约617个字)</span></div></div><div class="content"><p>队列Queue包含三个类&nbsp;</p>
+<p>1：Queue(maxsize=0)&nbsp; 普通模式先进先出</p>
+<p>2：LifoQueue(maxsize=0)&nbsp; 后进先出</p>
+<p>3：PriorityQueue(maxsize=0)&nbsp; 优先级模式</p>
+<p><br>
+</p>
+<p>Queue.qsize()&nbsp;返回当前队列里存在的个数</p>
+<p>Queue.empty()&nbsp;返回队列是否为空</p>
+<p>Queue.full()&nbsp;返回队列是否存满</p>
+<p>Queue.put(item, block=True, timeout=None)<br>
+将item放入队列中。<br>
+如果可选的参数block为True且timeout为空对象（默认的情况，阻塞调用，无超时）。<br>
+如果timeout是个正整数，阻塞调用进程最多timeout秒，如果一直无空空间可用，抛出Full异常（带超时的阻塞调用）。<br>
+如果block为False，如果有空闲空间可用将数据放入队列，否则立即抛出Full异常</p>
+<p>Queue.put_nowait()无阻塞版本,等同于block=False，timeout=None</p>
+<p>Queue.get(block=True, timeout=None)&nbsp;取出数据，其他与put类&#20284;</p>
+<p><br>
+</p>
+<p>Queue()示例</p>
+<pre class="python">import queue
+
+<p>q &#x3D; queue.Queue()  #普通的（先进先出</p>
+<p>q.put(1)<br>q.put(2)<br>q.put(3)</p>
+<p>print(q.qsize()) #获取当前存在的个数</p>
+<p>print(q.get()) #取出 当超过的时候会报错<br>print(q.get())<br>print(q.get())</pre><br>结果：</p>
+<p>1 2 3&nbsp;</p>
+<p>LifoQueue()示例<br>
+</p>
+<pre class="python">import queue
+
+<p>q &#x3D; queue.LifoQueue()  #普通的（先进先出</p>
+<p>q.put(1)<br>q.put(2)<br>q.put(3)</p>
+<p>print(q.qsize()) #获取当前存在的个数</p>
+<p>print(q.get()) #取出 当超过的时候会报错<br>print(q.get())<br>print(q.get())</pre></p>
+<p>结果：</p>
+<p>3&nbsp; 2 1&nbsp;</p>
+<p>PriorityQueue()示例&nbsp;&nbsp;<br>
+</p>
+<p>按照一定的规律确定优先级，例如数字越小优先级越高，或者按字符排序，&#20540;得注意的是只能采用一种模式来确定，全为数字或是全为字符，两者不能混在一起，不然会报错。</p>
+<pre class="python">import queue
+
+<p>q &#x3D; queue.PriorityQueue()  #普通的（先进先出</p>
+<p>q.put((2,’b’))<br>q.put((1,’a’))<br>q.put((3,’c’))</p>
+<p>print(q.qsize()) #获取当前存在的个数</p>
+<p>print(q.get()) #取出 当超过的时候会报错<br>print(q.get())<br>print(q.get())</pre><br>结果：</p>
+<p>(1, 'a')<br>
+(2, 'b')<br>
+(3, 'c')<br>
+</p>
+<p><br>
+</p>
+<p>简单的生产者和消费者模型</p>
+<pre class="python">import queue,threading,time
+q = queue.Queue()
+
+<p>def Producer():<br>    count &#x3D; 0<br>    while True:<br>        q.put(‘Switch %s’ %count)<br>        print(‘Switch %s’ %count)<br>        count &amp;#43;&#x3D; 1<br>        time.sleep(1)</p>
+<p>def Consumer():<br>    while True:<br>        if q.qsize() &gt; 0 :<br>            print(‘buy %s’%q.get())<br>            time.sleep(2)</p>
+<p>p &#x3D; threading.Thread(target&#x3D;Producer)<br>c &#x3D; threading.Thread(target&#x3D;Consumer)</p>
+<p>p.start()<br>c.start()</pre><br>结果：</p>
+<p>生成了Switch 0<br>
+购买了 Switch 0<br>
+生成了Switch 1<br>
+购买了 Switch 1<br>
+生成了Switch 2<br>
+生成了Switch 3<br>
+购买了 Switch 2<br>
+生成了Switch 4<br>
+生成了Switch 5<br>
+生成了Switch 6<br>
+购买了 Switch 3<br>
+生成了Switch 7<br>
+购买了 Switch 4<br>
+生成了Switch 8<br>
+<br>
+</p>
+<p><br>
+</p>
+</div></article></div><nav class="pagination" role="navigation" aria-label="pagination"><div class="pagination-previous is-invisible is-hidden-mobile"><a href="/page/0/">上一页</a></div><div class="pagination-next"><a href="/page/2/">下一页</a></div><ul class="pagination-list is-hidden-mobile"><li><a class="pagination-link is-current" href="/">1</a></li><li><a class="pagination-link" href="/page/2/">2</a></li><li><span class="pagination-ellipsis">&hellip;</span></li><li><a class="pagination-link" href="/page/8/">8</a></li></ul></nav></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/site/avatar.png" alt="fanmlei"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">fanmlei</p><p class="is-size-6 is-block">努力成为一名GEEK！</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Wuhan, China</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">75</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">4</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">8</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/fanmlei" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rssa"></i></a></div></div></div><!--!--><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Arduino/"><span class="level-start"><span class="level-item">Arduino</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/Python/%E7%AE%97%E6%B3%95/"><span class="level-start"><span class="level-item">算法</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:40.422Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93%E7%9A%84%E7%89%A9%E8%81%94%E7%BD%91%E6%8E%A7%E5%88%B6%EF%BC%88%E4%B8%80%EF%BC%89/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:39.165Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/WinSCP%E9%BB%98%E8%AE%A4%E4%BD%BF%E7%94%A8root%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%9A%84%E6%96%B9%E6%B3%95/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:37.937Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/Python%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1%E7%9A%84%E6%96%B9%E6%B3%95/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:36.621Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/PyQt5%E6%98%BE%E7%A4%BAGIF%E5%9B%BE%E7%89%87/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:35.436Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/PyQt5%E6%97%A0%E8%BE%B9%E6%A1%86%E5%90%8E%E7%AA%97%E5%8F%A3%E7%9A%84%E7%A7%BB%E5%8A%A8%E6%96%B9%E6%B3%95/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2022/03/"><span class="level-start"><span class="level-item">三月 2022</span></span><span class="level-end"><span class="level-item tag">55</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/03/"><span class="level-start"><span class="level-item">三月 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/08/"><span class="level-start"><span class="level-item">八月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/05/"><span class="level-start"><span class="level-item">五月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/04/"><span class="level-start"><span class="level-item">四月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/Arduino/"><span class="tag">Arduino</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jQuery/"><span class="tag">jQuery</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8E%92%E5%BA%8F/"><span class="tag">排序</span><span class="tag">10</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%A1%AC%E4%BB%B6/"><span class="tag">硬件</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95/"><span class="tag">算法</span><span class="tag">10</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/"><span class="tag">编程基础</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"><span class="tag">编程语言</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/"><span class="tag">网络请求</span><span class="tag">1</span></a></div></div></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/site/avatar.png" alt="fanmlei`s blog" height="28"></a><p class="is-size-7"><span>&copy; 2022 fanmlei</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

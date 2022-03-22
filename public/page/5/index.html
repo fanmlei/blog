@@ -1,0 +1,846 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>fanmlei`s blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="fanmlei`s blog"><meta name="msapplication-TileImage" content="/img/site/avatar.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="fanmlei`s blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta property="og:type" content="blog"><meta property="og:title" content="fanmlei`s blog"><meta property="og:url" content="https://blog.iotforfml.cn/"><meta property="og:site_name" content="fanmlei`s blog"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://blog.iotforfml.cn/img/og_image.png"><meta property="article:author" content="fanmlei"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.iotforfml.cn"},"headline":"fanmlei`s blog","image":["https://blog.iotforfml.cn/img/og_image.png"],"author":{"@type":"Person","name":"fanmlei"},"publisher":{"@type":"Organization","name":"fanmlei`s blog","logo":{"@type":"ImageObject","url":"https://blog.iotforfml.cn/img/site/avatar.png"}},"description":""}</script><link rel="icon" href="/img/site/avatar.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/site/avatar.png" alt="fanmlei`s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:59.196Z" title="3/17/2022, 1:00:59 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:48.629Z" title="3/17/2022, 1:05:48 AM">2022-03-17</time>更新</span><span class="level-item">7 分钟读完 (大约1000个字)</span></div></div><div class="content"><h3>摘要：</h3>
+
+<p style="text-indent:50px;">Vue我也是刚开始学的，看了两天的文档就开始着手做这件事了，所以对vue了解不太深入，没有能力说的的太详细万一是错误的不就误导别人了，所以只对几个相对来说比较主要的点说明一下。</p>
+
+<h3>搭建开发环境：</h3>
+
+<p style="text-indent:50px;">老生常谈的话题！首先自然是要安装nodejs，这个直接去官网下载安装即可，再使用命令npm install vue、npm install -g vue-cli去安装vue和脚手架工具，完成之后再使用命令vue init webpack myproject来初始化项目，初始化完成之后会在目录下生成这些文件，到这一步的话环境差不多搭建好了。<br /><img alt="" class="has" height="351" src="https://img-blog.csdnimg.cn/20181102150006888.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="325" /></p>
+
+<p style="text-indent:50px;">接下来是安装依赖，在这个项目里面我用了以下几个库， 通过命令npm install  xxx --S 安装，环境差不多搭建完成。<br />
+                  "axios": "^0.18.0",         发送请求的类似ajax<br />
+                  "echarts": "^4.2.0-rc.2",      可视化工具，用于绘制数据曲线图<br />
+                  "element-ui": "^2.4.9",        网页UI<br />
+                  "vue-router": "^3.0.1",         路由，这个一般在初始化项目的时候就安装了，如果没有自己手动安装</p>
+
+<h3>开始我们的开发之旅：</h3>
+
+<p style="text-indent:50px;">首先确定一下页面布局，分为三大块，其中顶栏和侧栏显示内容不变，只变主题部分，布局样式使用elementUI中的<code>&lt;el-header&gt;</code>：顶栏容器， <code>&lt;el-aside&gt;</code>：侧边栏容器，<code>&lt;el-main&gt;</code>：主要区域容器实现。</p>
+
+<p><img alt="" class="has" src="https://img-blog.csdnimg.cn/20181121122335392.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" /></p>
+
+<p style="text-indent:50px;">顶栏基本没啥内容就一个图标不说了，说一下侧边导航栏，导航栏使用el-menu组件实现，将el-menu的 route属性设置为true，或者使用router-link去做跳转，不过那样显得要麻烦一些，所以还是推荐第一种</p>
+
+<p style="text-align:center;"><img alt="" class="has" height="62" src="https://img-blog.csdnimg.cn/2018112217051257.png" width="1020" /></p>
+
+<pre class="has">
+<code class="language-javascript"> &lt;el-menu class="el-menu-vertical-demo"
+                 background-color="#304156"
+                 text-color="#bfcbd9"
+                 active-text-color="#409eff"
+                 :default-active="$route.path"
+                 router &gt;
+    &lt;el-menu-item index="/developer/dashboard"&gt;
+      &lt;i class="el-icon-ump-18"&gt;&lt;/i&gt;
+      &lt;span slot="title"&gt;主页&lt;/span&gt;
+    &lt;/el-menu-item&gt;
+    &lt;el-menu-item index="/developer/charts"&gt;
+      &lt;i class="el-icon-ump-shuju2"&gt;&lt;/i&gt;
+      &lt;span slot="title"&gt;历史数据&lt;/span&gt;
+    &lt;/el-menu-item&gt;
+    &lt;el-menu-item index="/developer/devices"&gt;
+      &lt;i class="el-icon-ump-shebei2"&gt;&lt;/i&gt;
+      &lt;span slot="title"&gt;设备管理&lt;/span&gt;
+    &lt;/el-menu-item&gt;
+    &lt;el-menu-item index="/developer/streams"&gt;
+      &lt;i class="el-icon-ump-shuju1"&gt;&lt;/i&gt;
+      &lt;span slot="title"&gt;数据流管理&lt;/span&gt;
+    &lt;/el-menu-item&gt;
+    &lt;el-menu-item index="/developer/triggers"&gt;
+      &lt;i class="el-icon-ump-chufaqi"&gt;&lt;/i&gt;
+      &lt;span slot="title"&gt;触发器管理&lt;/span&gt;
+    &lt;/el-menu-item&gt;
+    &lt;el-menu-item index="/developer/console"&gt;
+      &lt;i class="el-icon-ump-kongzhitai1"&gt;&lt;/i&gt;
+      &lt;span slot="title"&gt;控制台&lt;/span&gt;
+    &lt;/el-menu-item&gt;
+&lt;/el-menu&gt;</code></pre>
+
+<p style="text-indent:50px;">最后的效果：</p>
+
+<p style="text-indent:50px;"><img alt="" class="has" height="403" src="https://img-blog.csdnimg.cn/20181122170829897.png" width="230" /></p>
+
+<p style="text-indent:50px;">下面开始内容主体，放个样图。</p>
+
+<p style="text-align:center;"><img alt="" class="has" src="https://img-blog.csdnimg.cn/20181122171312133.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" /></p>
+
+<p style="text-indent:50px;">样式部分就不说了看个人喜好，主要说一下如何获取后台的数据，数据的获取需要用到之前安装的axios插件，通过axios的get、post等方法访问后端的接口获取json数据例如get方法，then和catch是es6的语法，具体的我也解释明白。如果数据获取正常，后端返回的数据放在res.data里面，打印到控制台看看返回结果，post同理，只是参数不同</p>
+
+<pre class="has">
+<code class="language-javascript">axios.get(url, &#123;
+　　params: &#123; 'key': 'value' &#125;
+&#125;).then((res)=&gt; &#123;
+　　console.log(res.data);
+&#125;).catch((error)=&gt; &#123;
+　　console.log(error);
+&#125;);</code></pre>
+
+<p style="text-indent:50px;">一般来说获取数据可以放在created()或者mounted()里面，看自己需求吧，created要先于mounted，created那时候还没有生成dom，如果需要操作dom那么还是放到mounted里面吧。</p>
+
+<p style="text-indent:50px;"> </p>
+
+<p style="text-indent:50px;">算了就写这么多吧，自己都不专业还是不误导别人了</p>
+
+<p style="text-indent:50px;"> </p>
+
+<p style="text-indent:50px;"> </p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:58.000Z" title="3/17/2022, 1:00:58 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:47.439Z" title="3/17/2022, 1:05:47 AM">2022-03-17</time>更新</span><span class="level-item">2 分钟读完 (大约320个字)</span></div></div><div class="content"><p>88.合并两个有序数组     56ms  提交中击败了47.05% 的用户</p>
+
+<pre class="has">
+<code class="language-python">class Solution:
+    def merge(self, nums1, m, nums2, n):
+        """
+        :type nums1: List[int]
+        :type m: int
+        :type nums2: List[int]
+        :type n: int
+        :rtype: void Do not return anything, modify nums1 in-place instead.
+        """
+        for i in range(n):
+            temp = nums2[i]
+            j = m-1
+            while j &gt;=0 and nums1[j] &gt; temp:
+                nums1[j+1] = nums1[j]
+                j -= 1
+            nums1[j+1] = temp
+            m += 1</code></pre>
+
+<p>100. 相同的树   48 ms 击败了58.92% 的用户</p>
+
+<pre class="has">
+<code class="language-python"># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def isSameTree(self, p, q):
+        """
+        :type p: TreeNode
+        :type q: TreeNode
+        :rtype: bool
+        """
+        if not p and not q:
+            return True
+        if p and q and p.val == q.val:
+            left = self.isSameTree(p.left,q.left)
+            right = self.isSameTree(p.right,q.right)
+            return left and right
+        else:
+            return False</code></pre>
+
+<p>101. 对称二叉树   56 ms 击败了81.40% 的用户</p>
+
+<pre class="has">
+<code class="language-python"># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def isSymmetric(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        def isSame(left,right):
+            if not left:
+                return right == None
+            if not right:
+                return left == None
+            if left.val == right.val:
+                return isSame(left.left,right.right) and isSame(left.right,right.left)
+            else:
+                return False
+        if not root:
+            return True
+        return isSame(root.left, root.right)</code></pre>
+
+<p>104. 二叉树的最大深度 : 64 ms 击败了79.70% 的用户</p>
+
+<pre class="has">
+<code class="language-python"># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def maxDepth(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """         
+        if not root:
+            return 0
+        left =  self.maxDepth(root.left)
+        right = self.maxDepth(root.right)
+        return 1 + max(left,right)</code></pre>
+
+<p> </p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:55.649Z" title="3/17/2022, 1:00:55 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:45.059Z" title="3/17/2022, 1:05:45 AM">2022-03-17</time>更新</span><span class="level-item">5 分钟读完 (大约743个字)</span></div></div><div class="content"><h3>基础知识</h3>
+
+<p>想要弄清楚rest framework的执行过程首先需要明白Django中CBV和FBV执行流程，http请求最最本质的就是一个socket，一个请求过来第一步就是做路由匹配，在FBV中因为视图本身就是一个函数，所以直接调用函数就可以了，但是CBV中视图是一个类而在这个类里面是我们编写的视图函数，所以比FBV多了一步如何找到那个函数并且执行它。</p>
+
+<p style="text-indent:0;">CBV中是基于反射实现请求方式不同执行不同的方法，我们在使用CBV来实现的时候，通常都是在路由中使用as_view方法。<br /><img alt="" class="has" height="29" src="https://img-blog.csdnimg.cn/20181127162910526.png" width="608" /></p>
+
+<p>这个方法存在于我们继承的父类View中，在as_view内部又会调用dispatch方法通过反射去找到对应的函数<br /><img alt="" class="has" src="https://img-blog.csdnimg.cn/20181127163104969.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" /><br /><img alt="" class="has" src="https://img-blog.csdnimg.cn/20181127164045587.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" /></p>
+
+<p>所以总得来说，在CBV中一个请求过来的具体流程：url  → view → as_view → dispatch</p>
+
+<p><img alt="" class="has" src="https://img-blog.csdnimg.cn/20181127164908520.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" /></p>
+
+<h3>源码分析</h3>
+
+<p>有了上面的基础接下来就比较容易理解了</p>
+
+<p>首先在使用rest framework框架的时候 CBV不在是继承django的View了而是 rest framework的APIView，只是这个APIView也是继承django的View的，只不过是在原有的View中增加了很多功能而已，依然还是通过反射来实现的，所以跳过前面的内容直接到dispatch这部分</p>
+
+<p><img alt="" class="has" height="458" src="https://img-blog.csdnimg.cn/20181127170329362.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="984" /></p>
+
+<p><img alt="" class="has" height="328" src="https://img-blog.csdnimg.cn/20181127170932609.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="774" /></p>
+
+<p>正式进入正题，restframework主要包含认证、解析器、分页和序列化四个大的部分，就对应上图框框内的几个部分，这几个部分流程大致相同，所以就以认证为例来具体说说他的流程</p>
+
+<p>咱们接着上图继续往下一步一步走，首先会获取所有认证类的实例化对象。<br /><img alt="" class="has" height="142" src="https://img-blog.csdnimg.cn/20181128000047237.png" width="981" /></p>
+
+<p>如果自己写的类里面没有认证类，就会到基类中继续寻找，默认使用rest framework的配置文件中的认证类<br /><img alt="" class="has" height="30" src="https://img-blog.csdnimg.cn/20181128000109794.png" width="821" /><br />
+拿到了认证所需要的类的对象，就继续返回到dispatch中，这时候request已经是增加内容了的request</p>
+
+<p>返回dispatch之后回调用initial方法，在这个方法里面会执行所有之前我们添加的认证类、解析类<br /><img alt="" class="has" height="375" src="https://img-blog.csdnimg.cn/20181128002438807.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="793" /></p>
+
+<p>initial方法里面跳转比较频繁，这里截图就重叠到一起方便看，经过一路的跳转最终是执行了request对象的_authenticate方法</p>
+
+<p><img alt="" class="has" height="426" src="https://img-blog.csdnimg.cn/20181128002611464.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="882" /></p>
+
+<p>在_authenticate方法里面，会依次执行所有认证类的authenticate方法（由此我们也能知道如果我们想编写自己的认证类，那么认证部分需要放在authenticate方法里面），同时会将返回值赋值给request的user和auth属性<br /><img alt="" class="has" height="445" src="https://img-blog.csdnimg.cn/20181128004850888.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="849" /></p>
+
+<p>所以rest framework的认证流程总得来说就是：<br /><img alt="" class="has" height="535" src="https://img-blog.csdnimg.cn/20181128005730158.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="1033" /></p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:54.444Z" title="3/17/2022, 1:00:54 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:43.824Z" title="3/17/2022, 1:05:43 AM">2022-03-17</time>更新</span><span class="level-item">2 分钟读完 (大约362个字)</span></div></div><div class="content"><h3>中间件执行流程</h3>
+
+<p>django的中间件是一个轻量级的插件，可以改变django的输入和输出，中间件共有5种方法，分别为：</p>
+
+<ul><li>process_request(self,request)</li>
+    <li>process_view(self, request, callback, callback_args, callback_kwargs)</li>
+    <li>process_template_response(self,request,response)</li>
+    <li>process_exception(self, request, exception)</li>
+    <li>process_response(self, request, response)</li>
+</ul><p>前两个方法 都是自上而下的执行每个中间件，后面的三个都是反着来的<br /><img alt="" class="has" height="645" src="https://img-blog.csdnimg.cn/20181128012607646.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="1164" /></p>
+
+<p> </p>
+
+<h3>CSRF验证</h3>
+
+<p>django的CSRF是基于中间件来实现的，而且是放在中间件中的view方法中，原因是：django的中间件是作用于全局的，但是某些情况某个函数可能不需要用到CSRF验证，所以在执行路由匹配的时候找到视图函数，看看他是否需要用到CSRF认证，如果不需要则会跳过CSRF。</p>
+
+<p>免除认证的方法：</p>
+
+<pre class="has">
+<code class="language-python"># FBV
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
+def test(request):
+    pass
+
+# 在CBV的方式中，单独给某个方法通过装饰器来免除是无效的，需要加到dispatch函数上面
+
+# 方法1
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+class Test1(APIView):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        ret = super(Test1,self).dispatch(request, *args, **kwargs)
+        return ret
+
+# 方法2
+@method_decorator(csrf_exempt,name='dispatch')
+class Test2(APIView):
+    pass
+
+</code></pre>
+
+<p>单独想用CSRF的方法：</p>
+
+<pre class="has">
+<code class="language-python"># 1.去掉setting中CSRF中间件
+from django.views.decorators.csrf import csrf_protect
+@csrf_protect
+def test(request):
+    pass</code></pre>
+
+<p> </p>
+
+<p> </p>
+
+<p> </p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:53.277Z" title="3/17/2022, 1:00:53 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:42.652Z" title="3/17/2022, 1:05:42 AM">2022-03-17</time>更新</span><span class="level-item">2 分钟读完 (大约306个字)</span></div></div><div class="content"><p>安装 apt-get install docker.io</p>
+
+<p>获取镜像：docker pull &lt;name&gt;</p>
+
+<p>运行一个容器： docker run &lt;参数&gt; &lt;image name&gt; <br />
+参数</p>
+
+<ul><li><code>-d, --detach=false</code>， 指定容器运行于前台还是后台，默认为false</li>
+    <li><code>-i, --interactive=false</code>， 打开STDIN，用于控制台交互</li>
+    <li><code>-t, --tty=false</code>， 分配tty设备，该可以支持终端登录，默认为false</li>
+    <li><code>-u, --user=""</code>， 指定容器的用户</li>
+    <li><code>-a, --attach=[]</code>， 登录容器（必须是以docker run -d启动的容器）</li>
+    <li><code>-w, --workdir=""</code>， 指定容器的工作目录</li>
+    <li><code>-c, --cpu-shares=0</code>， 设置容器CPU权重，在CPU共享场景使用</li>
+    <li><code>-e, --env=[]</code>， 指定环境变量，容器中可以使用该环境变量</li>
+    <li><code>-m, --memory=""</code>， 指定容器的内存上限</li>
+    <li><code>-P, --publish-all=false</code>， 指定容器暴露的端口</li>
+    <li><code>-p, --publish=[]</code>， 指定容器暴露的端口</li>
+    <li><code>-h, --hostname=""</code>， 指定容器的主机名</li>
+    <li><code>-v, --volume=[]</code>， 给容器挂载存储卷，挂载到容器的某个目录</li>
+</ul><p>将容器变为镜像 ： docker commit -a "creator name" -m "information"  containerID   imagename:tag</p>
+
+<p>删除单个容器：docker rm containerID </p>
+
+<p>删除所有容器：docker rm $(docker ps -a -q)</p>
+
+<p>删除镜像：docker rmi imageID  /  docker rmi imageName:Tag</p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:52.092Z" title="3/17/2022, 1:00:52 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:41.451Z" title="3/17/2022, 1:05:41 AM">2022-03-17</time>更新</span><span class="level-item">6 分钟读完 (大约841个字)</span></div></div><div class="content"><p>前后端分离项目的部署主要使用Nginx和uwsgi来实现，把Nginx换成Apache也是可以的，看个人喜好。Nginx主要处理静态文件，uwsgi用来部署Django项目，处理其他请求</p>
+
+<p><strong>安装uwsgi:</strong></p>
+
+<pre class="has">
+<code>pip3 install uwsgi</code></pre>
+
+<p><strong>测试uwsgi：</strong></p>
+
+<p>首先创建一个test.py文件</p>
+
+<pre class="has">
+<code class="language-python">def application(env, start_response):
+    start_response('200 OK', [('Content-Type','text/html')])
+return [b"Hello World"]</code></pre>
+
+<p>在文件目录下使用命令：</p>
+
+<pre class="has">
+<code>uwsgi --http :80 --wsgi-file test.py</code></pre>
+
+<p>访问我们的网站，能够得到Hello World，则uwsgi安装成功<img alt="" class="has" height="88" src="https://img-blog.csdnimg.cn/20181217150734770.png" width="687" /></p>
+
+<p><strong>部署django项目：</strong></p>
+
+<p>为了以后使用方便，可先创建一个目录存放uwsgi配置文件</p>
+
+<pre class="has">
+<code>mkdir website_uwsgi
+cd website_uwsgi
+vim uwsgi.ini</code></pre>
+
+<p>配置文件内容如下</p>
+
+<pre class="has">
+<code class="language-bash">[uwsgi]
+chdir = /home/iot/IOTPlatform   #项目根目录
+module = IOTPlatform.wsgi:application  # wsgi
+http = :8000
+master = True
+Processes = 4  #最大进程数
+harakiri = 60  # 
+max-requests = 5000
+
+# socket = 127.0.0.1:8000
+
+uid = 1000
+gid = 2000
+
+pidfile = /home/iot/website_uwsgi/master.pid
+daemonize = /home/iot/website_uwsgi/mysite.log
+vacuum = True</code></pre>
+
+<p>部分选项的含义：<br />
+chdir : 项目根目录路径<br />
+module： 入口文件<br />
+http：监听的IP和端口，socket也是，如果使用Nginx做反向代理就应该选择socket方式，因为nginx反向代理使用的是socket方式，在这个项目中没有使用方向代理所以选用了http的方式<br />
+master：是否启动主进程<br />
+processes:  设置进程数目<br />
+harakiri: 请求超时时间<br />
+max-requests:每个工作进程设置请求数的上限<br />
+pidfile:指定pid文件<br />
+daemonize: 日志文件</p>
+
+<p>uwsgi配置文件写好了，使用命令启动： </p>
+
+<pre class="has">
+<code>uwsgi --ini uwsgi.ini</code></pre>
+
+<p style="margin-left:0pt;">启动完成之后，使用ps -aux | grep uwsgi 查看是否有4个进程来判断uwsgi是否启动成功，另外可以使用接口工具访问接口看是否有正常的数据</p>
+
+<p style="margin-left:0pt;">其他的一些命令：<br />
+uwsgi --reload master.pid 重启服务<br />
+uwsgi --stop master.pid 停止服务</p>
+
+<p style="margin-left:0pt;"><strong>部署静态文件：</strong></p>
+
+<p style="margin-left:0pt;">静态文件有两种方式<br />
+1：通过django路由访问<br />
+2：通过nginx直接访问</p>
+
+<p style="margin-left:0pt;"><strong>方式1：</strong></p>
+
+<p style="margin-left:0pt;">需要在根目录的URL文件中增加 url(r'^$', TemplateView.as_view(template_name="index.html")),作为入口，在setting中更改静态资源位置</p>
+
+<p>STATIC_URL = '/static/'</p>
+
+<p>STATICFILES_DIRS = (<br />
+    os.path.join(BASE_DIR, "dist/static"),  # 静态文件目录位置<br />
+)</p>
+
+<p><strong>方式2：</strong></p>
+
+<p style="margin-left:0pt;">安装nginx:   apt-get install nginx<br />
+配置nginx:   cd /etc/nginx<br />
+首先在 nginx的可用配置目录下新建我们的配置文件</p>
+
+<pre class="has">
+<code class="language-bash">cd sites-available/
+vim mysite.conf</code></pre>
+
+<pre class="has">
+<code class="language-bash">server &#123;
+    listen 80;
+    server_name iotplatform;
+    charset utf-8;
+    client_max_body_size 75M;   
+    location /static &#123;
+        alias /home/iot/IOTPlatform/dist/static;
+    &#125;    
+    location /media &#123;
+        alias /home/iot/media;
+    &#125;   
+    location / &#123;
+        root /home/iot/IOTPlatform/dist;  
+        index index.html;
+        try_files $uri $uri/ /index.html;
+    &#125;
+&#125;
+</code></pre>
+
+<p>再使用命令测试我们的配置文件是否有问题</p>
+
+<pre class="has">
+<code>ln -s /etc/nginx/sites-available/mysite.conf   /etc/nginx/sites-enabled/mysite.conf
+nginx -t</code></pre>
+
+<p>没有问题使用  service nginx restart重启nginx服务，这样就能访问到静态文件了</p>
+
+<p> </p>
+
+<p><strong>关于反向代理的问题</strong><br />
+反向代理的配置文件：</p>
+
+<pre class="has">
+<code>server &#123;
+    listen 80;
+    server_name iotplatform;
+    charset utf-8;
+    client_max_body_size 75M;
+    location /static &#123;
+        alias /home/iot/IOTPlatform/dist/static
+    &#125;
+    location /media &#123;
+        alias /home/iot/media
+    &#125;
+    location / &#123;
+        uwsgi_pass 127.0.0.1:8000;
+        include /etc/nginx/uwsgi_params;
+    &#125;
+&#125;</code></pre>
+
+<p>使用nginx -t测试的时候出现</p>
+
+<p style="margin-left:0pt;">nginx: [emerg] open() "/etc/nginx/conf/uwsgi_params" failed (2: No such file or directory) in /etc/nginx/nginx.conf:81</p>
+
+<p style="margin-left:0pt;">nginx: configuration file /etc/nginx/nginx.conf test failed</p>
+
+<p style="margin-left:0pt;">提示说没有找到uwsgi_params文件我的解决方法是：手动新建一个conf目录并将uwsgi_params文件复制过去</p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:50.878Z" title="3/17/2022, 1:00:50 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:40.196Z" title="3/17/2022, 1:05:40 AM">2022-03-17</time>更新</span><span class="level-item">2 分钟读完 (大约362个字)</span></div></div><div class="content"><p>之前使用vue构建的前端页面每次加载都需要十几秒的时间，最初的时候因为浏览器有缓存一直没有发现这个问题，后来换用设备访问的时候才发现。不想花费太多的时间去优化vue的代码，感觉作用不大，毕竟服务器带宽只有1M，再怎么压缩文件大小都需要很长时间传输，所以使用CDN去加速静态资源</p>
+
+<p>先看一下之前的加载速度，简直惨不忍睹<img alt="" class="has" height="69" src="https://img-blog.csdnimg.cn/20181217200021726.png" width="850" /></p>
+
+<p>首先需要在云服务商那购买CDN服务，我的服务器是腾讯云的正好腾讯云也有免费的CDN可以试用，购买环节跳过。</p>
+
+<p>要使用CDN服务首先需要在域名管理处添加域名：</p>
+
+<p><img alt="" class="has" height="103" src="https://img-blog.csdnimg.cn/20181217200522978.png" width="800" /></p>
+
+<p>域名配置需要按照自己的服务器填写，加速服务的配置看自己的需求了，一般来说选择css、js、和图片资源就够了<img alt="" class="has" height="407" src="https://img-blog.csdnimg.cn/20181217200806211.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="700" /></p>
+
+<p>提交配置等待几分钟后在域名管理处查看CNAME<img alt="" class="has" height="61" src="https://img-blog.csdnimg.cn/20181217201433716.png" width="850" /></p>
+
+<p>接下来需要配置DNS解析服务<br />
+在开启的时候如果出现冲突，按照提示关闭另外的一个即可<br /><img alt="" class="has" height="56" src="https://img-blog.csdnimg.cn/20181217201655175.png" width="850" /></p>
+
+<p>至此CDN的配置完成了，如果访问还是很慢先去CDN刷新缓存检查一下</p>
+
+<p>最后的成果：1.16秒</p>
+
+<p><img alt="" class="has" height="106" src="https://img-blog.csdnimg.cn/20181217202537753.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="850" /></p>
+
+<p> </p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:49.678Z" title="3/17/2022, 1:00:49 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:39.004Z" title="3/17/2022, 1:05:39 AM">2022-03-17</time>更新</span><span class="level-item">4 分钟读完 (大约528个字)</span></div></div><div class="content"><p>关于触发器的通知，最开始有三种打算 微信公众号、 邮箱、 HTTP，最后发现微信公众号平台无法主动向用户推送消息，所以微信公众号暂时不做了，看看有没有其他的解决方案</p>
+
+<h3>搭建SMTP服务</h3>
+
+<p style="text-indent:0;">发送邮件可以借助第三方平台如163、QQ等等，但是使用个人账户去做都是有最大发送数量限制的，为了稳妥起见还是决定搭建自己的STMP服务来发送邮件。</p>
+
+<p style="text-indent:0;">以ubuntu 14.04为例：借助于postfix搭建SMTP服务</p>
+
+<ol><li>安装
+    <pre class="has">
+<code>apt-get install mailutils</code></pre>
+
+<pre><code>&lt;p&gt;在设置页面选择Internet site&lt;br /&gt;&lt;img alt=&quot;&quot; class=&quot;has&quot; height=&quot;269&quot; src=&quot;https://img-blog.csdnimg.cn/20181227134333835.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li style=&quot;text-indent:0px;&quot;&gt; 配置
+&lt;pre class=&quot;has&quot;&gt;
+</code></pre>
+<p><code class="language-bash">vim  /etc/postfix/main.cf</p>
+<h1 id="修改以下内容"><a href="#修改以下内容" class="headerlink" title="修改以下内容"></a>修改以下内容</h1><p>myhostname = mail.youraddress<br>mydomain = youraddress<br>myorigin = admin@youraddress</p>
+<p>mydestination = $myhostname, localhost.$mydomain, $mydomain</code></pre></p>
+<pre><code>&lt;p&gt; &lt;/p&gt;
+&lt;/li&gt;
+&lt;li style=&quot;text-indent:0px;&quot;&gt;重启服务
+&lt;pre class=&quot;has&quot;&gt;
+</code></pre>
+<p><code>service postfix restart</code></pre><br>    </li><br>    <li style="text-indent:0px;">测试<br>    <pre class="has"><br><code>echo “This is the body of the email” | mail -s “This is the subject line” your_email_address</p>
+<p></code></pre></p>
+<pre><code>&lt;p&gt;检查是否能够收到邮件，如果没有请检查服务器25端口是否开放，（腾讯云的默认是关闭的需要去申请解封）&lt;/p&gt;
+&lt;/li&gt;
+</code></pre>
+</ol><h3 style="text-indent:0px;">邮箱服务</h3>
+
+<p style="text-indent:0px;">python 自带两个模块可以实现发送邮件的功能，email和 smtplib，email负责构造邮件内容，smtplib用来发送邮件<br />
+下面是最简单的一个发送示例</p>
+
+<pre class="has">
+<code class="language-python">import smtplib
+from email.mime.text import MIMEText
+from email.header import Header
+
+def send(receiver,payload):
+    sender = 'admin@iotforfml.cn'
+    # 三个参数：第一个为文本内容，第二个 plain 设置文本格式，第三个 utf-8 设置编码
+    message = MIMEText(payload, 'plain', 'utf-8')
+    # 邮件标题
+    subject = '触发器报警通知'
+    message['Subject'] = Header(subject, 'utf-8')
+    try:
+        smtp_obj = smtplib.SMTP('localhost')
+        smtp_obj.sendmail(sender, receiver, message.as_string())
+    except smtplib.SMTPException:
+        pass
+
+send('1193589986@qq.com','aaaa')</code></pre>
+
+<p style="text-indent:0px;">结果：<br /><img alt="" class="has" height="217" src="https://img-blog.csdnimg.cn/20181227161551150.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="599" /></p>
+
+<p style="text-indent:0px;">何时发送，怎么判断是否需要发送报警邮件，这个问题会放到持久化服务里面去判断，接受消息后就应该判断是否触发，具体的实现我想放到后面整合的时候在说，这里只是简单的实现一个发送邮件的接口</p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:48.514Z" title="3/17/2022, 1:00:48 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:37.840Z" title="3/17/2022, 1:05:37 AM">2022-03-17</time>更新</span><span class="level-item">3 分钟读完 (大约490个字)</span></div></div><div class="content"><h4 id="微信小程序开发"><a href="#微信小程序开发" class="headerlink" title="微信小程序开发"></a>微信小程序开发</h4><p>1.数据绑定  ，和vue不同的是如果直接更改data并不会重新渲染，而是要使用setData({name:data})的方法</p>
+<p>2.调用组件的方法：</p>
+<ul>
+<li><p>获取元素：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const ele = this.selectComponent(id)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调用组建的method中的方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ele.functionName()</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>3.组件中的<code>properties</code>和<code>data</code>的区别：</p>
+<ul>
+<li>首先properties是外部可更改的属性，data外部不能修改</li>
+<li>两者用法差不多 都是this.data.name来取值</li>
+</ul>
+<p>4.小程序中的传参问题</p>
+<p>​    首先需要知道的是没有办法和vue中一样 使用函数名(参数)的形式实现，在小程序中如果想要传参数，则需要在绑定的元素中定义属性 data-参数名的形式，在回调函数中通过target.dataset属性获取，例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">data-streamId</span>=<span class="string">&#x27;&#123;&#123;stream.id&#125;&#125;&#x27;</span> <span class="attr">bindtap</span>=<span class="string">&#x27;test&#x27;</span>&gt;</span><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">test</span>: <span class="keyword">function</span> (<span class="params">event</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(event.<span class="property">target</span>.<span class="property">dataset</span>.<span class="property">streamid</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>5.嵌套传参的问题：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&#x27;new-container&#x27;</span> <span class="attr">bindtap</span>=<span class="string">&#x27;update&#x27;</span> <span class="attr">data-name</span>=<span class="string">&#x27;&#123;&#123;item.name&#125;&#125;&#x27;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&#x27;title&#x27;</span>&gt;</span>&#123;&#123;item.title&#125;&#125;<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&#x27;num&#x27;</span>&gt;</span>&#123;&#123;item.num&#125;&#125;<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&#x27;tips&#x27;</span>&gt;</span>点击刷新<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p> <img src="https://img-blog.csdnimg.cn/20190227130645676.png" alt="在这里插入图片描述"></p>
+<p>点击内容区域的时候，如果使用target来取值会出现空，而currentTarget则不会<br><img src="https://img-blog.csdnimg.cn/20190227130737881.png" alt="在这里插入图片描述"></p>
+<p>在官方的文档上是这样介绍两者的<img src="https://img-blog.csdnimg.cn/20190227130757825.png" alt="在这里插入图片描述"></p>
+<p>6关于setData()修改数组对象的操作， 一般setData()传入的是一个对象,如下name是作为了key的名称</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">data</span>:&#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&#x27;fa&#x27;</span>,</span><br><span class="line">    <span class="attr">array</span>:[&#123;<span class="attr">name</span>:<span class="string">&#x27;aa&#x27;</span>,<span class="attr">num</span>:<span class="number">1</span>&#125;,&#123;<span class="attr">name</span>:<span class="string">&#x27;bb&#x27;</span>,<span class="attr">num</span>:<span class="number">2</span>&#125;]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">this</span>.<span class="title function_">setData</span>(&#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&#x27;wx&#x27;</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>当我们只是想修改array数组中的num的值，这时候按照上面的就没法实现了， 这时候可以采用’array[0].num’:2来实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">this</span>.<span class="title function_">setData</span>(&#123;</span><br><span class="line">    [<span class="string">&#x27;array[0].num&#x27;</span>]:<span class="number">2</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>但是呢这个’0‘又是不能动态更改的，所以呢还是需要整体修改例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="variable language_">this</span>.<span class="property">data</span>.<span class="property">increase</span>.<span class="property">length</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">data</span>.<span class="property">array</span>[i].<span class="property">name</span> == <span class="string">&#x27;aa&#x27;</span>)&#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">data</span>.<span class="property">increase</span>[i].<span class="property">num</span> = <span class="number">2</span></span><br><span class="line">    <span class="keyword">break</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">this</span>.<span class="title function_">setData</span>(&#123;</span><br><span class="line">  <span class="attr">array</span>: <span class="variable language_">this</span>.<span class="property">data</span>.<span class="property">array</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:47.269Z" title="3/17/2022, 1:00:47 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:36.580Z" title="3/17/2022, 1:05:36 AM">2022-03-17</time>更新</span><span class="level-item">8 分钟读完 (大约1157个字)</span></div></div><div class="content"><h4 id="去重"><a href="#去重" class="headerlink" title="去重"></a>去重</h4><p>MySQL中不能部分使用DISTINCT，DISTINCT关键字会应用于所有列而不仅是前置它的列。如果给出SELECT DISTINCT score,age，除非指定的两个列都不同，否则所有行都将被检索出来。</p>
+<p>例如如下的表</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>score</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>test1</td>
+<td>11</td>
+<td>11</td>
+</tr>
+<tr>
+<td>test2</td>
+<td>11</td>
+<td>11</td>
+</tr>
+<tr>
+<td>test3</td>
+<td>123</td>
+<td>123</td>
+</tr>
+<tr>
+<td>test4</td>
+<td>123</td>
+<td>11</td>
+</tr>
+</tbody></table>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> score ,age <span class="keyword">FROM</span> `student` </span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<table>
+<thead>
+<tr>
+<th align="left">score</th>
+<th align="left">age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">11</td>
+<td align="left">11</td>
+</tr>
+<tr>
+<td align="left">123</td>
+<td align="left">123</td>
+</tr>
+<tr>
+<td align="left">123</td>
+<td align="left">11</td>
+</tr>
+</tbody></table>
+<h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><ul>
+<li><p>按单个列排序</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> score <span class="keyword">FROM</span> <span class="string">&#x27;student&#x27;</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> score</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>score</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>11</td>
+</tr>
+<tr>
+<td>11</td>
+</tr>
+<tr>
+<td>123</td>
+</tr>
+<tr>
+<td>123</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>按多个列排序</p>
+<p>会先按照第一列排序，如果第一列存在相同的会根据后面的列继续排列，换句话说就是当第一列所有数据全部不同，那么是不会根据后面的列再次排序的</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> score, age <span class="keyword">FROM</span> <span class="string">&#x27;student&#x27;</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> score, age</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>score</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>11</td>
+<td>11</td>
+</tr>
+<tr>
+<td>11</td>
+<td>11</td>
+</tr>
+<tr>
+<td>123</td>
+<td>11</td>
+</tr>
+<tr>
+<td>123</td>
+<td>123</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>指定排序方向</p>
+<p>MySQL中默认为升序排序，如果想用降序排序需要指定DESC关键字，和DISTINCT不同的是DESC只会作用于它前面的列，想要每列都已降序排序就必须对每列都指定DESC关键字。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> score, age <span class="keyword">FROM</span> <span class="string">&#x27;student&#x27;</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> score <span class="keyword">DESC</span>，age</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>score</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>123</td>
+<td>11</td>
+</tr>
+<tr>
+<td>123</td>
+<td>123</td>
+</tr>
+<tr>
+<td>11</td>
+<td>11</td>
+</tr>
+<tr>
+<td>11</td>
+<td>11</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>排序规则</p>
+<p>在对文本性的数据排序时，MySQL默认是不区分大小写的，即A和a相同，如果想要区分的话可能需要对数据库的设置做更改</p>
+</li>
+</ul>
+<h4 id="过滤数据"><a href="#过滤数据" class="headerlink" title="过滤数据"></a>过滤数据</h4><ul>
+<li><p>WHERE语句的操作符</p>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#x3D;</td>
+<td>等于</td>
+</tr>
+<tr>
+<td>&lt;&gt;</td>
+<td>不等于</td>
+</tr>
+<tr>
+<td>!&#x3D;</td>
+<td>不等于</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td></td>
+</tr>
+<tr>
+<td>&lt;&#x3D;</td>
+<td></td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>&gt;&#x3D;</td>
+<td></td>
+</tr>
+<tr>
+<td>BETWEEN… AND…</td>
+<td>在两个指定值之间</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>匹配操作</p>
+<p>MySQL在执行WHERE语句匹配时默认不区分大小写，Abc和abc是一样的</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> tbnaem <span class="keyword">where</span> name<span class="operator">=</span><span class="string">&#x27;Abc&#x27;</span>;</span><br><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> tbnaem <span class="keyword">where</span> name<span class="operator">=</span><span class="string">&#x27;abc&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>空值检查</p>
+<p>NULL和0、空字符串是不同的，如果要匹配NULL需要用IS NULL子句实现</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tbname <span class="keyword">where</span> name <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>组合过滤</p>
+<ul>
+<li><p>AND操作符</p>
+<p>会对每个判断条件取与，满足所有条件才会返回</p>
+</li>
+<li><p>OR操作符</p>
+<p>满足任意一个条件即符合要求</p>
+</li>
+<li><p>同时使用AND和OR操作符</p>
+<p>MySQL会优先处理AND操作符，例如 ：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name, price <span class="keyword">from</span> tbname <span class="keyword">where</span> id <span class="operator">=</span> <span class="number">2</span> <span class="keyword">or</span> id <span class="operator">=</span> <span class="number">3</span> <span class="keyword">and</span> price<span class="operator">&lt;</span><span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p>上面这个SQL语句会过滤出ID等于2或者ID等于3并且价格小于10的行，这显然和我们的意图不一样（ID等于2或者3，并且价格小于10）。为了解决这个问题，需使用圆括号将操作符分组区分开来，改为下面这种：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name, price <span class="keyword">from</span> tbname <span class="keyword">where</span> (id <span class="operator">=</span> <span class="number">2</span> <span class="keyword">or</span> id <span class="operator">=</span> <span class="number">3</span>) <span class="keyword">and</span> price<span class="operator">&lt;</span><span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>因此在使用具有AND和OR操作符的where子句时，应当使用圆括号将操作符分组处理，不要依赖于默认的计算顺序以免出现错误。</strong></p>
+</li>
+</ul>
+</li>
+<li><p>IN操作符</p>
+<p>IN操作符可以指定条件范围，范围中的每个条件都可以进行匹配，类似于之前的OR操作符</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name, price <span class="keyword">from</span> tbname <span class="keyword">where</span> id <span class="keyword">in</span> (<span class="number">2</span>,<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<p>相交于OR操作符，在更多的过滤条件下显得更为简洁直观，会有比OR操作符更好的性能，另外IN操作符可以包含其他的SELECT语句：</p>
+</li>
+<li><p>NOT操作符</p>
+<p>NOT操作符只有一个功能，否定它之后所跟的任何条件，例如IN、BETWEEN、EXISTS</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> tbname <span class="keyword">where</span> id <span class="keyword">not</span> <span class="keyword">in</span> (<span class="number">2</span>,<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<p>选取ID不是2,3的行。</p>
+</li>
+<li><p>通配符过滤（LIKE操作符）</p>
+<ul>
+<li><p>百分号（%）通配符</p>
+<p>%可以表示任何字符串出现任何次数，例如找到name是以<code>fml</code>开头的行</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> tbname <span class="keyword">where</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;fml%&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>或者包含abc的行</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> tbname <span class="keyword">where</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;%abc%&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>或者以a开头c结尾的行</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> tbname <span class="keyword">where</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;a%c&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>%看似可以匹配任何东西，但是NULL是例外的， LIKE  ‘’%‘’无法匹配值为NULL的行，另外值得注意的是尾空格可能也会干扰通配符的匹配</strong></p>
+</li>
+<li><p>下划线（_）通配符</p>
+<p>_只能匹配单个字符其他的和%一样</p>
+</li>
+<li><p>技巧</p>
+<ol>
+<li>不要过度使用通配符，如果其他操作符能够实现同样的目的那么就使用其他操作符。</li>
+<li>除非是必要的，否则不要将通配符放在开始处，那样是最慢的</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>使用正则表达式</p>
+<p>使用正则表达式匹配的时候需要使用REGEXP关键字来代替LIKE，REGEXP后所跟的字符串就是正则表达式了。正则表达式怎么写就不在这说了</p>
+</li>
+</ul>
+</div></article></div><nav class="pagination" role="navigation" aria-label="pagination"><div class="pagination-previous"><a href="/page/4/">上一页</a></div><div class="pagination-next"><a href="/page/6/">下一页</a></div><ul class="pagination-list is-hidden-mobile"><li><a class="pagination-link" href="/">1</a></li><li><span class="pagination-ellipsis">&hellip;</span></li><li><a class="pagination-link" href="/page/4/">4</a></li><li><a class="pagination-link is-current" href="/page/5/">5</a></li><li><a class="pagination-link" href="/page/6/">6</a></li><li><a class="pagination-link" href="/page/7/">7</a></li><li><a class="pagination-link" href="/page/8/">8</a></li></ul></nav></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/site/avatar.png" alt="fanmlei"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">fanmlei</p><p class="is-size-6 is-block">努力成为一名GEEK！</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Wuhan, China</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">75</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">4</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">8</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/fanmlei" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rssa"></i></a></div></div></div><!--!--><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Arduino/"><span class="level-start"><span class="level-item">Arduino</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/Python/%E7%AE%97%E6%B3%95/"><span class="level-start"><span class="level-item">算法</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:40.422Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93%E7%9A%84%E7%89%A9%E8%81%94%E7%BD%91%E6%8E%A7%E5%88%B6%EF%BC%88%E4%B8%80%EF%BC%89/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:39.165Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/WinSCP%E9%BB%98%E8%AE%A4%E4%BD%BF%E7%94%A8root%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%9A%84%E6%96%B9%E6%B3%95/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:37.937Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/Python%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1%E7%9A%84%E6%96%B9%E6%B3%95/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:36.621Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/PyQt5%E6%98%BE%E7%A4%BAGIF%E5%9B%BE%E7%89%87/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:35.436Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/PyQt5%E6%97%A0%E8%BE%B9%E6%A1%86%E5%90%8E%E7%AA%97%E5%8F%A3%E7%9A%84%E7%A7%BB%E5%8A%A8%E6%96%B9%E6%B3%95/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2022/03/"><span class="level-start"><span class="level-item">三月 2022</span></span><span class="level-end"><span class="level-item tag">55</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/03/"><span class="level-start"><span class="level-item">三月 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/08/"><span class="level-start"><span class="level-item">八月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/05/"><span class="level-start"><span class="level-item">五月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/04/"><span class="level-start"><span class="level-item">四月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/Arduino/"><span class="tag">Arduino</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jQuery/"><span class="tag">jQuery</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8E%92%E5%BA%8F/"><span class="tag">排序</span><span class="tag">10</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%A1%AC%E4%BB%B6/"><span class="tag">硬件</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95/"><span class="tag">算法</span><span class="tag">10</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/"><span class="tag">编程基础</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"><span class="tag">编程语言</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/"><span class="tag">网络请求</span><span class="tag">1</span></a></div></div></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/site/avatar.png" alt="fanmlei`s blog" height="28"></a><p class="is-size-7"><span>&copy; 2022 fanmlei</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

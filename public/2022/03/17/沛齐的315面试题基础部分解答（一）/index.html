@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>fanmlei`s blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="fanmlei`s blog"><meta name="msapplication-TileImage" content="/img/site/avatar.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="fanmlei`s blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="原题链接：https:&amp;#x2F;&amp;#x2F;www.cnblogs.com&amp;#x2F;wupeiqi&amp;#x2F;p&amp;#x2F;9078770.html  部分图片是从其他博客上整理出来的，时间有些久了当初是写在word上的忘记参考出路了，有些答案我也不知道是否回答准确，如有错误还请提出，谢谢  基础部分  1.简述解释型和编译型编程语言？   解释型语言在运行之前不会有编译过程，由解释器在运行的过程中解释运行的常见的解释型语言还有PHP、JS、"><meta property="og:type" content="blog"><meta property="og:title" content="fanmlei`s blog"><meta property="og:url" content="https://blog.iotforfml.cn/2022/03/17/%E6%B2%9B%E9%BD%90%E7%9A%84315%E9%9D%A2%E8%AF%95%E9%A2%98%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86%E8%A7%A3%E7%AD%94%EF%BC%88%E4%B8%80%EF%BC%89/"><meta property="og:site_name" content="fanmlei`s blog"><meta property="og:description" content="原题链接：https:&amp;#x2F;&amp;#x2F;www.cnblogs.com&amp;#x2F;wupeiqi&amp;#x2F;p&amp;#x2F;9078770.html  部分图片是从其他博客上整理出来的，时间有些久了当初是写在word上的忘记参考出路了，有些答案我也不知道是否回答准确，如有错误还请提出，谢谢  基础部分  1.简述解释型和编译型编程语言？   解释型语言在运行之前不会有编译过程，由解释器在运行的过程中解释运行的常见的解释型语言还有PHP、JS、"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://img-blog.csdn.net/201809201420160?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920142100367?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920142752928?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920142812348?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920142825292?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920142838291?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920142855885?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920142907504?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920142913193?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920143009219?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920143036526?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920143049468?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920143109928?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920143300580?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920143308681?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920143312837?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920143718651?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920143746615?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920143854274?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/2018092014391017?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920143921274?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/2018092014395514?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920144033707?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920144219728?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920144237505?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920144248353?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920144301230?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920144314576?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920144359561?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920144440324?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920144453324?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920144514219?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/2018092014463326?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920144704838?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920144712593?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920144810113?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920144932516?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920144955556?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="og:image" content="https://img-blog.csdn.net/20180920145015421?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><meta property="article:published_time" content="2022-03-16T17:09:04.153Z"><meta property="article:modified_time" content="2022-03-16T17:09:04.154Z"><meta property="article:author" content="fanmlei"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="https://img-blog.csdn.net/201809201420160?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.iotforfml.cn/2022/03/17/%E6%B2%9B%E9%BD%90%E7%9A%84315%E9%9D%A2%E8%AF%95%E9%A2%98%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86%E8%A7%A3%E7%AD%94%EF%BC%88%E4%B8%80%EF%BC%89/"},"headline":"fanmlei`s blog","image":[],"datePublished":"2022-03-16T17:09:04.153Z","dateModified":"2022-03-16T17:09:04.154Z","author":{"@type":"Person","name":"fanmlei"},"publisher":{"@type":"Organization","name":"fanmlei`s blog","logo":{"@type":"ImageObject","url":"https://blog.iotforfml.cn/img/site/avatar.png"}},"description":"原题链接：https:&#x2F;&#x2F;www.cnblogs.com&#x2F;wupeiqi&#x2F;p&#x2F;9078770.html  部分图片是从其他博客上整理出来的，时间有些久了当初是写在word上的忘记参考出路了，有些答案我也不知道是否回答准确，如有错误还请提出，谢谢  基础部分  1.简述解释型和编译型编程语言？   解释型语言在运行之前不会有编译过程，由解释器在运行的过程中解释运行的常见的解释型语言还有PHP、JS、"}</script><link rel="canonical" href="https://blog.iotforfml.cn/2022/03/17/%E6%B2%9B%E9%BD%90%E7%9A%84315%E9%9D%A2%E8%AF%95%E9%A2%98%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86%E8%A7%A3%E7%AD%94%EF%BC%88%E4%B8%80%EF%BC%89/"><link rel="icon" href="/img/site/avatar.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/site/avatar.png" alt="fanmlei`s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:09:04.153Z" title="3/17/2022, 1:09:04 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:09:04.154Z" title="3/17/2022, 1:09:04 AM">2022-03-17</time>更新</span><span class="level-item">42 分钟读完 (大约6243个字)</span></div></div><div class="content"><h1 style="margin-left:0pt;"><strong>原题链接：</strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wupeiqi/p/9078770.html">https://www.cnblogs.com/wupeiqi/p/9078770.html</a></h1>
+
+<p style="margin-left:0pt;">部分图片是从其他博客上整理出来的，时间有些久了当初是写在word上的忘记参考出路了，有些答案我也不知道是否回答准确，如有错误还请提出，谢谢</p>
+
+<p style="margin-left:0pt;"><strong><strong>基础部分</strong></strong></p>
+
+<p><span style="color:#333333;">1.简述解释型和编译型编程语言？</span></p>
+
+<p style="margin-left:18pt;"> 解释型语言在运行之前不会有编译过程，由解释器在运行的过程中解释运行的常见的解释型语言还有PHP、JS、ruby等等。</p>
+
+<p style="margin-left:18pt;"> 编译型语言在运行之前需要使用编译器编译成机器码，计算机就可以直接运行编译过后的文件了。</p>
+
+<p style="margin-left:18pt;">一般来说编译型语言要比解释型语言运行速度要快的，应为解释型语言每执行一次就需要翻译一次，效率比较慢。</p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">2.Python解释器种类以及特点</span></p>
+
+<p style="margin-left:0pt;"><span style="color:#333333;">      常见的解释器有5个CPython</span><span style="color:#333333;">、</span><span style="color:#333333;">IPython</span><span style="color:#333333;">、</span><span style="color:#333333;">PyPy</span><span style="color:#333333;">、</span><span style="color:#333333;">Jython</span><span style="color:#333333;">、IronP</span><span style="color:#333333;">ython</span><span style="color:#333333;">.</span></p>
+
+<p style="margin-left:0pt;"><span style="color:#333333;">      CPython</span><span style="color:#333333;">是官方版本的解释器，由C语言编写，运用也是最为广泛的。</span></p>
+
+<p style="margin-left:0pt;"><span style="color:#333333;">      IPython是基于CPython的，只是在交互上做出了进一步的改善，例如代码补全。</span></p>
+
+<p style="margin-left:0pt;"><span style="color:#333333;">      PyPy采用了JIT技术，可以动态编译python程序，提高其工作效率。</span></p>
+
+<p style="margin-left:0pt;"><span style="color:#333333;">      Jython是在Java平台上运行的解释器，可在将python程序编译成Java字节码运行。</span></p>
+
+<p style="margin-left:0pt;"><span style="color:#333333;">      IronP</span><span style="color:#333333;">ython和Jython类似，运行在.NET平台上。</span></p>
+
+<p style="margin-left:0pt;"> </p>
+
+<p><span style="color:#333333;">3.位和字节的关系？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">位（bit）是计算机存储中的最小单位。只有0、1两种状态</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">字节（Byte）一个字节由8个bit组成，是计算机数据处理的最小单位。</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">4.使用python进制转换</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">二进制转换成十进制：v = “0b1111011”</span> <br /><span style="color:#333333;">十进制转换成二进制：v = 18</span>  <br /><span style="color:#333333;">八进制转换成十进制：v = “011”</span>  <br /><span style="color:#333333;">十进制转换成八进制：v = 30</span>  <br /><span style="color:#333333;">十六进制转换成十进制：v = “0x12”</span>  <br /><span style="color:#333333;">十进制转换成十六进制：v = 87</span><br /><img alt="" class="has" height="200" src="https://img-blog.csdn.net/201809201420160?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="341" /></p>
+
+<p><span style="color:#333333;">5.请编写一个函数实现将IP地址转换成一个整数。</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">如 10.3.9.12 转换规则为：</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">      10          </span> <span style="color:#333333;">00001010</span></p>
+
+<p style="margin-left:18pt;"> <span style="color:#333333;">       3           </span> <span style="color:#333333;">00000011</span> </p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">       9           </span> <span style="color:#333333;">00001001</span></p>
+
+<p style="margin-left:18pt;"> <span style="color:#333333;">      12          </span> <span style="color:#333333;">00001100</span> </p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">再将以上二进制拼接起来计算十进制结果：00001010 00000011 00001001 00001100 = ？</span><br /><img alt="" class="has" height="144" src="https://img-blog.csdn.net/20180920142100367?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="488" /></p>
+
+<p><span style="color:#333333;">6.python递归的最大层数？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">P</span><span style="color:#333333;">ython默认递归的最大层数为</span><span style="color:#333333;">998</span><span style="color:#333333;">层。</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">7.求结果：</span><br /><span style="color:#333333;">v1 = 1 or 3</span> <br /><span style="color:#333333;">v2 = 1 and 3</span> <br /><span style="color:#333333;">v3 = 0 and 2 and 1</span><br /><span style="color:#333333;">v4 = 0 and 2 or 1</span><br /><span style="color:#333333;">v5 = 0 and 2 or 1 or 4</span><br /><span style="color:#333333;">v6 = 0 or False and 1</span></p>
+
+<p><span style="color:#333333;">V1 = 1  V2 = 3   V3 = 0   V4 = 1  V5 = 1  V6 = False<br />
+(使用and如果第一个条件满足那么结果为第二个条件，如果第一个不满足结果为第一个条件。使用or如果第一个条件满足那么结果为第一个条件，如果第一个条件不满足结果为第二个条件）</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">8.ascii、unicode、utf-8、gbk 区别？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">A</span><span style="color:#333333;">scii只占一个字节，其中包含英文字母、数字和一些符号。无法表示其他的文字。</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">Unicode</span><span style="color:#333333;">占两个字节，生僻字符占四个字节。但是如果全是英文字母的话会比较浪费空间。</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">U</span><span style="color:#333333;">tf-8中英文占一个字节中文占三个字节，其他的生僻字占4-</span><span style="color:#333333;">6</span><span style="color:#333333;">个字节。</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">GBK占两个字节是中国制定的包含大部分汉字和其他的一些符号。</span></p>
+
+<p> </p>
+
+<p><span style="color:#333333;">9.三元运算规则以及应用场景？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">P</span><span style="color:#333333;">ython的三元运算格式为</span><strong><span style="color:#333333;"><strong>res = 值1 if 条件 else 值2 </strong></span></strong><span style="color:#333333;">，</span><span style="color:#333333;">当条件满足时返回值1否则返回值2。</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">可以用于只存在两种结果的if判断语句中。</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">10.列举 Python2和Python3的区别？</span></p>
+
+<ol><li><span style="color:#333333;">P</span><span style="color:#333333;">rint函数：2中不需要括号将输出语句括起来，3中需要使用()</span></li>
+    <li><span style="color:#333333;">编码：</span><span style="color:#333333;">Python3</span><span style="color:#333333;">源码文件默认使用utf-8编码，支持中文</span></li>
+    <li><span style="color:#333333;">除法运算：</span><br /><span style="color:#333333;">首先是'/'  :</span><br />
+        <span style="color:#333333;">python</span><span style="color:#333333;">3:   1 / 2 = 0.5 </span><br />
+        p<span style="color:#333333;">ython2:</span>   <span style="color:#333333;">1 / 2 = 0</span>        <span style="color:#333333;">1.0 / 2.0 = 0.5</span></li>
+</ol><p style="margin-left:0pt;">         <span style="color:#333333;">其次是</span><span style="color:#333333;">’//’<br />
+              Python</span><span style="color:#333333;">3： 1 // 2 = 0<br />
+              Python2:    1 // 2 = 0</span></p>
+
+<p><span style="color:#333333;">     4.不等运算符：2中不等于有两种表示!=和&lt;&gt;,3中只有!=</span></p>
+
+<p><span style="color:#333333;">     5.数据类型：3中不支持long类型了只有一种整形int</span> <span style="color:#333333;">和2中的long差不多的操作</span></p>
+
+<p style="margin-left:36pt;"> </p>
+
+<p><span style="color:#333333;">11.用一行代码实现数值交换：</span><span style="color:#333333;">a = 1 ,b = 2</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">(a, b) = (b, a)</span></p>
+
+<p> </p>
+
+<p><span style="color:#333333;">12.Python3和Python2中 int 和 long的区别？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">P</span><span style="color:#333333;">ython3中没有long类型只有int但是</span><span style="color:#333333;">3</span><span style="color:#333333;">中的int操作包含2中的long操作。</span></p>
+
+<p> </p>
+
+<p><span style="color:#333333;">13.xrange和range的区别？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">R</span><span style="color:#333333;">ange([start,]stop</span><span style="color:#333333;">[,step])</span><span style="color:#333333;">更具指定的范围和步长生成一个序列。</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">Xrange()和range操作一样，不同的是它返回的是一个生成器。</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">例如当我们使用range(10)的时候返回的是一个[0,1,2,3,4,5,6,7,8,9]的列表。而xrange(10)不会返回一个列表，而是每次调用的时候返回其中的值。这样在生成一个很大的操作的时候xrange的性能会更好。</span></p>
+
+<p> </p>
+
+<p><span style="color:#333333;">14文件操作时：xreadlines和readlines的区别？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">和上面的range和xrange一样的区别，readlines将文件中读取的数据读取出来生成一个列表存放着，而x</span><span style="color:#333333;">readlines</span><span style="color:#333333;">返回的是一个迭代器每次调用的时候返回下一个值。所以对于数据量比较大的时候使用迭代器的方法会更好一些。</span></p>
+
+<p> </p>
+
+<p><span style="color:#333333;">15.列举布尔值为False的常见值？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">0、None、</span><span style="color:#333333;">””、[]、{}</span></p>
+
+<p> </p>
+
+<p><span style="color:#333333;">16.字符串、列表、元组、字典每个常用的5个方法？</span></p>
+
+<p style="margin-left:5.9pt;"><span style="color:#333333;">字符串：isdigit()判断是否只包含数字 is</span><span style="color:#333333;">lower()</span><span style="color:#333333;">判断是否全为小写 is</span><span style="color:#333333;">upper()</span><span style="color:#333333;">判断是否全为大写  strip()去掉首尾空格  split()以指定字符切片</span></p>
+
+<p style="margin-left:5.9pt;"><span style="color:#333333;">列表：append()在列表后面追加  count()统计次数  pop(</span><span style="color:#333333;">index=-1</span><span style="color:#333333;">)默认移除最后一个元素并返回 </span> <span style="color:#333333;">sort()排序  reverse()反向列表中的元素 min</span><span style="color:#333333;">()、</span><span style="color:#333333;">max</span><span style="color:#333333;">()</span><span style="color:#333333;">返回最小最大值。</span></p>
+
+<p style="margin-left:5.9pt;"><span style="color:#333333;">元组：cmp</span><span style="color:#333333;">(tuple1,tuple2)</span><span style="color:#333333;">比较两个元组元素  len</span><span style="color:#333333;">()</span><span style="color:#333333;">计算元组元素个数  max()返回最大值  min</span><span style="color:#333333;">()</span><span style="color:#333333;">返回最小值 tuple</span><span style="color:#333333;">(list)</span><span style="color:#333333;">将列表转为元组。</span></p>
+
+<p style="margin-left:5.9pt;"><span style="color:#333333;">字典：get</span><span style="color:#333333;">(key,default=None)</span><span style="color:#333333;">返回指定键的值，没有返回默认值  copy</span><span style="color:#333333;">()</span><span style="color:#333333;">返回一个字典的浅复制  update(</span><span style="color:#333333;">dict2</span><span style="color:#333333;">)将dict</span><span style="color:#333333;">2</span><span style="color:#333333;">更新到原字典中 </span> <span style="color:#333333;">value()返回所有值 key</span><span style="color:#333333;">s()</span><span style="color:#333333;">返回所有键  pop</span><span style="color:#333333;">(key)</span><span style="color:#333333;">删除并返回指定的key的值</span><span style="color:#333333;">   popitem()</span><span style="color:#333333;">随机删除并返回一个键值对。</span></p>
+
+<p style="margin-left:5.9pt;"> </p>
+
+<p><span style="color:#333333;">17.lambda表达式格式以及应用场景？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">L</span><span style="color:#333333;">ambda语句中冒号前面的为参数，可以有多个，用逗号隔开。冒号右边的为返回值，如：add</span><span style="color:#333333;"> = lambda x, y : x + y </span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">   add(1,3) </span><span style="color:#333333;">结果为</span><span style="color:#333333;">4</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#ff0000;">L</span><span style="color:#ff0000;">ambda表达式通常是在需要一个函数，但是又不想费神去命名一个函数的时候使用</span><span style="color:#ff0000;">，</span><span style="color:#ff0000;">通常应用在函数式编程中、闭包</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">18.pass的作用？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">P</span><span style="color:#333333;">ass是空语句，为了保持程序结构的完整性，不做任何操作，一般只用做占位语句。</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">19.*arg</span><span style="color:#333333;">s</span><span style="color:#333333;">和**kwarg</span><span style="color:#333333;">s</span><span style="color:#333333;">作用</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">如果我们不确定往一个函数中传入多少参数，或者我们希望以元组tuple或者列表list的形式传参数的时候，我们可以使用*args。如果我们不知道往函数中传递多少个关键词参数或者想传入字典的值作为关键词参数的时候我们可以使用**kwargs，args、kwargs两个标识符是约定俗成的用法。另一种答法：当函数的参数前面有一个星号*号的时候表示这是一个可变的位置参数，两个星号**表示这个是一个可变的关键词参数。星号*把序列或者集合解包（unpack）成位置参数，两个星号**把字典解包成关键词参数。</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">20.is和==的区别</span></p>
+
+<p style="margin-left:0pt;"><span style="color:#333333;">      is比较的是两个实例对象是不是完全相同的，他们是不是同一个对象，占用的内存地址是否相同。</span></p>
+
+<p style="margin-left:0pt;"><span style="color:#333333;">      ==</span><span style="color:#333333;">比较的是两个对象的内容是否相等，内存地址可以不同，内容一样就可以了。</span></p>
+
+<p style="margin-left:0pt;"> </p>
+
+<p><span style="color:#333333;">21.简述Python的深浅拷贝以及应用场景？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">P</span><span style="color:#333333;">ython的变量只存储了这个变量的内存地址，而不是值的本身，对于像list</span> <span style="color:#333333;">set</span> <span style="color:#333333;">dict这种复杂的数据结构来说里面存储的也仅仅是每个元素的地址而已</span><br /><img alt="" class="has" height="440" src="https://img-blog.csdn.net/20180920142752928?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="634" /></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">赋值：变量的每一次初始化都会在内存里面开辟一个新的空间，并将这个内存地址赋值给变量，例如：</span><br /><img alt="" class="has" height="101" src="https://img-blog.csdn.net/20180920142812348?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="200" /></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">给str</span><span style="color:#333333;">1</span><span style="color:#333333;">两次赋值，两次的内存地址发生改变，第一次赋值hello的时候将hello在内存中的地址给了str</span><span style="color:#333333;">1，</span><span style="color:#333333;">第二次赋值world的时候再次将world的内存地址给了str</span><span style="color:#333333;">1，</span><span style="color:#333333;">但是此时hello并没有从内存中消失，只是现在没有变量指向他。当我们再次赋值的时候str1又指向了hello。</span><br /><img alt="" class="has" height="148" src="https://img-blog.csdn.net/20180920142825292?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="177" /></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">深拷贝：</span><br /><img alt="" class="has" height="604" src="https://img-blog.csdn.net/20180920142838291?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="687" /></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">深拷贝可以完全复制原变量的所有数据，我们修改其中一个的时候不会对复制的那份造成影响。</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">浅拷贝：</span><br /><img alt="" class="has" height="467" src="https://img-blog.csdn.net/20180920142855885?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="648" /></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">不管多么复杂的数据结构，浅拷贝只会copy一层。对于像int float str这种单一的数据是可以独立出来，但是对于更为复杂的数据结构就会出问题，因为在复制的时候只是将列表 字典等的整个的存放地址给复制过来了，并没有复制里面元素的内存地址，这样导致修改的时候会同时发生变化。例如：</span><br /><img alt="" class="has" height="287" src="https://img-blog.csdn.net/20180920142907504?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="465" /></p>
+
+<p style="margin-left:18pt;"><img alt="" class="has" height="199" src="https://img-blog.csdn.net/20180920142913193?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="340" /></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">22.Python垃圾回收机制？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">P</span><span style="color:#333333;">ython的垃圾回收机制默认的方式是引用计数法，其原理是为每一个对象维护一个ob</span><span style="color:#333333;">_ref</span><span style="color:#333333;">字段，用来记录该对象当前被引用的次数，有新的引用指向过来的时候计数加一，引用失效时计数减一，当对象的引用计数为0的时候，对象会被回收，释放内存空间。除了这个还有标记清除法和分代回收。</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">23.Python的可变类型和不可变类型？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">数字、字符串、元组是不可变的，列表字典是可变的，对于不可变类型的变量重新赋值的时候实际上是重新创建一个新的对象，原变量指向新的对象内存地址，除浮点型变量之外，对于值相同的变量可能都会指向同一个内存地址。可变类型例如列表在新增一个元素的时候，变量还是指向原来的那个内存地址，只是其中的元素指向发生了改变。</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">24.求结果：</span><br />
+ <span style="color:#333333;">  v = dict.fromkeys(['k1','k2'],[])</span>  <br /><span style="color:#333333;">   v[‘k1’].append(666)</span><br />
+ <span style="color:#333333;">  print(v)</span> <br /><span style="color:#333333;">   v[‘k1’] = 777</span><br />
+ <span style="color:#333333;">  print(v)</span></p>
+
+<p style="margin-left:0pt;"><strong><span style="color:#333333;"><strong>{'k1': [666], 'k2': [666]}</strong></span></strong></p>
+
+<p style="margin-left:0pt;"><strong><span style="color:#333333;"><strong>{'k1': 777, 'k2': [666]}</strong></span></strong></p>
+
+<p style="margin-left:0pt;"><strong><span style="color:#333333;"><strong>猜测原因是，在创建v这个字典的时候k1 k2 都指向了同一个空列表，当我们修改了这个列表的内容之后两个会同时发生改变，第二次单独修改k1的时候重新开辟了一个空间并指向新的内存地址。</strong></span></strong></p>
+
+<p style="margin-left:0pt;"> </p>
+
+<p><span style="color:#333333;">25.求结果：</span><br /><img alt="" class="has" height="72" src="https://img-blog.csdn.net/20180920143009219?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="298" /></p>
+
+<p style="margin-left:0pt;"><strong><span style="color:#333333;"><strong>[6, 6, 6, 6]</strong></span></strong></p>
+
+<p style="margin-left:0pt;"><strong><span style="color:#333333;"><strong>解释见：</strong></span></strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/imhurley/p/3898289.html"><strong><u><span style="color:#0563c1;"><strong><u>https://www.cnblogs.com/imhurley/p/3898289.html</u></strong></span></u></strong></a></p>
+
+<p style="margin-left:0pt;"> </p>
+
+<p><span style="color:#333333;">26.列举常见的内置函数？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">abs() </span><span style="color:#333333;">绝对值  len()序列长度 divmod</span><span style="color:#333333;">()</span><span style="color:#333333;">取模 pow</span><span style="color:#333333;">()</span><span style="color:#333333;">乘方 round()浮点数</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">27.filter、map、reduce的作用？</span></p>
+
+<p style="margin-left:18pt;"><strong><span style="color:#333333;"><strong>fi</strong></span></strong><strong><span style="color:#333333;"><strong>lter()函数：</strong></span></strong><span style="color:#333333;">filter()函数接收两个参数，一个是bool函数，一个是序列，依次将序列中的每一个元素传入到bool函数中，返回值为非零的元素添加到新的列表中。</span><br /><img alt="" class="has" height="149" src="https://img-blog.csdn.net/20180920143036526?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="331" /></p>
+
+<p style="margin-left:18pt;"><strong><span style="color:#333333;"><strong>map()</strong></span></strong><strong><span style="color:#333333;"><strong>函数</strong></span></strong><span style="color:#333333;">：map()函数接收两个参数，一个是函数，一个是序列，map将传入的函数依次作用到序列的每个元素，并把结果作为新的list返回</span><br /><img alt="" class="has" height="102" src="https://img-blog.csdn.net/20180920143049468?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="289" /></p>
+
+<p style="margin-left:18pt;"><strong><span style="color:#333333;">reduce</span><span style="color:#333333;">()</span></strong><span style="color:#333333;"><strong>函数</strong>：三个参数，一个需要两个参数的函数，一个序列，一个初始值，执行顺序为：将序列中的第一个值和初始值进行func处理，然后将结果和序列第二个值处理直到结束。</span><br /><img alt="" class="has" height="97" src="https://img-blog.csdn.net/20180920143109928?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="287" /></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">28.一行代码实现9*9乘法表</span></p>
+
+<p style="margin-left:0pt;"><strong><span style="color:#006699;"><strong>      print</strong></span></strong> <span style="color:#0000ff;">"\n"</span><span style="color:#000000;">.join(</span><span style="color:#0000ff;">"\t"</span><span style="color:#000000;">.join([</span><span style="color:#0000ff;">"%s*%s=%s"</span><span style="color:#000000;"> %(x,y,x*y) </span><strong><span style="color:#006699;"><strong>for</strong></span></strong><span style="color:#000000;"> y </span><strong><span style="color:#006699;"><strong>in</strong></span></strong><span style="color:#000000;"> range(1, x+1)]) </span><strong><span style="color:#006699;"><strong>for</strong></span></strong><span style="color:#000000;"> x </span><strong><span style="color:#006699;"><strong>in</strong></span></strong><span style="color:#000000;"> range(1, 10))  </span></p>
+
+<p style="margin-left:0pt;"> </p>
+
+<p><span style="color:#333333;">29.re的match和search区别？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">Match</span><span style="color:#333333;">是从头开始匹配 search从任意位置匹配</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">30.什么是正则的贪婪匹配？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">贪婪匹配就死趋于最大长度的匹配</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">非贪婪匹配就是匹配到结果就好</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">31.def func(a,b=[]) 这种写法有什么坑？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">函数的第二个参数是一个list，当第一次执行的时候实例化了一个list，第二次执行的时候还是用的是第一次实例化的那个list</span></p>
+
+<p style="margin-left:18pt;"><img alt="" class="has" height="179" src="https://img-blog.csdn.net/20180920143300580?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="243" /></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">32.如何实现 “1,2,3” 变成 [‘1’,’2’,’3’] ?</span></p>
+
+<p style="margin-left:18pt;"><img alt="" class="has" height="51" src="https://img-blog.csdn.net/20180920143308681?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="185" /></p>
+
+<ol><li><span style="color:#333333;">如何实现[‘1’,’2’,’3’]变成[1,2,3] ?</span></li>
+</ol><p style="margin-left:18pt;"><img alt="" class="has" height="51" src="https://img-blog.csdn.net/20180920143312837?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="241" /></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">34.比较： a = [1,2,3] 和 b = [(1),(2),(3) ] 以及 </span><span style="color:#333333;">c</span><span style="color:#333333;"> = [(1,),(2,),(3,) ] 的区别？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">a是一个列表,其中的元素为整数</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">a和b</span> <span style="color:#333333;">的内容一样但是在内存中的地址不同，也就是 a</span><span style="color:#333333;">==b </span><span style="color:#333333;">成立 a</span><span style="color:#333333;"> is b </span><span style="color:#333333;">不成立</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">c也是一个列表，只不过其中的元素为元组</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">35.如何用一行代码生成[1,4,9,16,25,36,49,64,81,100] ?</span></p>
+
+<p style="margin-left:0pt;"><span style="color:#333333;">     1：list(map(lambda x:x*x ,[1,2,3,4,5,6,7,8,9,10]))</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">2：</span><span style="color:#333333;">list</span><span style="color:#333333;">(x*x for x in range(1,11))</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">36.一行代码实现删除列表中重复的值 ?</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">list1 = list(set(list1))</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">37.如何在函数中设置一个全局变量 ?</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">使用global声明变量</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">38.logging模块的作用？以及应用场景？</span></p>
+
+<p style="margin-left:0pt;"><span style="color:#333333;">       l</span><span style="color:#333333;">ogging模块是python内置的标准模块，主要用于输出运行日志，可以设置输出日志的等级、保存路径、日志文件回滚等。可用于记录程序运行状态。</span></p>
+
+<p style="margin-left:0pt;"> </p>
+
+<p><span style="color:#333333;">39.请用代码</span><span style="color:#333333;">简单</span><span style="color:#333333;">实现stack 。</span></p>
+
+<pre class="has">
+<code class="language-python">class Stack(object):
+    # 初始化栈为空列表
+    def __init__(self):
+        self.items = []
+
+    # 判断栈是否为空，返回布尔值
+    def is_empty(self):
+        return self.items == []
+
+    # 返回栈顶元素
+    def peek(self):
+        return self.items[len(self.items) - 1]
+
+    # 返回栈的大小
+    def size(self):
+        return len(self.items)
+
+    # 进栈
+    def push(self, item):
+        self.items.append(item)
+
+    # 出栈
+    def pop(self, item):
+        return self.items.pop()</code></pre>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">40.常用字符串格式化哪几种？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">主要有两种 %</span> <span style="color:#333333;">和format</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">示例1：</span><span style="color:#333333;">”%s%d” %(‘hello’,1)</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">示例2：</span><span style="color:#333333;">"i am {} age {} sex:{}".format('alex',38,'male')</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">             "i am {1} age {1} sex:{2}".format('alex',38,'male')</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">41.简述 生成器、迭代器、可迭代对象 以及应用场景？</span></p>
+
+<p style="margin-left:18pt;"><strong><span style="color:#333333;"><strong>生成器：</strong></span></strong><span style="color:#333333;">生成器其实是一种特殊的迭代器，生成器一定是迭代器反之不成立，不需要写__iter__()和__next__()方法，只需要一个yield关键字。<br />
+例如：斐波那契的例子</span></p>
+
+<pre class="has">
+<code class="language-python">def fib():
+    prev, curr = 0, 1
+    while True:
+        yield curr
+        prev, curr = curr, curr + prev
+
+&gt;&gt;&gt; f = fib()
+&gt;&gt;&gt; from itertools import islice
+&gt;&gt;&gt; list(islice(f, 0, 10))
+[1, 1, 2, 3, 5, 8, 13, 21, 34, 55]</code></pre>
+
+<p style="margin-left:0pt;">     <span style="color:#333333;"><strong>生成器表达式</strong>：是列表推倒式的生成器版本，看起来像列表推导式，但是他返回的是一个生成器对象而不是列表对象 </span><br />
+    <img alt="" class="has" height="53" src="https://img-blog.csdn.net/20180920143718651?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="330" /></p>
+
+<p style="margin-left:18pt;"><strong><span style="color:#333333;"><strong>迭代器：</strong></span></strong><span style="color:#333333;">可以被next调用并不断返回下一个值的对象称为迭代器，迭代器内部有一个状态，该状态用于记录当前迭代所在的位置，__iter__()返回迭代器本身，__next__()返回容器中的下一个值。</span></p>
+
+<p style="margin-left:18pt;"><strong><span style="color:#333333;"><strong>可迭代对象：</strong></span></strong><span style="color:#333333;">但凡可以返回一个迭代器的对象都可以称之为可迭代对象，更为直观点可以使用for循环的对象，如列表，元组，字典，集合，字符串，打开的文件，socket等。</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">42.用Python实现一个二分查找的函数。 <br />
+     </span><img alt="" class="has" height="247" src="https://img-blog.csdn.net/20180920143746615?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="359" /></p>
+
+<p> </p>
+
+<p><span style="color:#333333;">43.谈谈你对闭包的理解？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">闭包就是在一个外部函数中定义一个内函数，内函数里运用了外部函数的临时变量，并且外函数的返回值是内函数的引用。如下是最简单的一个闭包：</span><br /><img alt="" class="has" height="146" src="https://img-blog.csdn.net/20180920143854274?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="246" /></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">在python中一切皆对象，小到一个变量，大到一个函数一个类都是对象，变量名，函数名类名都是指向内存地址。因此当返回值为一个函数的引用的时候可以跟括号来调用此函数。<br />
+一般来说，当一个函数结束的时候，会将临时变量释放掉，但是在闭包中，临时变量会在内部函数中用到，因此在返回内函数的时候会将临时变量和内函数绑定在一起，外函数结束后，在调用内函数的时候依然可以使用外函数的临时变量。每次在调用外函数的时候都会在内存中创建一个内函数，并且返回的是当前的内函数地址，需要知道的的是虽然内函数被重新创建了，但是外函数的临时变量只存在一份，每次创建的内函数都是使用的同一份临时变量。如下两次调用的返回值是不同的</span><br /><img alt="" class="has" height="133" src="https://img-blog.csdn.net/2018092014391017?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="180" /></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">Python中内函数想要修改外函数的临时变量可以使用nonlocal关键字来定义变量，如下：</span><br /><img alt="" class="has" height="209" src="https://img-blog.csdn.net/20180920143921274?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="216" /></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">闭包的应用：装饰器、单例模式</span></p>
+
+<p><span style="color:#333333;">44.os和sys模块的作用？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">os 模块提供了一种方便的使用操作系统函数的方法。</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">sys模块可供访问由解释器使用或维护的变量和与解释器进行交互的函数。</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">45.如何生成一个随机数？<br />
+     </span><img alt="" class="has" height="49" src="https://img-blog.csdn.net/2018092014395514?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="204" /></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">46.如何使用python删除一个文件？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">o</span><span style="color:#333333;">s</span><span style="color:#333333;">.remove(file_path)</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">os.rmdir(dir_path)</span></p>
+
+<p><span style="color:#333333;">47.面向对象深度优先和广度优先是什么？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">Python 中类的多继承分为深度优先和广度优先，新式类会按照深度优先方法查找，金典类会按照广度优先的方式查找。</span><br /><img alt="" class="has" height="266" src="https://img-blog.csdn.net/20180920144033707?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="687" /></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">48.面向对象中super的作用？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">S</span><span style="color:#333333;">uper(</span><span style="color:#333333;">)</span><span style="color:#333333;">可以保证公共的父类仅被执行一次。按照MRO的顺序执行</span><span style="color:#ff0000;">原理待更新：</span></p>
+
+<p style="margin-left:0pt;"> </p>
+
+<p><span style="color:#333333;">49.列举面向对象中带爽下划线的特殊方法，如：__new__、__init__</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">__doc__  </span><span style="color:#333333;">表示类的描述信息</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">__module__ 表示当前操作的对象在那个模块</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">__class__ 表示当前操作的对象的类是什么</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">__init__  </span><span style="color:#333333;">构造方法，通过类创建对象时，自动触发执行</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">__del__ 析构方法，当对象在内存中被释放的时候，自动触发执行</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">_</span><span style="color:#333333;">_call__ </span><span style="color:#333333;">对象后面加括号，触发执行</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">_</span><span style="color:#333333;">_dict__ </span><span style="color:#333333;">类或对象中的所有成员</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">__str__ </span><span style="color:#333333;">如果一个类中定义了这个方法那么在打印对象的时候默认输出该方法的返回值</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">__getitem__、__setitem__、__delitem__ 用于索引操作，如字典。分别表示获取、设置、删除数据</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">__getslice__、__setslice__、__delslice__分别用于切片操作，如列表</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">__iter__ </span><span style="color:#333333;">用于迭代器</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#ff0000;">__new__</span><span style="color:#ff0000;">和__metaclass__</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">50.如何判断是函数还是方法？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#ff0000;">根据__call__属性判断： if(hasattr(func,</span><span style="color:#ff0000;">’__call__’)):</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#ff0000;">利用callable判断: if(callable(func)):</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#ff0000;">利用isfunction判断：if</span><span style="color:#ff0000;">(isfunction(add)):</span></p>
+
+<p><span style="color:#333333;">51.静态方法和类方法区别？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">类方法必须有一个指向类对象的引用作为第一个参数，但是静态方法可以没有任何参数，</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">52.列举面向对象中的特殊成员以及应用场景</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">53.   1、2、3、4、5 能组成多少个互不相同且无重复的三位数</span></p>
+
+<p style="margin-left:0pt;"><span style="color:#333333;">        A</span><span style="color:#333333;">53 = </span><span style="color:#333333;">60个</span></p>
+
+<p><span style="color:#333333;">54. 什么是反射？以及应用场景？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">其实，反射就是通过字符串的形式，导入模块；通过字符串的形式去模块寻找指定的函数并执行。利用字符串的形式去对象（模块）中操作（查找、获取、删除、添加）成员，是一种基于字符串的事件驱动。</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">g</span><span style="color:#333333;">etattr</span><span style="color:#333333;">(</span><span style="color:#333333;">object, name [,defaukt])函数是python内置函数，用于返回一个对象属性值,若不存在且为设置默认值则触发异常，如果设置了默认值则返回默认值。</span><br /><img alt="" class="has" height="229" src="https://img-blog.csdn.net/20180920144219728?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="450" /><br /><img alt="" class="has" height="146" src="https://img-blog.csdn.net/20180920144237505?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="262" /></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">hasattr</span><span style="color:#333333;">(object,name):</span><span style="color:#333333;">判断对象object是否包含名为name的特性（hasattr是通过调用getattr()是否抛出异常来实现的）。如果有该属性则返回True否则返回False</span><br /><img alt="" class="has" height="162" src="https://img-blog.csdn.net/20180920144248353?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="277" /></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">setattr</span><span style="color:#333333;">(object, name, value):</span><span style="color:#333333;">对应函数getattr(),用于设置属性值，或者增加某个属性。</span><br /><img alt="" class="has" height="131" src="https://img-blog.csdn.net/20180920144301230?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="209" /></p>
+
+<p style="margin-left:18pt;"><img alt="" class="has" height="49" src="https://img-blog.csdn.net/20180920144314576?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="231" /><br /><img alt="" class="has" height="115" src="https://img-blog.csdn.net/20180920144359561?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="281" /></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">delattr</span><span style="color:#333333;">(object, name):</span><span style="color:#333333;">用于删除属性，操作类似不举示例了。</span></p>
+
+<p style="margin-left:18pt;"><strong><span style="color:#333333;"><strong>应用：</strong></span></strong><span style="color:#333333;">实现一个简单的url路由器的功能，实现动态导入模块</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">55.metaclass作用？以及应用场景？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">M</span><span style="color:#333333;">etaclass</span> <span style="color:#333333;">的实例化结果是类。而class实例化结果是instance，metaclass是创建类的模版，所有的类都是通过他来创建的，这使得我们可以自由控制创建类的过程。实现自由的修改、增加、删除 类或者实例中的方法或者属性。可批量对某些方法使用装饰器，而不需要每次都在方法上面增加@decorator_func。</span><span style="color:#333333;">等等</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">56.用尽量多的方法实现单例模式。</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">单例模式的主要目的是确保某一个类只有一个实例存在，主要的实现方式有以下几种：</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">1：使用模块。</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">2：使用装饰器。<br />
+      </span><img alt="" class="has" height="119" src="https://img-blog.csdn.net/20180920144440324?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="534" /><br />
+      <img alt="" class="has" height="146" src="https://img-blog.csdn.net/20180920144453324?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="293" /><br />
+      <img alt="" class="has" height="71" src="https://img-blog.csdn.net/20180920144514219?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="173" /></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">3：基于__new__方法实现。<br />
+      在实例化一个类的时候，首先执行了类的__new__方法，然后执行__init__方法，</span><span style="color:#333333;">在实例化的时候先检查有没有已经实例化过，如果有则返回已经实例化候的对象，否则创建新的。</span></p>
+
+<p style="margin-left:0pt;"><span style="color:#333333;">     4：基于metaclass方法实现<br />
+        1.类由type创建，创建类时，type的__init__方法自动执行，类() 执行type的 __call__方法(类的__new__方法,类的__init__       方法)。<br />
+        2.对象由类创建，创建对象时，类的__init__方法自动执行，对象()执行类的 __call__ 方法。</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">57.装饰器的写法以及应用场景。</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">python的装饰器就是用于拓展原来函数功能的一种函数，这个函数的特殊之处在于它的返回值也是一个函数和闭包一样，所以装饰器是闭包的一种应用，使用装饰器可以不用在更改原函数的前提下给函数增加新的功能，当有多个装饰器的时候从上到下依次执行。<br />
+装饰器的原理：和闭包类似<br />
+最简单的一个装饰器</span><br /><img alt="" class="has" height="227" src="https://img-blog.csdn.net/2018092014463326?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="292" /></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">主要用户一些认证功能，日志，授权</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">58.异常处理写法以及如何主动抛出异常（应用场景）<br />
+     </span><img alt="" class="has" height="116" src="https://img-blog.csdn.net/20180920144704838?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="220" /><br />
+     <img alt="" class="has" height="272" src="https://img-blog.csdn.net/20180920144712593?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="412" /></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">59.什么是面向对象的mro</span></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">60.isinstance作用以及应用场景？<br />
+      用来判断一个对象是否是一个已知类型，类似type(),</span><span style="color:#333333;">和type不同的是type()不会认为子类是一种父类类型，不考虑继承关系，而isinstance（）会认为子类是一种父类类型，会考虑继承关系。如果要判断两个类型是否相同的时候最好使用isinstance</span></p>
+
+<p style="margin-left:0pt;"><span style="color:#333333;">61.写代码并实现：</span><br /><span style="color:#333333;">       给定一个整数数组和一个目标值，找出数组中和为目标值的两个数。<br />
+       你可以假设每个输入只对应一种答案，且同样的元素不能被重复利用。</span><br /><span style="color:#333333;">       Example:</span> <br />
+         <span style="color:#333333;">       Given nums = [2, 7, 11, 15], target = 9,</span><br />
+                 <span style="color:#333333;">Because nums[0] + nums[1] = 2 + 7 = 9,</span> <br />
+                <span style="color:#333333;">return [0, 1]   </span><br />
+       <img alt="" class="has" height="300" src="https://img-blog.csdn.net/20180920144810113?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="428" /></p>
+
+<p><span style="color:#333333;">62.json序列化时，可以处理的数据类型有哪些？如何定制支持datetime类型？</span></p>
+
+<p style="margin-left:0pt;"><span style="color:#333333;">       可处理的数据类型有:字符串、列表、元组、字典、整数，不支持集合。定制支持datetime:首先写一个类：将用于判断是否         为datetime类型的数据格式，如果是则将其转换成字符串类型。再交给json处理。使用的时候指定cls参数即可。<br />
+       </span><img alt="" class="has" height="196" src="https://img-blog.csdn.net/20180920144932516?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="588" /></p>
+
+<p><span style="color:#333333;">63.json序列化时，默认遇到中文会转换成unicode，如果想要保留中文怎么办？<br />
+     </span><img alt="" class="has" height="51" src="https://img-blog.csdn.net/20180920144955556?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="348" /></p>
+
+<p style="margin-left:18pt;"> </p>
+
+<p><span style="color:#333333;">64.什么是断言？应用场景？</span></p>
+
+<p style="margin-left:18pt;"><span style="color:#333333;">assert断言用来检查一个条件，如果为真那么不做任何事，如果错误则会抛出AssertionError错误并且包含错误信息，应用场景：程序常量，检查逻辑，检查文，档检查约定</span><span style="color:#333333;">。</span><span style="color:#333333;">格式为 assert</span> <span style="color:#333333;">语句, 报错输出</span><br /><img alt="" class="has" height="85" src="https://img-blog.csdn.net/20180920145015421?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="370" /></p></div><div class="article-licensing box"><div class="licensing-title"><p><a href="https://blog.iotforfml.cn/2022/03/17/沛齐的315面试题基础部分解答（一）/">https://blog.iotforfml.cn/2022/03/17/沛齐的315面试题基础部分解答（一）/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>fanmlei</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2022-03-17</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2022-03-17</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2022/03/17/Django%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E4%BD%86%E6%98%AF%E4%B8%8D%E4%BC%9A%E6%98%BE%E7%A4%BA%E5%87%BA%E6%9D%A5%EF%BC%9F%EF%BC%9F%EF%BC%9F/"><i class="level-item fas fa-chevron-left"></i><span class="level-item"> </span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2022/03/17/Django%20%E5%AE%9E%E7%8E%B0Websocket/"><span class="level-item"> </span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/site/avatar.png" alt="fanmlei"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">fanmlei</p><p class="is-size-6 is-block">努力成为一名GEEK！</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Wuhan, China</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">75</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">4</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">8</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/fanmlei" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rssa"></i></a></div></div></div><!--!--><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Arduino/"><span class="level-start"><span class="level-item">Arduino</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/Python/%E7%AE%97%E6%B3%95/"><span class="level-start"><span class="level-item">算法</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:40.422Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93%E7%9A%84%E7%89%A9%E8%81%94%E7%BD%91%E6%8E%A7%E5%88%B6%EF%BC%88%E4%B8%80%EF%BC%89/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:39.165Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/WinSCP%E9%BB%98%E8%AE%A4%E4%BD%BF%E7%94%A8root%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%9A%84%E6%96%B9%E6%B3%95/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:37.937Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/Python%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1%E7%9A%84%E6%96%B9%E6%B3%95/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:36.621Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/PyQt5%E6%98%BE%E7%A4%BAGIF%E5%9B%BE%E7%89%87/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:35.436Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/PyQt5%E6%97%A0%E8%BE%B9%E6%A1%86%E5%90%8E%E7%AA%97%E5%8F%A3%E7%9A%84%E7%A7%BB%E5%8A%A8%E6%96%B9%E6%B3%95/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2022/03/"><span class="level-start"><span class="level-item">三月 2022</span></span><span class="level-end"><span class="level-item tag">55</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/03/"><span class="level-start"><span class="level-item">三月 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/08/"><span class="level-start"><span class="level-item">八月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/05/"><span class="level-start"><span class="level-item">五月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/04/"><span class="level-start"><span class="level-item">四月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/Arduino/"><span class="tag">Arduino</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jQuery/"><span class="tag">jQuery</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8E%92%E5%BA%8F/"><span class="tag">排序</span><span class="tag">10</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%A1%AC%E4%BB%B6/"><span class="tag">硬件</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95/"><span class="tag">算法</span><span class="tag">10</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/"><span class="tag">编程基础</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"><span class="tag">编程语言</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/"><span class="tag">网络请求</span><span class="tag">1</span></a></div></div></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/site/avatar.png" alt="fanmlei`s blog" height="28"></a><p class="is-size-7"><span>&copy; 2022 fanmlei</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

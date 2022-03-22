@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>fanmlei`s blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="fanmlei`s blog"><meta name="msapplication-TileImage" content="/img/site/avatar.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="fanmlei`s blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="计算字段一般数据库中存储的数据可能不会是我们所需要的格式，例如存储一个地址，在数据库中可能会将城市、区和街道分别存入不同的列中，但是我们可能需要直接获取一个完整的地址，这时候就需要做一些转换操作了，可以直接取出每个字段的值，然后在我们自己的程序中组合，同样也可以使用SQL直接在数据库中完成，而且一般来说在数据库中完成这些操作要率相对于我们自己去实现要快，下面就是一些常用的计算方法。 表：    n"><meta property="og:type" content="blog"><meta property="og:title" content="fanmlei`s blog"><meta property="og:url" content="https://blog.iotforfml.cn/2022/03/17/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A%E6%80%BB%E7%BB%93%EF%BC%88%E4%BA%8C%EF%BC%89/"><meta property="og:site_name" content="fanmlei`s blog"><meta property="og:description" content="计算字段一般数据库中存储的数据可能不会是我们所需要的格式，例如存储一个地址，在数据库中可能会将城市、区和街道分别存入不同的列中，但是我们可能需要直接获取一个完整的地址，这时候就需要做一些转换操作了，可以直接取出每个字段的值，然后在我们自己的程序中组合，同样也可以使用SQL直接在数据库中完成，而且一般来说在数据库中完成这些操作要率相对于我们自己去实现要快，下面就是一些常用的计算方法。 表：    n"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://blog.iotforfml.cn/img/og_image.png"><meta property="article:published_time" content="2022-03-16T17:00:46.027Z"><meta property="article:modified_time" content="2022-03-16T17:05:35.381Z"><meta property="article:author" content="fanmlei"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.iotforfml.cn/2022/03/17/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A%E6%80%BB%E7%BB%93%EF%BC%88%E4%BA%8C%EF%BC%89/"},"headline":"fanmlei`s blog","image":["https://blog.iotforfml.cn/img/og_image.png"],"datePublished":"2022-03-16T17:00:46.027Z","dateModified":"2022-03-16T17:05:35.381Z","author":{"@type":"Person","name":"fanmlei"},"publisher":{"@type":"Organization","name":"fanmlei`s blog","logo":{"@type":"ImageObject","url":"https://blog.iotforfml.cn/img/site/avatar.png"}},"description":"计算字段一般数据库中存储的数据可能不会是我们所需要的格式，例如存储一个地址，在数据库中可能会将城市、区和街道分别存入不同的列中，但是我们可能需要直接获取一个完整的地址，这时候就需要做一些转换操作了，可以直接取出每个字段的值，然后在我们自己的程序中组合，同样也可以使用SQL直接在数据库中完成，而且一般来说在数据库中完成这些操作要率相对于我们自己去实现要快，下面就是一些常用的计算方法。 表：    n"}</script><link rel="canonical" href="https://blog.iotforfml.cn/2022/03/17/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A%E6%80%BB%E7%BB%93%EF%BC%88%E4%BA%8C%EF%BC%89/"><link rel="icon" href="/img/site/avatar.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/site/avatar.png" alt="fanmlei`s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:46.027Z" title="3/17/2022, 1:00:46 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:35.381Z" title="3/17/2022, 1:05:35 AM">2022-03-17</time>更新</span><span class="level-item">11 分钟读完 (大约1614个字)</span></div></div><div class="content"><h4 id="计算字段"><a href="#计算字段" class="headerlink" title="计算字段"></a>计算字段</h4><p>一般数据库中存储的数据可能不会是我们所需要的格式，例如存储一个地址，在数据库中可能会将城市、区和街道分别存入不同的列中，但是我们可能需要直接获取一个完整的地址，这时候就需要做一些转换操作了，可以直接取出每个字段的值，然后在我们自己的程序中组合，同样也可以使用SQL直接在数据库中完成，而且一般来说在数据库中完成这些操作要率相对于我们自己去实现要快，下面就是一些常用的计算方法。</p>
+<p>表：</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>category</th>
+<th>number</th>
+<th>price</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>硬盘</td>
+<td>电子类</td>
+<td>10</td>
+<td>399</td>
+</tr>
+<tr>
+<td>乐事薯片</td>
+<td>食品类</td>
+<td>24</td>
+<td>7.5</td>
+</tr>
+<tr>
+<td>PS4</td>
+<td>电子类</td>
+<td>1</td>
+<td>2799</td>
+</tr>
+<tr>
+<td>流畅的Python</td>
+<td>书籍类</td>
+<td>5</td>
+<td>105</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>拼接字段</p>
+<p>在select语句中可以使用Concat()函数实现两列的拼接操作：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> concat(name,<span class="string">&#x27;(&#x27;</span>,category,<span class="string">&#x27;)&#x27;</span>) <span class="keyword">as</span> goods <span class="keyword">from</span> goods</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">goods</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">硬盘(电子类)</td>
+</tr>
+<tr>
+<td align="left">乐事薯片(食品类)</td>
+</tr>
+<tr>
+<td align="left">PS4(电子类)</td>
+</tr>
+<tr>
+<td align="left">流畅的Python(书籍类)</td>
+</tr>
+</tbody></table>
+<p>其他：RTrim()函数去除右边所有空格，LTrim()去除左边所有空格， as：使用别名</p>
+</li>
+<li><p>执行算术计算</p>
+<p>依然使用上面那个表，如果我们需要取出所有商品的总金额，我们可以取出每行的价格和数量自己计算，同样也可是使用MySQL计算完成之后直接返回总金额。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name, number<span class="operator">*</span>price <span class="keyword">as</span> total_price <span class="keyword">from</span> goods</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>total_price</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>硬盘</td>
+<td>3990</td>
+</tr>
+<tr>
+<td>乐事薯片</td>
+<td>180</td>
+</tr>
+<tr>
+<td>PS4</td>
+<td>2799</td>
+</tr>
+<tr>
+<td>流畅的Python</td>
+<td>525</td>
+</tr>
+</tbody></table>
+<p>MySQL支持的运算符有 +、 -、 *、 &#x2F;  ，可以使用()来区分计算顺序。</p>
+</li>
+</ul>
+<h4 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h4><ul>
+<li><p>文本处理函数</p>
+<table>
+<thead>
+<tr>
+<th>函 数</th>
+<th>说 明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Left(str,length)</td>
+<td>返回串左边的字符</td>
+</tr>
+<tr>
+<td>Length(str)</td>
+<td>返回串的长度(字节长度 )， UTF-8编码中文三个字节，英文一个字节</td>
+</tr>
+<tr>
+<td>Locate(<a target="_blank" rel="noopener" href="http://xiaolan.gjjblog.com/">substr</a>,str,pos)</td>
+<td>返回子串 substr 在<a target="_blank" rel="noopener" href="http://xiaolan.gjjblog.com/">字符串</a> str 第 pos 位置后中第一次出现的位置。如果子串 substr 在 str 中不存在，返回值为 0   <strong>（pos可选）</strong></td>
+</tr>
+<tr>
+<td>Lower(str)</td>
+<td>将串转换为小写</td>
+</tr>
+<tr>
+<td>LTrim(str)</td>
+<td>去掉串左边的空格</td>
+</tr>
+<tr>
+<td>Righ(str,length)</td>
+<td>返回串右边的字符</td>
+</tr>
+<tr>
+<td>RTrim(str)</td>
+<td>去掉串右边的空格</td>
+</tr>
+<tr>
+<td>Soundex()</td>
+<td>返回串的SOUNDEX值（不常用）SOUNDEX是一个将任何文本串转换为描述其语音表示的字母数字模式的算法</td>
+</tr>
+<tr>
+<td>SubString(str, pos, len)</td>
+<td>返回字符串第pos位置后的len长度的子串  <strong>第一个字符pos为1，len可选，默认到最后一位</strong></td>
+</tr>
+<tr>
+<td>Upper()</td>
+<td>将串转换为大写</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>日期和时间处理函数</p>
+<table>
+<thead>
+<tr>
+<th>AddDate()</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AddDate()</td>
+<td>增加一个日期（天、周等）</td>
+</tr>
+<tr>
+<td>AddTime()</td>
+<td>增加一个时间（时、分等）</td>
+</tr>
+<tr>
+<td>CurDate()</td>
+<td>返回当前日期</td>
+</tr>
+<tr>
+<td>CurTime()</td>
+<td>返回当前时间</td>
+</tr>
+<tr>
+<td>Date()</td>
+<td>返回日期时间的日期部分</td>
+</tr>
+<tr>
+<td>DateDiff()</td>
+<td>计算两个日期之差</td>
+</tr>
+<tr>
+<td>Date_Add()</td>
+<td>高度灵活的日期运算函数</td>
+</tr>
+<tr>
+<td>Date_Format()</td>
+<td>返回一个格式化的日期或时间串</td>
+</tr>
+<tr>
+<td>Day()</td>
+<td>返回一个日期的天数部分</td>
+</tr>
+<tr>
+<td>DayOfWeek()</td>
+<td>对于一个日期，返回对应的星期几</td>
+</tr>
+<tr>
+<td>Hour()</td>
+<td>返回一个时间的小时部分</td>
+</tr>
+<tr>
+<td>Minute()</td>
+<td>返回一个时间的分钟部分</td>
+</tr>
+<tr>
+<td>Month()</td>
+<td>返回一个日期的月份部分</td>
+</tr>
+<tr>
+<td>Now()</td>
+<td>返回当前日期和时间</td>
+</tr>
+<tr>
+<td>Second()</td>
+<td>返回一个时间的秒部分</td>
+</tr>
+<tr>
+<td>Time()</td>
+<td>返回一个日期时间的时间部分</td>
+</tr>
+<tr>
+<td>Year()</td>
+<td>返回一个日期的年份部分</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>数值处理函数</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Abs()</td>
+<td>返回一个数的绝对值</td>
+</tr>
+<tr>
+<td>Cos()</td>
+<td>返回一个角度的余弦</td>
+</tr>
+<tr>
+<td>Exp()</td>
+<td>返回一个数的指数值</td>
+</tr>
+<tr>
+<td>Mod()</td>
+<td>返回除操作的余数</td>
+</tr>
+<tr>
+<td>Pi()</td>
+<td>返回圆周率</td>
+</tr>
+<tr>
+<td>Rand()</td>
+<td>返回一个随机数</td>
+</tr>
+<tr>
+<td>Sin()</td>
+<td>返回一个角度的正弦</td>
+</tr>
+<tr>
+<td>Sqrt()</td>
+<td>返回一个数的平方根</td>
+</tr>
+<tr>
+<td>Tan()</td>
+<td>返回一个角度的正切</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>聚集函数</p>
+<p>默认参数为ALL，可使用DISTINCT关键字</p>
+<table>
+<thead>
+<tr>
+<th>函 数</th>
+<th>说 明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AVG()</td>
+<td>返回某列的平均值</td>
+</tr>
+<tr>
+<td>COUNT()</td>
+<td>返回某列的行数（指定列名会忽略NULL行）</td>
+</tr>
+<tr>
+<td>MAX()</td>
+<td>返回某列的最大值</td>
+</tr>
+<tr>
+<td>MIN()</td>
+<td>返回某列的最小值</td>
+</tr>
+<tr>
+<td>SUM()</td>
+<td>返回某列值之和</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h4 id="数据的分组"><a href="#数据的分组" class="headerlink" title="数据的分组"></a>数据的分组</h4><table>
+<thead>
+<tr>
+<th>name</th>
+<th>category</th>
+<th>number</th>
+<th>price</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>硬盘</td>
+<td>电子类</td>
+<td>10</td>
+<td>399</td>
+</tr>
+<tr>
+<td>乐事薯片</td>
+<td>食品类</td>
+<td>24</td>
+<td>7.5</td>
+</tr>
+<tr>
+<td>PS4</td>
+<td>电子类</td>
+<td>1</td>
+<td>2799</td>
+</tr>
+<tr>
+<td>流畅的Python</td>
+<td>书籍类</td>
+<td>5</td>
+<td>105</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>GROUP BY</p>
+<p>按照category分组，并计算每组的数量</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> category , <span class="built_in">count</span>(<span class="operator">*</span>)<span class="keyword">as</span> num <span class="keyword">from</span> goods <span class="keyword">group</span> <span class="keyword">by</span> category </span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>category</th>
+<th>num</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>书籍类</td>
+<td>1</td>
+</tr>
+<tr>
+<td>电子类</td>
+<td>2</td>
+</tr>
+<tr>
+<td>食品类</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<ul>
+<li>GROUP BY子句可以包含任意数目的列</li>
+<li>如果在GROUP BY子句中嵌套了分组，数据将在最后规定的分组上进行汇总。换句话说，在建立分组时，指定的所有列都一起计算（所以不能从个别的列取回数据）。</li>
+<li>GROUP BY子句中列出的每个列都必须是检索列或有效的表达式（但不能是聚集函数）。如果在SELECT中使用表达式，则必须在GROUP BY子句中指定相同的表达式。不能使用别名。</li>
+<li>除聚集计算语句外，SELECT语句中的每个列都必须在GROUP BY子句中给出。</li>
+<li>如果分组列中具有NULL值，则NULL将作为一个分组返回。如果列中有多行NULL值，它们将分为一组。</li>
+<li>GROUP BY子句必须出现在WHERE子句之后，ORDER BY子句之前</li>
+</ul>
+</li>
+<li><p>HAVING（过滤分组）</p>
+<p>HAVING类似于WHERE，所有的WHERE子句都可以使用HAVING来代替，两者唯一的差别是WHERE过滤行而HAVING过滤分组，换一句话说，WHERE在数据分组之前过滤，HAVING在分组之后过滤，WHERE排除的行不包含在分组之中。</p>
+<p>选取种类大于等于两个的分组</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> category, <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">as</span> num <span class="keyword">from</span> goods <span class="keyword">group</span> <span class="keyword">by</span> category <span class="keyword">HAVING</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="operator">&gt;=</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>category</th>
+<th>num</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>电子类</td>
+<td>2</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>分组排序</p>
+<p>使用GROUP BY分组得到的数据顺序可能不是统一的，如果想实现分组排序还需要用到ORDER BY对分组结果进行排序</p>
+<p>例如按照category分组，并按照数目从小到大排序</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> category ,<span class="built_in">count</span>(<span class="operator">*</span>) num <span class="keyword">from</span> goods <span class="keyword">group</span> <span class="keyword">by</span> category <span class="keyword">order</span> <span class="keyword">by</span> <span class="built_in">count</span>(<span class="operator">*</span>)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>category</th>
+<th>num</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>食品类</td>
+<td>1</td>
+</tr>
+<tr>
+<td>书籍类</td>
+<td>1</td>
+</tr>
+<tr>
+<td>电子类</td>
+<td>2</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<p><strong>总结一下</strong></p>
+<p><strong>在SELECT语句中，所有子句的顺序如下</strong></p>
+<p><strong>SELECT →  FROM  → WHERE → GROUP BY → HAVING → ORDER BY</strong></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p><a href="https://blog.iotforfml.cn/2022/03/17/MySQL必知必会总结（二）/">https://blog.iotforfml.cn/2022/03/17/MySQL必知必会总结（二）/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>fanmlei</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2022-03-17</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2022-03-17</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2022/03/17/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A%E6%80%BB%E7%BB%93%EF%BC%88%E4%B8%80%EF%BC%89/"><i class="level-item fas fa-chevron-left"></i><span class="level-item"> </span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2022/03/17/HTTP%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%80/"><span class="level-item"> </span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/site/avatar.png" alt="fanmlei"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">fanmlei</p><p class="is-size-6 is-block">努力成为一名GEEK！</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Wuhan, China</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">75</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">4</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">8</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/fanmlei" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rssa"></i></a></div></div></div><!--!--><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Arduino/"><span class="level-start"><span class="level-item">Arduino</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/Python/%E7%AE%97%E6%B3%95/"><span class="level-start"><span class="level-item">算法</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:40.422Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93%E7%9A%84%E7%89%A9%E8%81%94%E7%BD%91%E6%8E%A7%E5%88%B6%EF%BC%88%E4%B8%80%EF%BC%89/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:39.165Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/WinSCP%E9%BB%98%E8%AE%A4%E4%BD%BF%E7%94%A8root%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%9A%84%E6%96%B9%E6%B3%95/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:37.937Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/Python%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1%E7%9A%84%E6%96%B9%E6%B3%95/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:36.621Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/PyQt5%E6%98%BE%E7%A4%BAGIF%E5%9B%BE%E7%89%87/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:35.436Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/PyQt5%E6%97%A0%E8%BE%B9%E6%A1%86%E5%90%8E%E7%AA%97%E5%8F%A3%E7%9A%84%E7%A7%BB%E5%8A%A8%E6%96%B9%E6%B3%95/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2022/03/"><span class="level-start"><span class="level-item">三月 2022</span></span><span class="level-end"><span class="level-item tag">55</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/03/"><span class="level-start"><span class="level-item">三月 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/08/"><span class="level-start"><span class="level-item">八月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/05/"><span class="level-start"><span class="level-item">五月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/04/"><span class="level-start"><span class="level-item">四月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/Arduino/"><span class="tag">Arduino</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jQuery/"><span class="tag">jQuery</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8E%92%E5%BA%8F/"><span class="tag">排序</span><span class="tag">10</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%A1%AC%E4%BB%B6/"><span class="tag">硬件</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95/"><span class="tag">算法</span><span class="tag">10</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/"><span class="tag">编程基础</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"><span class="tag">编程语言</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/"><span class="tag">网络请求</span><span class="tag">1</span></a></div></div></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/site/avatar.png" alt="fanmlei`s blog" height="28"></a><p class="is-size-7"><span>&copy; 2022 fanmlei</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
