@@ -114,7 +114,7 @@ navbar:
     links:
         Download on GitHub:
             icon: fab fa-github
-            url: https://github.com/ppoffice/hexo-theme-icarus
+            url: https://github.com/fanmlei/blog
 # Page footer configurations
 footer:
     # Links to be shown on the right of the footer section
@@ -127,7 +127,10 @@ footer:
             url: https://creativecommons.org/licenses/by/4.0/
         Download on GitHub:
             icon: fab fa-github
-            url: https://github.com/ppoffice/hexo-theme-icarus
+            url: https://github.com/fanmlei/blog
+        # 鄂ICP备17029608号-1:
+        #     url: https://beian.miit.gov.cn
+
 # Article related configurations
 article:
     # Code highlight settings
@@ -239,22 +242,22 @@ widgets:
         # URL or path for the follow button
         follow_link: https://github.com/fanmlei
         # Links to be shown on the bottom of the profile widget
-        social_links:
-            Github:
-                icon: fab fa-github
-                url: https://github.com/ppoffice
-            Facebook:
-                icon: fab fa-facebook
-                url: https://facebook.com
-            Twitter:
-                icon: fab fa-twitter
-                url: https://twitter.com
-            Dribbble:
-                icon: fab fa-dribbble
-                url: https://dribbble.com
-            RSS:
-                icon: fas fa-rssa
-                url: /
+        # social_links:
+        #     Github:
+        #         icon: fab fa-github
+        #         url: https://github.com/ppoffice
+        #     Facebook:
+        #         icon: fab fa-facebook
+        #         url: https://facebook.com
+        #     Twitter:
+        #         icon: fab fa-twitter
+        #         url: https://twitter.com
+        #     Dribbble:
+        #         icon: fab fa-dribbble
+        #         url: https://dribbble.com
+        #     RSS:
+        #         icon: fas fa-rssa
+        #         url: /
     # Table of contents widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar
