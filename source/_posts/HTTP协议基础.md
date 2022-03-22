@@ -1,3 +1,12 @@
+---
+title: HTTP协议基础
+date: 2021-08-07 19:42:49
+categories: 
+- 未分类
+tags:
+- 笔记
+- HTTP
+---
 ## HTTP协议基础
 **总结于图解HTTP协议**
 
@@ -11,7 +20,7 @@ URI（统一资源标识符）表示的是某一个互联网资源， URL（统�
 ### URI格式
 
 绝对URI格式
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190305020813962.png)
+![](1.png)
 一个绝对的URI包含了
 
 1. 协议名
@@ -27,8 +36,6 @@ URI（统一资源标识符）表示的是某一个互联网资源， URL（统�
 6. 查询字符串（可选）
    - 针对已指定的文件路径内的资源，可以使用查询字符串传入任意参数。
 7. 片段标识位（可选）
-
-
 
 
 
@@ -132,7 +139,7 @@ URI（统一资源标识符）表示的是某一个互联网资源， URL（统�
   - CONNECT: 使用隧道协议连接代理
 
     CONNECT 方法要求在与代理服务器通信时建立隧道，实现用隧道协议进行 TCP 通信。主要使用 SSL（Secure Sockets Layer，安全套接层）和 TLS（Transport Layer Security，传输层安全）协议把通信内容加 密后经网络隧道传输。
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190305020900941.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70)
+![](2.png)
 - 长连接
 
   在早期的http协议中，每次通信就需要断开TCP连接，随着时代的发展一个页面可能需要请求很多次，这样一来就会不断的断开连接增加通信的开销，所以在1.1和部分1.0版本中出现了持久连接，只要一端没有明确提出断开连接，那么就会保持TCP的连接状态
@@ -140,7 +147,7 @@ URI（统一资源标识符）表示的是某一个互联网资源， URL（统�
 - HTTP报文内的HTTP信息
 
   HTTP报文大致可分为报文首部+报文主体两块，两者通过（CR+LF）来划分
- ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190305020933712.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70)
+ ![](3.png)
 
 - 获取部分内容的范围请求
 
@@ -158,7 +165,7 @@ URI（统一资源标识符）表示的是某一个互联网资源， URL（统�
 
 
 ### HTTP状态码
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190305021012587.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70)
+![](4.png)
 - 2XX成功   （服务器返回2XX表明请求被正常处理了）
 
   - 200 OK
@@ -233,7 +240,7 @@ URI（统一资源标识符）表示的是某一个互联网资源， URL（统�
 
 - 代理服务器
 
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190305021046421.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70)
+  ![](5.png)
 
   代理服务器最基本的功能就是接受客户端的请求，并将请求转发给其他的服务器，代理并不会改变请求的URL，会直接将请求进行转发，每次通过代理服务器转发请求的或者响应的时候都会在首部添加Via信息，最常见的代理服务就是我们使用的翻墙服务。
 
@@ -254,13 +261,13 @@ URI（统一资源标识符）表示的是某一个互联网资源， URL（统�
 
 - 网关
 
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190305021103779.png)
+  ![](6.png)
 
   网关和代理的作用很类似，但是网关能够实现非HTTP协议的服务，利用网关可以提高通信的安全性。
 
 - 隧道
 
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/2019030502111797.png)
+  ![](7.png)
 
   在客户端和服务器端建立一条加密的通信线路，确保客户端和服务器端的安全通信，隧道本身不会解析HTTP请求，会原样将请求转发给服务器。
 
@@ -272,7 +279,7 @@ URI（统一资源标识符）表示的是某一个互联网资源， URL（统�
 
 下图是分别是请求报文和响应报文的首部构成：
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190305021127721.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70)
+![](8.png)
 
 字段结构：**字段名：字段值1, 字段值2....**
 
@@ -349,6 +356,3 @@ URI（统一资源标识符）表示的是某一个互联网资源， URL（统�
   | Server             | HTTP服务器安装信息           |
   | Vary               | 代理服务器缓存的管理信息     |
   | WWW-Authenticate   | 服务器对客户端的认证信息     |
-
-
-

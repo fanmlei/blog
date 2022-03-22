@@ -1,7 +1,15 @@
-<p>88.合并两个有序数组     56ms  提交中击败了47.05% 的用户</p>
-
-<pre class="has">
-<code class="language-python">class Solution:
+---
+title: Leet Code OJ  简单（四）
+date: 2018-04-20 19:42:49
+categories: 
+- 算法
+- leetcode
+tags:
+- 算法
+---
+88.合并两个有序数组     56ms  提交中击败了47.05% 的用户
+```python 
+class Solution:
     def merge(self, nums1, m, nums2, n):
         """
         :type nums1: List[int]
@@ -17,12 +25,12 @@
                 nums1[j+1] = nums1[j]
                 j -= 1
             nums1[j+1] = temp
-            m += 1</code></pre>
+            m += 1
+```
 
-<p>100. 相同的树   48 ms 击败了58.92% 的用户</p>
-
-<pre class="has">
-<code class="language-python"># Definition for a binary tree node.
+100. 相同的树   48 ms 击败了58.92% 的用户
+```python
+# Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):
 #         self.val = x
@@ -43,12 +51,12 @@ class Solution:
             right = self.isSameTree(p.right,q.right)
             return left and right
         else:
-            return False</code></pre>
+            return False
+```
 
-<p>101. 对称二叉树   56 ms 击败了81.40% 的用户</p>
-
-<pre class="has">
-<code class="language-python"># Definition for a binary tree node.
+101. 对称二叉树   56 ms 击败了81.40% 的用户
+```python
+# Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):
 #         self.val = x
@@ -72,12 +80,12 @@ class Solution:
                 return False
         if not root:
             return True
-        return isSame(root.left, root.right)</code></pre>
+        return isSame(root.left, root.right)
+```
 
-<p>104. 二叉树的最大深度 : 64 ms 击败了79.70% 的用户</p>
-
-<pre class="has">
-<code class="language-python"># Definition for a binary tree node.
+104. 二叉树的最大深度 : 64 ms 击败了79.70% 的用户
+```python
+# Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):
 #         self.val = x
@@ -94,6 +102,5 @@ class Solution:
             return 0
         left =  self.maxDepth(root.left)
         right = self.maxDepth(root.right)
-        return 1 + max(left,right)</code></pre>
-
-<p> </p>
+        return 1 + max(left,right)
+```

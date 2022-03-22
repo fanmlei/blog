@@ -1,7 +1,15 @@
-<p>20. 有效括号  48ms</p>
-
-<pre class="has">
-<code class="language-python">class Solution:
+---
+title: Leet Code OJ  简单（二）
+date: 2018-04-18 19:42:49
+categories: 
+- 算法
+- leetcode
+tags:
+- 算法
+---
+20. 有效括号  48ms
+```python
+class Solution:
     def isValid(self, s):
         """
         :type s: str
@@ -19,12 +27,12 @@
                     return False
         if stack:
             return False
-        return True</code></pre>
+        return True
+```
 
-<p>26.删除排序数组中的重复项  96ms</p>
-
-<pre class="has">
-<code class="language-python">class Solution:
+26.删除排序数组中的重复项  96ms
+```python
+class Solution:
     def removeDuplicates(self, nums):
         """
         :type nums: List[int]
@@ -37,12 +45,12 @@
             if nums[s] != nums[f]:
                 s += 1
                 nums[s] = nums[f]
-        return s + 1</code></pre>
+        return s + 1
+```
 
-<p>27.移除元素  56ms</p>
-
-<pre class="has">
-<code>class Solution:
+27.移除元素  56ms
+```python
+class Solution:
     def removeElement(self, nums, val):
         """
         :type nums: List[int]
@@ -53,12 +61,12 @@
             return len(nums)
         while val in nums:
             nums.remove(val)
-        return len(nums)</code></pre>
+        return len(nums)
+```
 
-<p>28.实现strStr()  48ms</p>
-
-<pre class="has">
-<code>class Solution:
+28.实现strStr()  48ms
+```python
+class Solution:
     def strStr(self, haystack, needle):
         """
         :type haystack: str
@@ -70,12 +78,12 @@
         if needle not in haystack:
             return -1
         else:
-            return haystack.index(needle)</code></pre>
+            return haystack.index(needle)
+```
 
-<p>35.搜索插入位置  48ms</p>
-
-<pre class="has">
-<code>class Solution:
+35.搜索插入位置  48ms
+```python
+class Solution:
     def searchInsert(self, nums, target):
         """
         :type nums: List[int]
@@ -90,6 +98,5 @@
             return len(nums)
         for i in range(len(nums)-1):
             if nums[i]&lt;target and nums[i+1]&gt;target:
-                return i+1</code></pre>
-
-<p> </p>
+                return i+1
+```

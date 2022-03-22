@@ -1,7 +1,16 @@
-<p>58.最后一个单词的长度  52ms</p>
+---
+title: Leet Code OJ  简单（三）
+date: 2018-04-19 19:42:49
+categories: 
+- 算法
+- leetcode
+tags:
+- 算法
+---
 
-<pre class="has">
-<code class="language-python">class Solution:
+58.最后一个单词的长度  52ms
+```python 
+class Solution:
     def lengthOfLastWord(self, s):
         """
         :type s: str
@@ -12,12 +21,12 @@
             s.remove("")
         if not s:
             return 0
-        return len(s[-1])</code></pre>
+        return len(s[-1])
+```
 
-<p>66.加一 56ms</p>
-
-<pre class="has">
-<code class="language-python">class Solution:
+66.加一 56ms
+```python
+class Solution:
     def plusOne(self, digits):
         """
         :type digits: List[int]
@@ -35,35 +44,35 @@
             i += 1
 
         r.reverse()
-        return r</code></pre>
+        return r
+```
 
-<p>67.二进制求和 60ms</p>
-
-<pre class="has">
-<code>class Solution:
+67.二进制求和 60ms
+```python
+class Solution:
     def addBinary(self, a, b):
         """
         :type a: str
         :type b: str
         :rtype: str
         """
-        return (bin(int(a, 2) + int(b, 2))[2:])</code></pre>
+        return (bin(int(a, 2) + int(b, 2))[2:])
+```
 
-<p>69.x的平方根 76ms    击败了81.06% 的用户</p>
-
-<pre class="has">
-<code>class Solution:
+69.x的平方根 76ms    击败了81.06% 的用户
+```python
+class Solution:
     def mySqrt(self, x):
         """
         :type x: int
         :rtype: int
         """
-        return int(pow(x, 0.5))</code></pre>
+        return int(pow(x, 0.5))
+```
 
-<p>83.删除排序链表重复元素  76ms  击败了48.84% 的用户</p>
-
-<pre class="has">
-<code># Definition for singly-linked list.
+83.删除排序链表重复元素  76ms  击败了48.84% 的用户
+```python 
+# Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, x):
 #         self.val = x
@@ -87,6 +96,5 @@ class Solution:
                     cur.next = None
             else:
                 cur = cur.next
-        return head</code></pre>
-
-<p> </p>
+        return head
+```

@@ -1,6 +1,14 @@
+---
+title: jieba+whoosh实现简单的商品搜索功能
+date: 2021-04-17 19:42:49
+categories: 
+- 未分类
+tags:
+- 分词
+---
 #### 功能描述
 实现一个类似淘宝的搜索功能，例如下面这个例子
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190416194136675.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70)
+![](1.png)
 简单点来说我们需要先根据商品名称创建索引，然后再用索引文件匹配去查询字符串来实现商品的搜索，这种搜索是有别于正则匹配的，他会对字符串进行分词处理，准确度也会更高。
 
 ---
@@ -81,7 +89,7 @@ whoosh对中文分词处理不是很好，所以选择jieba实现对中文的分
         print(res)
   ```
   在查询的时候需要先调用whoosh的`QueryParser`来构建查询字符串，通过调试我发现在构造查询字符串的时候whoosh默认会分词处理，并且使用`AND`连接符
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2019041623572811.png)通过`search(keyword,limit)`去索引文件中匹配相关信息，其中`limit`为匹配到的最大数目，默认为10个。
+![](2.png)通过`search(keyword,limit)`去索引文件中匹配相关信息，其中`limit`为匹配到的最大数目，默认为10个。
 - **索引的增删改查**
   在一个系统中商品的信息必然不会是一成不变的，所以我们的索引文件就不可避免的需要按照商品信息去做调整，whoosh同样给我们提供了这样的接口。
   - 增：

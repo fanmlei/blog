@@ -1,7 +1,15 @@
-<p>1.两数之和  3780ms</p>
-
-<pre class="has">
-<code class="language-python">class Solution(object):
+---
+title: Leet Code OJ  简单（一）
+date: 2018-04-17 19:42:49
+categories: 
+- 算法
+- leetcode
+tags:
+- 算法
+---
+1.两数之和  3780ms
+```python
+class Solution(object):
     def twoSum(self, nums, target):
         """
         :type nums: List[int]
@@ -11,12 +19,12 @@
         for i in range(len(nums)):
             for m in range(i+1, len(nums)):
                 if nums[i]+nums[m] == target:
-                    return [i, m]</code></pre>
+                    return [i, m]
+```
 
-<p>7.反转整数 80ms （python的负数取余和C语言 不同）</p>
-
-<pre class="has">
-<code class="language-python">class Solution:
+7.反转整数 80ms （python的负数取余和C语言 不同
+```python
+class Solution:
     def reverse(self, x):
         """
         :type x: int
@@ -40,12 +48,12 @@
         if y &gt; -pow(2, 31) and y &lt; pow(2, 31) - 1:
             return y
         else:
-            return 0</code></pre>
+            return 0
+```
 
-<p>9.回文数  408ms</p>
-
-<pre class="has">
-<code class="language-python">class Solution:
+9.回文数  408ms
+```python
+class Solution:
     def isPalindrome(self, x):
         """
         :type x: int
@@ -55,12 +63,12 @@
         for i in range(len(x)):
             if x[i] != x[-i-1]:
                 return False
-        return True</code></pre>
+        return True
+```
 
-<p>13.罗马数字转整数 212ms</p>
-
-<pre class="has">
-<code class="language-python">class Solution:
+13.罗马数字转整数 212ms
+```python 
+class Solution:
     def romanToInt(self, s):
         """
         :type s: str
@@ -74,12 +82,12 @@
                     rec += num[s[:i]]
                     s = s[i:]
                     break
-        return rec  </code></pre>
+        return rec
+```
 
-<p>14.最长公共前缀 54ms</p>
-
-<pre class="has">
-<code class="language-python">class Solution:
+14.最长公共前缀 54ms
+```python
+class Solution:
     def longestCommonPrefix(self, strs):
         """
         :type strs: List[str]
@@ -96,6 +104,5 @@
             return strs[0]
 
         else:
-            return ""</code></pre>
-
-<p> </p>
+            return ""
+```

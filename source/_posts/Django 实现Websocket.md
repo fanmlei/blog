@@ -1,14 +1,23 @@
-<p>django实现websocket大致上有两种方式，一种channels，一种是dwebsocket。channels依赖于redis，twisted等，相比之下使用dwebsocket要更为方便一些。</p>
+---
+title: Django 实现Websocket
+date: 2018-09-21 14:42:49
+categories: 
+- Django
+tags:
+- Django
+- WebSocket
+---
 
-<h3>安装： </h3>
+django实现websocket大致上有两种方式，一种channels，一种是dwebsocket。channels依赖于redis，twisted等，相比之下使用dwebsocket要更为方便一些。
 
-<pre class="has">
-<code>pip install dwebsocket</code></pre>
+### 安装
+```
+pip install dwebsocket
+```
 
-<h3>配置：</h3>
-
-<pre class="has">
-<code class="language-python"># setting.py
+### 配置
+```python
+# setting.py
 
 INSTALLED_APPS = [
     .....
@@ -23,13 +32,12 @@ MIDDLEWARE_CLASSES = [
 
 ]
 WEBSOCKET_ACCEPT_ALL=True   # 可以允许每一个单独的视图实用websockets</code></pre>
+```
+### 简单使用
 
-<h3>简单使用：</h3>
-
-<p>模拟文件下载的简单示例</p>
-
-<pre class="has">
-<code class="language-python">from dwebsocket.decorators import accept_websocket
+模拟文件下载的简单示例
+```python
+from dwebsocket.decorators import accept_websocket
 @accept_websocket
 def test(request):
     if not request.is_websocket():  # 判断是不是websocket连接
@@ -46,22 +54,21 @@ def test(request):
                         sent.append(i)
                 request.websocket.send(str(sent[-1]+str(download.res_dict[sent[-1]])).encode('utf-8'))  # 发送消息到客户端
         if not download.status:
-            request.websocket.send('下载完成'.encode('utf-8'))</code></pre>
+            request.websocket.send('下载完成'.encode('utf-8'))
+```
 
-<p>效果图：<br /><img alt="" class="has" src="https://img-blog.csdn.net/20180921152624468?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" /></p>
+效果图
+![](1.png)
 
-<h3>详细：</h3>
+### 其他
 
-<p>dwebsocket有两种装饰器：require_websocket和accept_websocekt，使用require_websocket装饰器会导致视图函数无法接收导致正常的http请求，一般情况使用accept_websocket方式就可以了，</p>
+dwebsocket有两种装饰器：require_websocket和accept_websocekt，使用require_websocket装饰器会导致视图函数无法接收导致正常的http请求，一般情况使用accept_websocket方式就可以了。
 
-<p><strong>dwebsocket的一些内置方法：</strong></p>
-
-<p>request.is_websocket（）：判断请求是否是websocket方式，是返回true，否则返回false<br />
-request.websocket： 当请求为websocket的时候，会在request中增加一个websocket属性，<br />
-WebSocket.wait（） 返回客户端发送的一条消息，没有收到消息则会导致阻塞<br />
-WebSocket.read（） 和wait一样可以接受返回的消息，只是这种是非阻塞的，没有消息返回None<br />
-WebSocket.count_messages（）返回消息的数量<br />
-WebSocket.has_messages（）返回是否有新的消息过来<br />
-WebSocket.send（message）像客户端发送消息，message为byte类型</p>
-
-<p> </p>
+dwebsocket的一些内置方法：
+1. request.is_websocket（）：判断请求是否是websocket方式，是返回true，否则返回false
+2. request.websocket： 当请求为websocket的时候，会在request中增加一个websocket属性。
+3. WebSocket.wait（） 返回客户端发送的一条消息，没有收到消息则会导致阻塞。
+4. WebSocket.read（） 和wait一样可以接受返回的消息，只是这种是非阻塞的，没有消息返回None。
+5. WebSocket.count_messages（）返回消息的数量。
+6. WebSocket.has_messages（）返回是否有新的消息过来。
+7. WebSocket.send（message）像客户端发送消息，message为byte类型。

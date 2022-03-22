@@ -1,7 +1,14 @@
-<p>先看一下出错的代码</p>
-
-<pre class="has">
-<code class="language-python"># 中间件
+---
+title: Django使用中间件实现用户登录功能出现重复跳转的问题及解决方法
+date: 2019-09-24 19:42:49
+categories: 
+- Django
+tags:
+- bug
+---
+先看一下出错的代码
+```python
+# 中间件
 class AuthMiddleware(MiddlewareMixin):
     
     def process_request(self, request):
@@ -13,12 +20,10 @@ class AuthMiddleware(MiddlewareMixin):
             else:
                 return redirect('/oa/login')
         else:
-            return</code></pre>
+            return
 
-<p> </p>
 
-<pre class="has">
-<code class="language-python"># view
+# view
 class Login(View):
     def get(self, request):
         return render(request, 'website/signin.html')
@@ -46,18 +51,18 @@ class Dashboard(View):
         db = DataBase()
         data = db.dashboard()
         return render(request, 'website/dashboard.html', {'data': data})
-       </code></pre>
+```
 
-<p>访问效果：<br /><img alt="" class="has" height="300" src="https://img-blog.csdn.net/20180720102424649?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="530" /><br />
-登录成功之后一直出现重复的跳转问题。</p>
+访问效果
+![](1.png)
+登录成功之后一直出现重复的跳转问题。
 
-<p>我们在来重新审视一下代码：<br />
-首先我们登录成功之后访问/oa/dashboard这个页面，然后在中间间的处理过程中由于第一个if判断和第二个if判断都满足导致再次跳转到oa/dashboard页面一直重复。而且在访问其他页面的时候依然是一直跳转dashboard这个页面的，逻辑有误。</p>
+我们在来重新审视一下代码：
+首先我们登录成功之后访问/oa/dashboard这个页面，然后在中间间的处理过程中由于第一个if判断和第二个if判断都满足导致再次跳转到oa/dashboard页面一直重复。而且在访问其他页面的时候依然是一直跳转dashboard这个页面的，逻辑有误。
 
-<p>解决方法：在验证用户登录之后的session之后直接return掉而不是进行跳转。</p>
-
-<pre class="has">
-<code class="language-python">class AuthMiddleware(MiddlewareMixin):
+解决方法：在验证用户登录之后的session之后直接return掉而不是进行跳转。
+```python
+class AuthMiddleware(MiddlewareMixin):
 
     def process_request(self, request):
         if request.path != '/oa/login':
@@ -66,7 +71,6 @@ class Dashboard(View):
             else:
                 return redirect('/oa/login')
         else:
-            return</code></pre>
-
-<h2>之前逻辑没看清，现在突然发现这个问题好傻逼<br />
- </h2>
+            return
+```
+__之前逻辑没看清，现在突然发现这个问题好傻逼__
