@@ -1,296 +1,92 @@
 <!doctype html>
-<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>fanmlei`s blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="fanmlei`s blog"><meta name="msapplication-TileImage" content="/img/site/avatar.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="fanmlei`s blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta property="og:type" content="blog"><meta property="og:title" content="fanmlei`s blog"><meta property="og:url" content="https://blog.iotforfml.cn/"><meta property="og:site_name" content="fanmlei`s blog"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://blog.iotforfml.cn/img/og_image.png"><meta property="article:author" content="fanmlei"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.iotforfml.cn"},"headline":"fanmlei`s blog","image":["https://blog.iotforfml.cn/img/og_image.png"],"author":{"@type":"Person","name":"fanmlei"},"publisher":{"@type":"Organization","name":"fanmlei`s blog","logo":{"@type":"ImageObject","url":"https://blog.iotforfml.cn/img/site/avatar.png"}},"description":""}</script><link rel="icon" href="/img/site/avatar.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/site/avatar.png" alt="fanmlei`s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/fanmlei/blog"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:01:05.200Z" title="3/17/2022, 1:01:05 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:54.797Z" title="3/17/2022, 1:05:54 AM">2022-03-17</time>更新</span><span class="level-item">5 分钟读完 (大约766个字)</span></div></div><div class="content"><h3 id="EMQ%EF%BC%9A">EMQ：</h3>
-
-<p style="text-indent:50px;">现有的MQTT服务器有很多，例如Mosquitto、Apache-Apollo、EMQ等等，最后呢选择了EMQ毕，国内公司的开源产品，中文资料相对要多一些。EMQ的官网宣称是百万级分布式开源物联网MQTT消息服务器，百不百万倒无所谓，反正是给自用的没有那么多的数据产生。</p>
-
-<h3 id="%E5%AE%89%E8%A3%85%EF%BC%9A">安装：</h3>
-
-<p style="text-indent:50px;">服务器系统版本为Ubuntu14.04，首先在EMQ官网下载对应的安装包<a target="_blank" rel="noopener" href="http://emqtt.com/downloads/latest/ubuntu14_04-deb">http://emqtt.com/downloads/latest/ubuntu14_04-deb</a>，进入目录 输入命令：sudo dpkg -i emqttd-ubuntu16.04_v2.0_amd64.deb进行安装。按照官方的说明完成上述操作之后还需要安装依赖lksctp-tools库apt-get install lksctp-tools。至此MQTT服务已经搭建好了，但是还需要一些配置方可使用。</p>
-
-<h3 id="%E9%85%8D%E7%BD%AE%EF%BC%9A">配置：</h3>
-
-<p style="text-indent:50px;">EMQ提供了Web 管理控制台，默认是开启的，URL 地址: <a target="_blank" rel="noopener" href="http://localhost:18083/">http://localhost:18083</a> ，缺省用户名/密码: admin/public。登陆成功之后就能可查询 EMQ 消息服务器基本信息、统计数据、度量数据，查询系统客户端(Client)、会话(Session)、主题(Topic)、订阅(Subscription)，以及对插件的管理。</p>
-
-<p style="text-indent:50px;">插件里面我觉得最重要的应该是认证插件，当然了是可以不需要认证功能的，但是呢安全性和规范性还是需要认证功能的，EMQ提供了很种方式的认证功能，我选择MySQL认证访问插件。</p>
-
-<p style="text-indent:50px;">进入到插件管理页面，打开MySQL配置，第一步填写 MySQL数据库的相关信息，还需要注意一下要把加密方式给去掉，这样连接的时候要方便一些。完成这些配置之后要到MySQL对应的数据库创建用户和访问控制表：</p>
-
-<pre class="has">
-<code class="language-sql">CREATE TABLE `mqtt_user` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(100) DEFAULT NULL,
-  `password` varchar(100) DEFAULT NULL,
-  `salt` varchar(35) DEFAULT NULL,
-  `is_superuser` tinyint(1) DEFAULT 0,
-  `created` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `mqtt_username` (`username`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;</code></pre>
-
-<pre class="has">
-<code class="language-sql">CREATE TABLE `mqtt_acl` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `allow` int(1) DEFAULT NULL COMMENT '0: deny, 1: allow',
-  `ipaddr` varchar(60) DEFAULT NULL COMMENT 'IpAddress',
-  `username` varchar(100) DEFAULT NULL COMMENT 'Username',
-  `clientid` varchar(100) DEFAULT NULL COMMENT 'ClientId',
-  `access` int(2) NOT NULL COMMENT '1: subscribe, 2: publish, 3: pubsub',
-  `topic` varchar(100) NOT NULL DEFAULT '' COMMENT 'Topic Filter',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-INSERT INTO `mqtt_acl` (`id`, `allow`, `ipaddr`, `username`, `clientid`, `access`, `topic`)
-VALUES
-    (1,1,NULL,'$all',NULL,2,'#'),
-    (2,0,NULL,'$all',NULL,1,'$SYS/#'),
-    (3,0,NULL,'$all',NULL,1,'eq #'),
-    (5,1,'127.0.0.1',NULL,NULL,2,'$SYS/#'),
-    (6,1,'127.0.0.1',NULL,NULL,2,'#'),
-    (7,1,NULL,'dashboard',NULL,1,'$SYS/#');</code></pre>
-
-<p style="text-indent:50px;">为了测试方便先在用户表里面插入一个测试账户信息，例如username：admin 、password：123456，至此认证功能基本上配置好了。</p>
-
-<h3 id="%E6%B5%8B%E8%AF%95%EF%BC%9A">测试：</h3>
-
-<p style="text-indent:50px;">现在还没有完成硬件部分的设计，只能通过EMQ提供的Websocket工具来测试连通性，打开websocket页面，填写好之前在用户表里面的账户和密码，点击连接测试能否连接成功，如果成功了那么整个MQTT服务的搭建也就顺利完成了。</p>
-
-<p style="text-indent:50px;"> </p>
-
-<p style="text-indent:50px;"> </p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:01:03.989Z" title="3/17/2022, 1:01:03 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:53.585Z" title="3/17/2022, 1:05:53 AM">2022-03-17</time>更新</span><span class="level-item">5 分钟读完 (大约675个字)</span></div></div><div class="content"><h3>搭建开发环境：</h3>
-
-<p style="text-indent:50px;">在开篇的时候就说过硬件部分会使用Arduino平台和NodeMCU，只是Arduino平台不能直接对NodeMCU进开发，正好换电脑了也需要重新安装一遍，就顺便说一下。</p>
-
-<p style="text-indent:50px;">首先下载ArduinoIDE安装包官网太慢可以用这个链接：<a target="_blank" rel="noopener" href="https://coding.net/u/coloz/p/arduino-installer/git/raw/master/1.8.7/arduino-1.8.7-windows.exe">Arduino 1.8.7</a>我使用的版本是1.8.7，安装完成之后进入到首选项在附加开发板管理器网址处填写：<a target="_blank" rel="noopener" href="http://arduino.esp8266.com/stable/package_esp8266com_index.json">http://arduino.esp8266.com/stable/package_esp8266com_index.json</a></p>
-
-<p style="text-align:center;"><img alt="" class="has" height="156" src="https://img-blog.csdnimg.cn/20181104030952144.png" width="712" /></p>
-
-<p style="text-indent:50px;"> </p>
-
-<p style="text-indent:50px;">填写完成之后关闭重启，在工具→开发板→开发板管理器中搜索ESP8266，下载安装，这一步可能会比较慢要等待一段时间。</p>
-
-<p style="text-align:center;"><img alt="" class="has" height="232" src="https://img-blog.csdnimg.cn/20181104031257122.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="951" /></p>
-
-<p style="text-indent:50px;">开发板添加完成之后，再次打开开发板会多出很多型号的开发板，其中就包括我们使用的NodeMCU，关于0.9和1.0两个暂时不知道有什么区别，应该是使用的ESP芯片型号的不同，目前来说选这两个中的任意一个都没有问题。至此NodeMCU开发环境搭建完成了。</p>
-
-<p style="text-align:center;"><img alt="" class="has" height="335" src="https://img-blog.csdnimg.cn/20181104031528431.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="301" /></p>
-
-<h3 style="text-indent:0px;">连接测试：</h3>
-
-<p style="text-indent:50px;">物联网协议采用的是MQTT，本着不造轮子的原则，先看一下有没有对应的库可以使用，在项目→加载库→管理库搜索MQTT，会出现一大堆各种各样的库，根据使用的广泛程度最后选择PubSubClient，点击安装。</p>
-
-<p style="text-align:center;"><img alt="" class="has" height="186" src="https://img-blog.csdnimg.cn/20181104032336364.png" width="931" /></p>
-
-<p style="text-indent:50px;">安装成功后，在文件→示例中可以找到PubSubClient的一些使用例程，选择mqtt_esp8266打开，这个就是需要用到的测试代码。</p>
-
-<p style="text-align:center;"><img alt="" class="has" height="167" src="https://img-blog.csdnimg.cn/20181104032509898.png" width="633" /></p>
-
-<p style="text-indent:50px;">当然呢，代码需要简单的修改一下才可以使用，不出意外按照下面的修改应该是能连接成功的。点击上传等到代码烧录到NodeMCU中。</p>
-
-<pre class="has">
-<code class="language-cpp">//分别填写WIFI名、密码、mqtt服务器IP
-const char* ssid = "........";
-const char* password = "........";
-const char* mqtt_server = "broker.mqtt-dashboard.com";
-
-//由于我们之前mqtt服务器开启了认证功能，这里连接的时候还需要携带用户名和密码
-//大概在95行附近
-if (client.connect("NodeMCU","admin","123456")) &#123;
-
-//如果返回值为4需要检查一下用户名和密码是否正确</code></pre>
-
-<p style="text-indent:50px;">打开串口监视器，如果连接成功会得到下图信息。如果有错根据返回码去查看MQTT连接返回码对应什么问题在一步一步排查。至此硬件于MQTT服务器的连接测试完成，接下来应该会是后台的搭建，也是最困难的一步了。</p>
-
-<p style="text-align:center;"><img alt="" class="has" height="259" src="https://img-blog.csdnimg.cn/20181104033727715.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="840" /></p>
-
-<p><img alt="" class="has" height="350" src="https://img-blog.csdnimg.cn/20181104033847740.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" /></p>
-
-<p> </p>
-
-<p style="text-indent:50px;"> </p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:01:02.779Z" title="3/17/2022, 1:01:02 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:52.299Z" title="3/17/2022, 1:05:52 AM">2022-03-17</time>更新</span><span class="level-item">5 分钟读完 (大约731个字)</span></div></div><div class="content"><h3>$SYS-系统主题</h3>
-
-<p style="text-indent:50px;">先来看一段EMQ对于系统主题的介绍：EMQ 消息服务器周期性发布自身运行状态、MQTT 协议统计、客户端上下线状态到 $SYS/ 开头系统主题。$SYS 主题路径以 “$SYS/brokers/{node}/” 开头，’${node}’ 是 Erlang 节点名称</p>
-
-<p style="text-indent:50px;">系统主题主要包括一下几大部分：<br />
-               1 ：服务器版本、启动时间与描述消息<br />
-               2 ：MQTT 客户端上下线状态消息<br />
-               3 ：系统统计消息</p>
-
-<p style="text-indent:50px;">详细的介绍请看EMQ官方文档：<a target="_blank" rel="noopener" href="http://www.emqtt.com/docs/v2/guide.html#sys">http://www.emqtt.com/docs/v2/guide.html#sys</a>，就目前来说呢好像只有上下线状态有点用，另外两个以后要是用到了在详细说明。</p>
-
-<p style="text-indent:50px;">客户端上下线状态消息的$SYS 主题前缀为: $SYS/brokers/${node}/clients/，可选择具体客户端${clientid}/connected的上下线消息，也可以选择所有设备的上下线消息：#，这里选择接收说有设备的上下线消息，那么需要订阅的主题为$SYS/brokers/emq@127.0.0.1/clients/#</p>
-
-<h3>修改访问控制规则</h3>
-
-<p style="text-indent:50px;">EMQ默认情况下只有本地的dashboard才能订阅系统消息，因此还需要对EMQ配置做一些修改。方法很简单，以linux系统为例，首先进入到/etc/emqttd/目录下，找到acl.conf文件， 使用vim打开编辑<br /><img alt="" class="has" height="41" src="https://img-blog.csdnimg.cn/2018110417264799.png" width="440" /></p>
-
-<p style="text-indent:50px;">在文本末尾增加<span style="color:#f33b45;">{allow, all, subscribe, ["$SYS/brokers/+/clients/#"]}. </span> 这一行的意思就是允许所有设备订阅$SYS/brokers/+/clients/#主题，也就是所有设备都能获取到其他设备的上下线消息，这里只是为了测试方便，以后为了安全考虑这部分可能会做出修改，保存退出，使用emqttd restart命令重启mqtt服务，至此控制访问规则的编辑完成。<br /><img alt="" class="has" height="164" src="https://img-blog.csdnimg.cn/20181104172921446.png" width="778" /></p>
-
-<h3>测试代码</h3>
-
-<p style="text-indent:50px;">这里我使用python进行编写，用的了paho-mqtt库实现mqtt通信，因为代码不是很复杂，暂时先不展看说明paho-mqtt的使用。通过订阅$SYS/brokers/emq@127.0.0.1/clients/#主题即可接收到其他设备上下线的消息</p>
-
-<pre class="has">
-<code class="language-python">import paho.mqtt.client as mqtt
-
-def on_connect(client, userdata, flags, rc):
-    print("Connected with result code " + str(rc))
-    client.subscribe("$SYS/brokers/emq@127.0.0.1/clients/#")
-
-def on_message(client, userdata, msg):
-    print(msg.topic + " " + str(msg.payload))
-
-client = mqtt.Client(client_id='python_test')
-client.username_pw_set('*****', '*****')  # 设置连接用户名
-client.on_connect = on_connect
-client.on_message = on_message
-
-client.connect("your ip address", 1883, 60)
-
-client.loop_forever()</code></pre>
-
-<p style="text-indent:50px;">运行这段代码，然后呢使用EMQ提供的websocket方式新建一个连接然后断开，看一下在控制台是否能够接收到上下线消息。如果成功将收到分别是上线和下线两条消息，不成功的话那就先在Dashboard的订阅页面查看是否成功订阅了系统消息。</p>
-
-<p style="text-align:center;"><img alt="" class="has" height="87" src="https://img-blog.csdnimg.cn/2018110417530639.png" width="1200" /></p>
-
-<p style="text-align:center;"><img alt="" class="has" height="155" src="https://img-blog.csdnimg.cn/20181104175511362.png" width="1177" /></p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:01:01.611Z" title="3/17/2022, 1:01:01 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:51.090Z" title="3/17/2022, 1:05:51 AM">2022-03-17</time>更新</span><span class="level-item">3 分钟读完 (大约440个字)</span></div></div><div class="content"><h3>数据库的设计：</h3>
-
-<p style="text-indent:50px;">后台使用Django web框架实现，Django和python怎么用就不介绍了，东西太多了，看完下面的这些博客就可以了，差不多就够了<a target="_blank" rel="noopener" href="https://www.cnblogs.com/wupeiqi/articles/4938499.html">https://www.cnblogs.com/wupeiqi/articles/4938499.html</a></p>
-
-<ol><li style="text-indent:0px;">数据库设计：<br />
-            我是这样想的，首先会有一个主账户，也是登陆网站的账户，其下可创建设备，每个设备又都可以创建不同的数据流，数据流由设备publish的主题来区分，数据流又由设备发送过来的一个一个的数据点组成，这样一来共需要4张表存放信息，每张表又和下一级一对多的关系。<img alt="" class="has" height="363" src="https://img-blog.csdnimg.cn/20181105155945264.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="751" /></li>
-    <li style="text-indent:0px;">使用Django models创建表结构，代码先不放上来因为后期可能会不断的调整，等项目整个完成之后再开源出来。对应的ER图如下
-    <p style="text-align:center;"><img alt="" class="has" height="393" src="https://img-blog.csdnimg.cn/2018110515492943.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="861" /></p>
-    </li>
-</ol><h3 style="text-indent:0px;">EMQ的MySQL插件配置：</h3>
-
-<p style="text-indent:50px;">之前我们使用MySQL认证的时候使用的是官方给的示例数据库结构，现在为了和后台服务整合到一起还需要再次修改，首先打开dashboard的MySQL插件配置，只需要对两处进行修改，第一处修改认证使用的数据库，第二处修改认证的查询语句。示例：select password from website_userinfo where user_id = '%u' limit 1，修改完成后保存退出，重启插件。</p>
-
-<p style="text-align:center;"><img alt="" class="has" height="106" src="https://img-blog.csdnimg.cn/20181105161204211.png" width="542" /></p>
-
-<p style="text-align:center;"><img alt="" class="has" height="109" src="https://img-blog.csdnimg.cn/2018110516132420.png" width="505" /></p>
-
-<h3 style="text-indent:0px;">连接验证：</h3>
-
-<p style="text-indent:50px;">在连接之前需要先在数据库里面创建一些伪造数据，在website_userinfo里面插入user_id=678518606，password=123然后使用EMQ的websocket连接测试，连接成功则上述的修改完成。</p>
-
-<p style="text-align:center;"><img alt="" class="has" height="351" src="https://img-blog.csdnimg.cn/2018110516380229.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="1056" /></p>
-
-<p style="text-indent:50px;"> </p>
-
-<p style="text-indent:50px;"> </p>
-
-<p style="text-indent:50px;"> </p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:01:00.395Z" title="3/17/2022, 1:01:00 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:49.921Z" title="3/17/2022, 1:05:49 AM">2022-03-17</time>更新</span><span class="level-item">10 分钟读完 (大约1455个字)</span></div></div><div class="content"><h3>遇到的问题：</h3>
-
-<p style="text-indent:50px;">查看了EMQ文档发现并不提供消息的持久化功能，MQTT协议是按照设备一直在线设计的，数据都是保存在内存里的，但是考虑到用户上传传感器数据不可能接收了就扔掉，那样就没法查看历史数据了，所以用户上传的消息必须要能够保存下来，以便查看历史数据，这样一来持久化功能就需要我们自己来实现。</p>
-
-<p style="text-indent:50px;">另外还会出现一个问题，当两个设备注册的主题名一样的时候，不能分出是哪一个设备发出的消息，在接收订阅消息的时候发现没办法获取到发送消息的clientID，而且其他设备也可以订阅到任意设备的消息，对于敏感信息来说存在安全性。</p>
-
-<h3>解决方法：</h3>
-
-<p style="text-indent:50px;">初步打算是，用户需要在后台注册自己的设备和数据流信息，后台会对所有注册的信息进行订阅接收到消息后，后台会把消息写入到对应的表中，另外设备发布主题只能使用（clientID/主题名）命名方式，以便后台能够区分是哪一个设备发送过来的消息。对于MQTT了解还是不够深，只能使用这样的笨办法来解决了，以后若是找到其他的方法在进行改进。</p>
-
-<h3>解决问题：</h3>
-
-<p style="text-indent:50px;">首先需要通过python建立mqtt连接监听所有注册的主题信息，这里使用了paho-mqtt库来实现，为了方便以后的调用将其封装成一个类，最开始的时候想把一些常用的操作也封装进去，单独测试完全可以，但是一旦放到Django请求中处理的时候，mqtt能够正常返回成功信息，但是实际上并没有正确执行，这一点始终没有找到原因，最终只能简化，只包含最基础的功能。</p>
-
-<pre class="has">
-<code class="language-python">class MqClient(object):
-    def __init__(self, client_id, username, password):
-        self.client = client.Client(client_id=client_id,
-                                    clean_session=True)  # 初始化,clean_session为false的时候EMQ会保存订阅状态，可以不再次订阅
-        self.client.username_pw_set(username, password)  # 设置连接用户名
-        self.client.on_connect = self.on_connect
-        self.client.on_message = self.on_message
-        self._client_status = False  # 连接状态
-        self._cloop = None
-        self._connect()  # 实例化会自动连接
-
-    def _connect(self, host="your IP ", port=1883, keepalive=60):
-        """连接服务器"""
-        self.client.connect_async(host, port, keepalive)
-        # 开启线程执行
-        self._cloop = threading.Thread(target=self.client.loop_start())
-        self._cloop.start()
-
-    def on_connect(self, client, userdata, flags, rc):
-        """连接成功的回调函数"""
-        # 修改客户端状态
-        if rc == 0:
-            self._client_status = True
-
-    def init_sub(self):
-        # 读取数据库中所有的已经注册过的topic并且订阅
-        for i in models.Device.objects.all():
-            for j in i.dev_stream.all():
-                self.client.subscribe(str(i.device_id) + '/' + j.name, j.qos)
-
-    @staticmethod
-    def on_message(client, userdata, msg):
-        client_id = msg.topic.split('/')[0]
-        stream = msg.topic.split('/')[1]
-        data = msg.payload.decode()
-        # 接收订阅信息写入到数据库中
-        models.DataStream.objects.filter(device__device_id=client_id).filter(name=stream).first().data.add(
-            models.Data.objects.create(data=data))</code></pre>
-
-<p style="text-indent:50px;">有了封装好的类，现在我们需要做的是：在Django项目启动完成之后自动执行监听任务的，最开始的时候打算放到setting或者__init__里面，但是因为类里面封装了model操作，那时候项目还没有加载完model会报错，所以最终新建了一个app，然后放到其下的urls，这样当项目启动完成的时候就会自动加载了。</p>
-
-<pre class="has">
-<code>from utils.mqtt_client import MqClient
-
-MQClient = MqClient(your client ID, username, password)
-MQClient.init_sub()</code></pre>
-
-<p style="text-indent:50px;">接下来测试一下实时新增订阅的功能，先从urls文件导入示例化之后的对象，调用client的subscribe方法</p>
-
-<pre class="has">
-<code class="language-python">from mqtt.urls import MQClient
-class Test(APIView):
-    def post(self, request):
-        topic = request.POST.get('topic')
-        qos = int(request.POST.get('qos'))
-        if topic:
-            MQClient.client.subscribe(topic,qos)
-        return HttpResponse("ok")</code></pre>
-
-<p style="text-align:center;"><img alt="" class="has" height="100" src="https://img-blog.csdnimg.cn/20181107111120198.png" width="1173" /></p>
-
-<p style="text-align:center;"><img alt="" class="has" height="86" src="https://img-blog.csdnimg.cn/20181107111210936.png" width="998" /></p>
-
-<p style="text-indent:50px;">最后就剩下把数据存入数据库中了，这个操作已经写在那个类中了。简单说明一下 ，当paho接收了mqtt请求的时候会产生一个回调，执行下面这个函数，接收到的类容包含在msg中，msg主要有topic和payload两个属性，topic是订阅的主题名，payload则是具体的消息内容，按照之前的规定，主题名为client/stream，对topic内容拆分获取到client_id和stream，最后就是数据库的插入操作了，涉及到多表操作，简单点说就是，先插入一个data数据，然后根据client_id和stream来确定stream，最后再通过add方法将两者关联起来，这样就完成了消息的保存了。</p>
-
-<pre class="has">
-<code class="language-python">def on_message(client, userdata, msg):
-        client_id = msg.topic.split('/')[0]
-        stream = msg.topic.split('/')[1]
-        data = msg.payload.decode()
-        # 接收订阅信息写入到数据库中
-        models.DataStream.objects.filter(device__device_id=client_id).filter(name=stream).first().data.add(
-            models.Data.objects.create(data=data))</code></pre>
-
-<p style="text-indent:50px;">测试一下，数据库里面已经准备一些client和stream数据，还是使用EMQ的websocket来测试，发送主题为123456/hum，消息内容为654321，在来看一下数据库中数据是否插入成功。</p>
-
-<p style="text-indent:50px;"> </p>
-
-<p style="text-align:center;"><img alt="" class="has" height="140" src="https://img-blog.csdnimg.cn/20181107113047550.png" width="785" /></p>
-
-<div style="text-align:center;">
-<figure class="image"><img alt="" height="51" src="https://img-blog.csdnimg.cn/20181107113809200.png" width="561" /><figcaption>data表</figcaption></figure></div>
-
-<div style="text-align:center;">
-<figure class="image"><img alt="" height="85" src="https://img-blog.csdnimg.cn/20181107113844420.png" width="822" /><figcaption>stream表</figcaption></figure></div>
-
-<div style="text-align:center;">
-<figure class="image"><img alt="" height="64" src="https://img-blog.csdnimg.cn/20181107113941992.png" width="536" /><figcaption>stream和data关联表</figcaption></figure></div>
-
-<p style="text-indent:50px;"> </p>
-
-<h3 style="text-indent:0px;">更新：</h3>
-
-<p style="text-indent:50px;">最终对这一部分做了修改，没有将MQTT相关的东西放到Django里面，独立出来了，这样也方便日后的扩展和管理，数据库操作改用了sqlachemy实现，其他内容基本不变</p>
-
-<p style="text-indent:50px;"> </p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:59.196Z" title="3/17/2022, 1:00:59 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:48.629Z" title="3/17/2022, 1:05:48 AM">2022-03-17</time>更新</span><span class="level-item">7 分钟读完 (大约1000个字)</span></div></div><div class="content"><h3>摘要：</h3>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>fanmlei`s blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="fanmlei`s blog"><meta name="msapplication-TileImage" content="/img/site/avatar.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="fanmlei`s blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta property="og:type" content="blog"><meta property="og:title" content="fanmlei`s blog"><meta property="og:url" content="https://blog.iotforfml.cn/"><meta property="og:site_name" content="fanmlei`s blog"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://blog.iotforfml.cn/img/og_image.png"><meta property="article:author" content="fanmlei"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.iotforfml.cn"},"headline":"fanmlei`s blog","image":["https://blog.iotforfml.cn/img/og_image.png"],"author":{"@type":"Person","name":"fanmlei"},"publisher":{"@type":"Organization","name":"fanmlei`s blog","logo":{"@type":"ImageObject","url":"https://blog.iotforfml.cn/img/site/avatar.png"}},"description":""}</script><link rel="icon" href="/img/site/avatar.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/site/avatar.png" alt="fanmlei`s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/fanmlei/blog"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-12-16T18:21:08.000Z" title="12/17/2018, 2:21:08 AM">2018-12-17</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/">未分类</a></span><span class="level-item">2 分钟读完 (大约362个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/12/17/%E4%BD%BF%E7%94%A8CDN%E4%BC%98%E5%8C%96%E9%A6%96%E9%A1%B5%E5%8A%A0%E8%BD%BD%E9%80%9F%E5%BA%A6/">使用CDN优化首页加载速度</a></h1><div class="content"><p>之前使用vue构建的前端页面每次加载都需要十几秒的时间，最初的时候因为浏览器有缓存一直没有发现这个问题，后来换用设备访问的时候才发现。不想花费太多的时间去优化vue的代码，感觉作用不大，毕竟服务器带宽只有1M，再怎么压缩文件大小都需要很长时间传输，所以使用CDN去加速静态资源</p>
+
+<p>先看一下之前的加载速度，简直惨不忍睹<img alt="" class="has" height="69" src="https://img-blog.csdnimg.cn/20181217200021726.png" width="850" /></p>
+
+<p>首先需要在云服务商那购买CDN服务，我的服务器是腾讯云的正好腾讯云也有免费的CDN可以试用，购买环节跳过。</p>
+
+<p>要使用CDN服务首先需要在域名管理处添加域名：</p>
+
+<p><img alt="" class="has" height="103" src="https://img-blog.csdnimg.cn/20181217200522978.png" width="800" /></p>
+
+<p>域名配置需要按照自己的服务器填写，加速服务的配置看自己的需求了，一般来说选择css、js、和图片资源就够了<img alt="" class="has" height="407" src="https://img-blog.csdnimg.cn/20181217200806211.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="700" /></p>
+
+<p>提交配置等待几分钟后在域名管理处查看CNAME<img alt="" class="has" height="61" src="https://img-blog.csdnimg.cn/20181217201433716.png" width="850" /></p>
+
+<p>接下来需要配置DNS解析服务<br />
+在开启的时候如果出现冲突，按照提示关闭另外的一个即可<br /><img alt="" class="has" height="56" src="https://img-blog.csdnimg.cn/20181217201655175.png" width="850" /></p>
+
+<p>至此CDN的配置完成了，如果访问还是很慢先去CDN刷新缓存检查一下</p>
+
+<p>最后的成果：1.16秒</p>
+
+<p><img alt="" class="has" height="106" src="https://img-blog.csdnimg.cn/20181217202537753.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="850" /></p>
+
+<p> </p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-12-14T11:42:49.000Z" title="12/14/2018, 7:42:49 PM">2018-12-14</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/Django/">Django</a></span><span class="level-item">3 分钟读完 (大约517个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/12/14/Django%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E4%BD%86%E6%98%AF%E4%B8%8D%E4%BC%9A%E6%98%BE%E7%A4%BA%E5%87%BA%E6%9D%A5%EF%BC%9F%EF%BC%9F%EF%BC%9F/">Django页面跳转但是不会显示出来？？？</a></h1><div class="content"><p>一脸懵逼，点击登录，如果错了会有提示，但是登录成功了后台会显示跳转到dashboard上，也能正常获取到cookie，但是就是页面不会变化，单独访问dashboard也是正常的。<br>问题代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># login   </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Login</span>(<span class="title class_ inherited__">View</span>):</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    用户登录</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get</span>(<span class="params">self, request</span>):</span><br><span class="line">        <span class="keyword">return</span> render(request, <span class="string">&#x27;website/signin.html&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">post</span>(<span class="params">self, request</span>):</span><br><span class="line">        res = &#123;<span class="string">&#x27;status&#x27;</span>: <span class="string">&#x27;succ&#x27;</span>&#125;</span><br><span class="line">        user_name = request.POST.get(<span class="string">&quot;name&quot;</span>, <span class="literal">None</span>)</span><br><span class="line">        password = request.POST.get(<span class="string">&quot;password&quot;</span>, <span class="literal">None</span>)</span><br><span class="line">        u = models.WebsiteUserinfo.objects.<span class="built_in">filter</span>(username=user_name).first()</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> u:</span><br><span class="line">            res[<span class="string">&#x27;status&#x27;</span>] = <span class="string">&#x27;用户名错误&#x27;</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> password == u.password:</span><br><span class="line">                <span class="comment"># re = render(request,&#x27;website/dashboard.html&#x27;)</span></span><br><span class="line">                re = redirect(<span class="string">&#x27;/oa/dashboard&#x27;</span>)</span><br><span class="line">                re.set_cookie(<span class="string">&#x27;is_log&#x27;</span>, <span class="literal">True</span>)  <span class="comment"># 设置cookie</span></span><br><span class="line">                re.set_cookie(<span class="string">&#x27;username&#x27;</span>, user_name)</span><br><span class="line">                <span class="keyword">return</span> re</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                res[<span class="string">&#x27;status&#x27;</span>] = <span class="string">&#x27;密码错误&#x27;</span></span><br><span class="line">        <span class="keyword">return</span> HttpResponse(json.dumps(res), content_type=<span class="string">&quot;application/json&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#  dashboard</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Dashboard</span>(<span class="title class_ inherited__">View</span>):</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    主页</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get</span>(<span class="params">self, request</span>):</span><br><span class="line">        <span class="built_in">print</span>(request.COOKIES[<span class="string">&#x27;username&#x27;</span>])</span><br><span class="line">        <span class="keyword">return</span> render(request, <span class="string">&#x27;../templates/website/dashboard.html&#x27;</span>, &#123;<span class="string">&#x27;auth&#x27;</span>: <span class="string">&#x27;1234&#x27;</span>&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#  路由配置</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url,include</span><br><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> website <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r&#x27;^admin/&#x27;</span>, admin.site.urls),</span><br><span class="line">    url(<span class="string">r&#x27;^$&#x27;</span>,views.init),</span><br><span class="line">    url(<span class="string">r&#x27;^oa/&#x27;</span>, include(<span class="string">&#x27;website.urls&#x27;</span>)),</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url</span><br><span class="line"><span class="keyword">from</span> website <span class="keyword">import</span> views</span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r&#x27;^dashboard&#x27;</span>, views.Dashboard.as_view()),</span><br><span class="line">    url(<span class="string">r&#x27;^realtime_table&#x27;</span>, views.RealTimeTable.as_view()),</span><br><span class="line">    url(<span class="string">r&#x27;^everyday_table&#x27;</span>, views.EveryDayTable.as_view()),</span><br><span class="line">    url(<span class="string">r&#x27;^login&#x27;</span>, views.Login.as_view()),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>后台输出：<br><img src="/2018/12/14/Django%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E4%BD%86%E6%98%AF%E4%B8%8D%E4%BC%9A%E6%98%BE%E7%A4%BA%E5%87%BA%E6%9D%A5%EF%BC%9F%EF%BC%9F%EF%BC%9F/1.png"></p>
+<p>解决问题<br>注意力一直放在后台上了，之前是通过session保存用户状态的，现在需要改为cookie验证，如果要设置cookie返回类型必须为render，redirect，因此就将原来登录成功返回json改为了redirect，但是没有想到的是前端是通过Ajax发送消息的，无法识别返回类型，就导致了登录成功了却没有反应。总结来说是一个很、非常、超级低端的问题，只怪自己想当然的修改。</p>
+<p>还是返回json格式，让js去设置cookie</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">login</span>(<span class="params"></span>) &#123;</span><br><span class="line">    $.<span class="title function_">ajax</span>(&#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&quot;POST&quot;</span>,<span class="comment">//方法类型</span></span><br><span class="line">        <span class="attr">dataType</span>: <span class="string">&quot;json&quot;</span>,<span class="comment">//预期服务器返回的数据类型</span></span><br><span class="line">        <span class="attr">url</span>: <span class="string">&quot;/oa/login&quot;</span>,<span class="comment">//url</span></span><br><span class="line">        <span class="attr">data</span>: $(<span class="string">&#x27;#login_form&#x27;</span>).<span class="title function_">serialize</span>(),</span><br><span class="line">        <span class="attr">success</span>: <span class="keyword">function</span> (<span class="params">data</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (data[<span class="string">&#x27;status&#x27;</span>] != <span class="string">&quot;succ&quot;</span>)&#123;</span><br><span class="line">                <span class="title function_">alert</span>(data[<span class="string">&#x27;status&#x27;</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (data[<span class="string">&#x27;status&#x27;</span>] == <span class="string">&quot;succ&quot;</span>)&#123;</span><br><span class="line">                <span class="keyword">var</span> name = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;u1&#x27;</span>).<span class="property">value</span>;</span><br><span class="line">                <span class="variable language_">document</span>.<span class="property">cookie</span>=<span class="string">&quot;is_log=True;&quot;</span>;</span><br><span class="line">                <span class="variable language_">document</span>.<span class="property">cookie</span>=<span class="string">&quot;username=&quot;</span>+name;</span><br><span class="line">                <span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">href</span>=<span class="string">&#x27;/oa/dashboard&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-12-14T11:42:49.000Z" title="12/14/2018, 7:42:49 PM">2018-12-14</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/Docker/">Docker</a></span><span class="level-item">2 分钟读完 (大约300个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/12/14/Docker%E5%91%BD%E4%BB%A4/">Docker命令</a></h1><div class="content"><p>安装 apt-get install docker.io</p>
+<p>获取镜像：docker pull <name></p>
+<p>运行一个容器： docker run &lt;参数&gt; <image name><br>常见的参数</p>
+<ol>
+<li>-d, –detach&#x3D;false 指定容器运行于前台还是后台，默认为false</li>
+<li>-i, –interactive&#x3D;false， 打开STDIN，用于控制台交互</li>
+<li>-t, –tty&#x3D;false， 分配tty设备，该可以支持终端登录，默认为false</li>
+<li>-u, –user&#x3D;””， 指定容器的用户</li>
+<li>-a, –attach&#x3D;[]， 登录容器（必须是以docker run -d启动的容器）</li>
+<li>-w, –workdir&#x3D;””， 指定容器的工作目录</li>
+<li>-c, –cpu-shares&#x3D;0， 设置容器CPU权重，在CPU共享场景使用</li>
+<li>-e, –env&#x3D;[]， 指定环境变量，容器中可以使用该环境变量</li>
+<li>-m, –memory&#x3D;””， 指定容器的内存上限</li>
+<li>-P, –publish-all&#x3D;false， 指定容器暴露的端口</li>
+<li>-p, –publish&#x3D;[]， 指定容器暴露的端口</li>
+<li>-h, –hostname&#x3D;””， 指定容器的主机名<br>13。 -v, –volume&#x3D;[]， 给容器挂载存储卷，挂载到容器的某个目录</li>
+</ol>
+<p>将容器变为镜像 ： docker commit -a “creator name” -m “information”  containerID   imagename:tag</p>
+<p>删除单个容器：docker rm containerID </p>
+<p>删除所有容器：docker rm $(docker ps -a -q)</p>
+<p>删除镜像：docker rmi imageID  &#x2F;  docker rmi imageName:Tag</p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-11-25T09:39:25.000Z" title="11/25/2018, 5:39:25 PM">2018-11-25</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/Python/">Python</a><span> / </span><a class="link-muted" href="/categories/Python/%E7%AE%97%E6%B3%95/">算法</a></span><span class="level-item">2 分钟读完 (大约253个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/11/25/%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%9A%E7%9B%B4%E6%8E%A5%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/">常用排序算法：直接选择排序</a></h1><div class="content"><h3 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h3><p>第 1 趟，在待排序记录 r1 ~ r[n]中选出最小的记录，将它与 r1 交换；第 2 趟， 在待排序记录 r2 ~ r[n]中选出最小的记录，将它与 r2 交换；以此类推，第 i 趟在待排序 记录 r[i] ~ r[n]中选出最小的记录，将它与 r[i]交换，使有序序列不断增长直到全部排序 完毕。</p>
+<p>例如[2, 4, 3, 1, 0]，第一趟找到最小值为0，将0和第一位交换，得到[0, 4, 3, 1, 2]，第二趟从[4, 3, 1, 2]中找到最小值1，再和第一位交换得到[0, 1, 3, 4, 2]，以此类推知道排序完成。</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">select_sort</span>(<span class="params">nums</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):  <span class="comment"># 第i趟开始时 无序区为：[i:]</span></span><br><span class="line">        min_pos = i  <span class="comment"># 最小值位置</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i + <span class="number">1</span>, <span class="built_in">len</span>(nums)):  <span class="comment"># 在无序区里面找最小值，并记录位置</span></span><br><span class="line">            <span class="keyword">if</span> nums[j] &amp;lt; nums[min_pos]:</span><br><span class="line">                min_pos = j</span><br><span class="line">        nums[min_pos], nums[i] = nums[i], nums[min_pos]  <span class="comment"># 交换</span></span><br><span class="line">        <span class="built_in">print</span>(nums)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">select_sort([<span class="number">2</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">0</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># [0, 4, 3, 1, 2]</span></span><br><span class="line"><span class="comment"># [0, 1, 3, 4, 2]</span></span><br><span class="line"><span class="comment"># [0, 1, 2, 4, 3]</span></span><br><span class="line"><span class="comment"># [0, 1, 2, 3, 4]</span></span><br><span class="line"><span class="comment"># [0, 1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-11-24T09:39:25.000Z" title="11/24/2018, 5:39:25 PM">2018-11-24</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/Python/">Python</a><span> / </span><a class="link-muted" href="/categories/Python/%E7%AE%97%E6%B3%95/">算法</a></span><span class="level-item">2 分钟读完 (大约240个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/11/24/%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%9A%E7%9B%B4%E6%8E%A5%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/">常用排序算法：直接插入排序</a></h1><div class="content"><h3 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h3><p>插入排序就跟我们打扑克抽牌是一样的形式，每次新抽的牌插入到已有的有序牌中，是牌始终保持有序状态，例如[1,3, 2,4,0] 数组，先将1作为起始牌，下一张牌为3，第一趟完成后变成[1, 3]有序数组和[2,4,0]无序数组，接下来插入2，有序数组变成[1,2,3]，无序数组变成[4,0]，以此类推知道将所有的无序数组都插入完毕就能完成排序操作。</p>
+<p>插入排序算法适用于少量数据的排序，时间复杂度为 O(n^2)。是一种稳定的排序方法。</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">insert_sort</span>(<span class="params">nums</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="built_in">len</span>(nums)):  <span class="comment"># 无序区[i:]</span></span><br><span class="line">        temp = nums[i]  <span class="comment"># 无序区的第一个数</span></span><br><span class="line">        j = i - <span class="number">1</span>  <span class="comment"># 有序区的最后一个</span></span><br><span class="line">        <span class="keyword">while</span> j &amp;gt;= <span class="number">0</span> <span class="keyword">and</span> nums[j] &amp;gt; temp:  <span class="comment"># 执行插入操作</span></span><br><span class="line">            nums[j+<span class="number">1</span>] = nums[j] </span><br><span class="line">            j -= <span class="number">1</span></span><br><span class="line">        nums[j+<span class="number">1</span>] = temp</span><br><span class="line">        <span class="built_in">print</span>(nums)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">insert_sort([<span class="number">1</span>,<span class="number">3</span>, <span class="number">2</span>,<span class="number">4</span>,<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># [1, 3, 2, 4, 0]</span></span><br><span class="line"><span class="comment"># [1, 2, 3, 4, 0]</span></span><br><span class="line"><span class="comment"># [1, 2, 3, 4, 0]</span></span><br><span class="line"><span class="comment"># [0, 1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-11-24T09:39:25.000Z" title="11/24/2018, 5:39:25 PM">2018-11-24</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/Python/">Python</a><span> / </span><a class="link-muted" href="/categories/Python/%E7%AE%97%E6%B3%95/">算法</a></span><span class="level-item">3 分钟读完 (大约456个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/11/24/%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%9A%E6%A1%B6%E6%8E%92%E5%BA%8F/">常用排序算法：桶排序</a></h1><div class="content"><h3 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h3><p>我们之前提到过计数排序，计数排序在某些情况下并不太适合，例如元素范围太大的情况，桶排序算是对于计数排序的一种改进，桶排序首先根据元素大小放置到不同的桶中，然后在对每一个桶内元素进行排序。</p>
+<p>例如数组[29,25,3,49,9,37,21,43]，可以以10为区间来存放元素，具体操作如下图</p>
+<p><img src="/2018/11/24/%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%9A%E6%A1%B6%E6%8E%92%E5%BA%8F/1.png"></p>
+<p>关于“桶”这个结构怎么实现，在python里面可以用二位数组来表示[ [  ], [   ], [  ] ….]，总得来说桶排序步骤：</p>
+<ol>
+<li>建桶</li>
+<li>元素存放到桶里面</li>
+<li>桶内元素进行排序（第二步和第三步可以合并到一起，因为初始的桶为空是有序的，每次只需执行一次插入即可保持有序</li>
+<li>依次取出每个桶内元素</li>
+</ol>
+<p>时间复杂度：平均O(n+k)， 最坏O(n^2 * k)都放到一个桶里面了</p>
+<p>空间复杂度：O(nk)</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">bucket_sort</span>(<span class="params">nums, buckets</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    桶排序</span></span><br><span class="line"><span class="string">    :param nums: 无序数组</span></span><br><span class="line"><span class="string">    :param buckets: 桶个数</span></span><br><span class="line"><span class="string">    :return: 有序数组</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    bucket = [[] <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(buckets)]  <span class="comment"># 创建空桶</span></span><br><span class="line">    num = <span class="built_in">max</span>(nums) - <span class="built_in">min</span>(nums) + <span class="number">1</span></span><br><span class="line">    l = num // buckets + <span class="number">1</span> <span class="keyword">if</span> num % buckets <span class="keyword">else</span> num // buckets   <span class="comment"># 计算每个桶大小</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> nums:</span><br><span class="line">        bucket_num = i // l <span class="comment"># 计算元素应该放入到哪一个桶里面</span></span><br><span class="line">        bucket[bucket_num].append(i)</span><br><span class="line">        <span class="comment"># 维护桶内元素有序。</span></span><br><span class="line">        <span class="comment"># 因为之前的桶内是有序的，插入一个新的元素可以使用插入排序继续保持桶内有序</span></span><br><span class="line">        tmp = i</span><br><span class="line">        j = <span class="built_in">len</span>(bucket[bucket_num]) - <span class="number">2</span></span><br><span class="line">        <span class="keyword">while</span> j &amp;gt;= <span class="number">0</span> <span class="keyword">and</span> bucket[bucket_num][j] &amp;gt; tmp:  <span class="comment"># 执行插入操作</span></span><br><span class="line">            bucket[bucket_num][j + <span class="number">1</span>] = bucket[bucket_num][j]</span><br><span class="line">            j -= <span class="number">1</span></span><br><span class="line">        bucket[bucket_num][j+<span class="number">1</span>] = tmp</span><br><span class="line">    res = []</span><br><span class="line">    <span class="comment"># 依次取出桶内元素</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> bucket:</span><br><span class="line">        res.extend(i)</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-11-24T09:39:25.000Z" title="11/24/2018, 5:39:25 PM">2018-11-24</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/Python/">Python</a><span> / </span><a class="link-muted" href="/categories/Python/%E7%AE%97%E6%B3%95/">算法</a></span><span class="level-item">2 分钟读完 (大约314个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/11/24/%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%9A%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/">常用排序算法：希尔排序</a></h1><div class="content"><h3 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h3><p>希尔排序算是插入排序的一种，是改进版的直接插入排序，和直接插入排序不同的是它是按组进行插入排序的。步骤如下：</p>
+<ol>
+<li>取一个整数d1 &#x3D; n &#x2F; 2,将元素分成d1个组，每组相邻元素之间距离d1，然后在每组内部进行直接插入排序。</li>
+<li>取第二个整数d2 &#x3D; d1 &#x2F; 2再将元素分成d2个组，然后再在每组内部进行插入排序。</li>
+<li>重复上面的步骤直到d &#x3D; 1 的时候即所有元素在同一组进行插入排序。</li>
+</ol>
+<p>例如数组 [4,3,5,1,6,0,7,2]排序过程如下图所示</p>
+<p><img src="/2018/11/24/%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%9A%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/1.png"></p>
+<p>希尔排序并每趟并不是使某些元素有序，而是使整体数据越来越有序，只会在最后一趟排序能使得所有元素都有序。</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">shell_sort</span>(<span class="params">nums</span>):</span><br><span class="line">    d = <span class="built_in">len</span>(nums) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span> d &amp;gt; <span class="number">0</span>:   <span class="comment"># 分组到一的时候停止</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(d, <span class="built_in">len</span>(nums)):  <span class="comment"># 第i个分组</span></span><br><span class="line">            temp = nums[i]  <span class="comment">#无序区第一位</span></span><br><span class="line">            j = i - d  <span class="comment"># 有序区最后一位</span></span><br><span class="line">            <span class="keyword">while</span> j &amp;gt;= <span class="number">0</span> <span class="keyword">and</span> nums[j] &amp;gt; temp:  <span class="comment"># 如果有序区大于无序区</span></span><br><span class="line">                nums[j + d] = nums[j]</span><br><span class="line">                j -= d</span><br><span class="line">            nums[j+d] = temp</span><br><span class="line">        d //= <span class="number">2</span></span><br></pre></td></tr></table></figure></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-11-23T03:23:33.000Z" title="11/23/2018, 11:23:33 AM">2018-11-23</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/Python/">Python</a></span><span class="level-item">4 分钟读完 (大约553个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/11/23/%E5%AF%B9%E4%BA%8EPython%E9%97%AD%E5%8C%85%E7%9A%84%E7%90%86%E8%A7%A3/">对于Python闭包的理解</a></h1><div class="content"><p>首先看一个面试中非常常见的题目</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">num</span>():</span><br><span class="line">    <span class="keyword">return</span> [<span class="keyword">lambda</span> x: x * i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>)]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>([ n(<span class="number">2</span>) <span class="keyword">for</span> n <span class="keyword">in</span> num()])</span><br></pre></td></tr></table></figure>
+
+
+<p>先看一下num函数的作用，定义了一个匿名函数，返回传入参数乘以列表生成式的每一个元素，所以乍一看结果应该为[0,2,4,6]，如果这样想的话就落入陷阱了。这个题目考察的就是在python中闭包是延迟绑定的，当num()赋值给n的时候就已经完成for循环了，i已经等于3，所以到最后输出值都为 2 *3 也就是[6,6,6,6]</p>
+<p>闭包就是在一个外部函数中定义一个内函数，内函数里运用了外部函数的临时变量，并且外函数的返回值是内函数的引用。如下是最简单的一个闭包：</p>
+<p><img src="/2018/11/23/%E5%AF%B9%E4%BA%8EPython%E9%97%AD%E5%8C%85%E7%9A%84%E7%90%86%E8%A7%A3/1.png"></p>
+<p>在python中一切皆对象，小到一个变量，大到一个函数一个类都是对象，变量名，函数名类名都是指向内存地址。因此当返回值为一个函数的引用的时候可以跟括号来调用此函数。<br /><br>一般来说，当一个函数结束的时候，会将临时变量释放掉，但是在闭包中，临时变量会在内部函数中用到，因此在返回内函数的时候会将临时变量和内函数绑定在一起，外函数结束后，在调用内函数的时候依然可以使用外函数的临时变量。每次在调用外函数的时候都会在内存中创建一个内函数，并且返回的是当前的内函数地址，需要知道的的是虽然内函数被重新创建了，但是外函数的临时变量只存在一份，每次创建的内函数都是使用的同一份临时变量。如下两次调用的返回值是不同的</p>
+<p><img src="/2018/11/23/%E5%AF%B9%E4%BA%8EPython%E9%97%AD%E5%8C%85%E7%9A%84%E7%90%86%E8%A7%A3/2.png"></p>
+<p>Python中内函数想要修改外函数的临时变量可以使用nonlocal关键字来定义变量，如下：</p>
+<p><img src="/2018/11/23/%E5%AF%B9%E4%BA%8EPython%E9%97%AD%E5%8C%85%E7%9A%84%E7%90%86%E8%A7%A3/3.png"></p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-11-21T18:21:08.000Z" title="11/22/2018, 2:21:08 AM">2018-11-22</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/">物联网</a></span><span class="level-item">7 分钟读完 (大约1000个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/11/22/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E7%89%A9%E8%81%94%E7%BD%91%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%9A%E4%BD%BF%E7%94%A8Vue%E7%BC%96%E5%86%99%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2/">从零开始搭建物联网平台（7）：使用Vue编写前端页面</a></h1><div class="content"><h3>摘要：</h3>
 
 <p style="text-indent:50px;">Vue我也是刚开始学的，看了两天的文档就开始着手做这件事了，所以对vue了解不太深入，没有能力说的的太详细万一是错误的不就误导别人了，所以只对几个相对来说比较主要的点说明一下。</p>
 
@@ -374,372 +170,165 @@ class Test(APIView):
 
 <p style="text-indent:50px;"> </p>
 
-<p style="text-indent:50px;"> </p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:50.878Z" title="3/17/2022, 1:00:50 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:40.196Z" title="3/17/2022, 1:05:40 AM">2022-03-17</time>更新</span><span class="level-item">2 分钟读完 (大约362个字)</span></div></div><div class="content"><p>之前使用vue构建的前端页面每次加载都需要十几秒的时间，最初的时候因为浏览器有缓存一直没有发现这个问题，后来换用设备访问的时候才发现。不想花费太多的时间去优化vue的代码，感觉作用不大，毕竟服务器带宽只有1M，再怎么压缩文件大小都需要很长时间传输，所以使用CDN去加速静态资源</p>
+<p style="text-indent:50px;"> </p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-11-19T18:21:08.000Z" title="11/20/2018, 2:21:08 AM">2018-11-20</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/">未分类</a></span><span class="level-item">10 分钟读完 (大约1476个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/11/20/MySQL%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/">MySQL常用命令总结</a></h1><div class="content"><p style="margin-left:0pt;"><strong><strong>显示所有数据库：</strong></strong>show databases;<br /><img alt="" class="has" height="176" src="https://img-blog.csdn.net/20180818091228226?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="260" /></p>
 
-<p>先看一下之前的加载速度，简直惨不忍睹<img alt="" class="has" height="69" src="https://img-blog.csdnimg.cn/20181217200021726.png" width="850" /></p>
+<p style="margin-left:0pt;"><strong><strong>新建数据库：</strong></strong>create database dbname;</p>
 
-<p>首先需要在云服务商那购买CDN服务，我的服务器是腾讯云的正好腾讯云也有免费的CDN可以试用，购买环节跳过。</p>
+<p style="margin-left:0pt;"><strong><strong>删除数据库：</strong></strong>drop database dbname;</p>
 
-<p>要使用CDN服务首先需要在域名管理处添加域名：</p>
+<p style="margin-left:0pt;"><strong><strong>切换数据库：</strong></strong>use dbname;</p>
 
-<p><img alt="" class="has" height="103" src="https://img-blog.csdnimg.cn/20181217200522978.png" width="800" /></p>
+<p style="margin-left:0pt;"><strong><strong>新建表：</strong></strong>create table tbname(clo1 type ,col2 type,……);<br /><img alt="" class="has" height="158" src="https://img-blog.csdn.net/20180818091257226?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="350" /></p>
 
-<p>域名配置需要按照自己的服务器填写，加速服务的配置看自己的需求了，一般来说选择css、js、和图片资源就够了<img alt="" class="has" height="407" src="https://img-blog.csdnimg.cn/20181217200806211.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="700" /></p>
+<p style="margin-left:0pt;"><strong><strong>显示所有表：</strong></strong>show tables;</p>
 
-<p>提交配置等待几分钟后在域名管理处查看CNAME<img alt="" class="has" height="61" src="https://img-blog.csdnimg.cn/20181217201433716.png" width="850" /></p>
+<p style="margin-left:0pt;"><strong><strong>根据已有表结构创建新表：</strong></strong></p>
 
-<p>接下来需要配置DNS解析服务<br />
-在开启的时候如果出现冲突，按照提示关闭另外的一个即可<br /><img alt="" class="has" height="56" src="https://img-blog.csdnimg.cn/20181217201655175.png" width="850" /></p>
+<p style="margin-left:0pt;">create table new_table_name like old_table_name;</p>
 
-<p>至此CDN的配置完成了，如果访问还是很慢先去CDN刷新缓存检查一下</p>
+<p style="margin-left:0pt;">create table new_table as select col1,col2,…. from old_table only;</p>
 
-<p>最后的成果：1.16秒</p>
+<p style="margin-left:0pt;"><strong><strong>显示表结构：</strong></strong>describe table_name;<br /><img alt="" class="has" height="119" src="https://img-blog.csdn.net/20180818091433792?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="412" /></p>
 
-<p><img alt="" class="has" height="106" src="https://img-blog.csdnimg.cn/20181217202537753.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="850" /></p>
+<p style="margin-left:0pt;"><strong><strong>删除表：</strong></strong>drop table table_name;</p>
 
-<p> </p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:49.678Z" title="3/17/2022, 1:00:49 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:39.004Z" title="3/17/2022, 1:05:39 AM">2022-03-17</time>更新</span><span class="level-item">4 分钟读完 (大约528个字)</span></div></div><div class="content"><p>关于触发器的通知，最开始有三种打算 微信公众号、 邮箱、 HTTP，最后发现微信公众号平台无法主动向用户推送消息，所以微信公众号暂时不做了，看看有没有其他的解决方案</p>
+<p style="margin-left:0pt;"><strong><strong>增加一列：</strong></strong>alter table tbname add column col type;</p>
 
-<h3>搭建SMTP服务</h3>
+<p style="margin-left:0pt;"><strong><strong>删除一列：</strong></strong>alter table tbname drop column name;</p>
 
-<p style="text-indent:0;">发送邮件可以借助第三方平台如163、QQ等等，但是使用个人账户去做都是有最大发送数量限制的，为了稳妥起见还是决定搭建自己的STMP服务来发送邮件。</p>
+<p style="margin-left:0pt;"><strong><strong>修改列属性:</strong></strong>alter table tbname modify col typr;</p>
 
-<p style="text-indent:0;">以ubuntu 14.04为例：借助于postfix搭建SMTP服务</p>
+<p style="margin-left:0pt;"><strong><strong>增加主键：</strong></strong>alter table tbname add primary key (col);</p>
 
-<ol><li>安装
-    <pre class="has">
-<code>apt-get install mailutils</code></pre>
+<p style="margin-left:0pt;"><strong><strong>删除主键：</strong></strong>alter table tbname drop primary key(col);</p>
 
-<pre><code>&lt;p&gt;在设置页面选择Internet site&lt;br /&gt;&lt;img alt=&quot;&quot; class=&quot;has&quot; height=&quot;269&quot; src=&quot;https://img-blog.csdnimg.cn/20181227134333835.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li style=&quot;text-indent:0px;&quot;&gt; 配置
-&lt;pre class=&quot;has&quot;&gt;
-</code></pre>
-<p><code class="language-bash">vim  /etc/postfix/main.cf</p>
-<h1 id="修改以下内容"><a href="#修改以下内容" class="headerlink" title="修改以下内容"></a>修改以下内容</h1><p>myhostname = mail.youraddress<br>mydomain = youraddress<br>myorigin = admin@youraddress</p>
-<p>mydestination = $myhostname, localhost.$mydomain, $mydomain</code></pre></p>
-<pre><code>&lt;p&gt; &lt;/p&gt;
-&lt;/li&gt;
-&lt;li style=&quot;text-indent:0px;&quot;&gt;重启服务
-&lt;pre class=&quot;has&quot;&gt;
-</code></pre>
-<p><code>service postfix restart</code></pre><br>    </li><br>    <li style="text-indent:0px;">测试<br>    <pre class="has"><br><code>echo “This is the body of the email” | mail -s “This is the subject line” your_email_address</p>
-<p></code></pre></p>
-<pre><code>&lt;p&gt;检查是否能够收到邮件，如果没有请检查服务器25端口是否开放，（腾讯云的默认是关闭的需要去申请解封）&lt;/p&gt;
-&lt;/li&gt;
-</code></pre>
-</ol><h3 style="text-indent:0px;">邮箱服务</h3>
+<p style="margin-left:0pt;"><strong><strong>修改表名：</strong></strong>alter table tbname rename new;</p>
 
-<p style="text-indent:0px;">python 自带两个模块可以实现发送邮件的功能，email和 smtplib，email负责构造邮件内容，smtplib用来发送邮件<br />
-下面是最简单的一个发送示例</p>
+<p style="margin-left:0pt;"><strong><strong>创建索引：</strong></strong>create index idxname on tbname (col,….);</p>
 
-<pre class="has">
-<code class="language-python">import smtplib
-from email.mime.text import MIMEText
-from email.header import Header
+<p style="margin-left:0pt;"><strong><strong>删除索引：</strong></strong>drop index idxname on tbname;</p>
 
-def send(receiver,payload):
-    sender = 'admin@iotforfml.cn'
-    # 三个参数：第一个为文本内容，第二个 plain 设置文本格式，第三个 utf-8 设置编码
-    message = MIMEText(payload, 'plain', 'utf-8')
-    # 邮件标题
-    subject = '触发器报警通知'
-    message['Subject'] = Header(subject, 'utf-8')
-    try:
-        smtp_obj = smtplib.SMTP('localhost')
-        smtp_obj.sendmail(sender, receiver, message.as_string())
-    except smtplib.SMTPException:
-        pass
+<p style="margin-left:0pt;"><strong><strong>查看索引：</strong></strong>show index from tbname;</p>
 
-send('1193589986@qq.com','aaaa')</code></pre>
+<p style="margin-left:0pt;"><strong><strong>创建视图：</strong></strong>create view name as select (col,….) from tbname;</p>
 
-<p style="text-indent:0px;">结果：<br /><img alt="" class="has" height="217" src="https://img-blog.csdnimg.cn/20181227161551150.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="599" /></p>
+<p style="margin-left:0pt;"><strong><strong>删除视图：</strong></strong>drop view name;</p>
 
-<p style="text-indent:0px;">何时发送，怎么判断是否需要发送报警邮件，这个问题会放到持久化服务里面去判断，接受消息后就应该判断是否触发，具体的实现我想放到后面整合的时候在说，这里只是简单的实现一个发送邮件的接口</p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:48.514Z" title="3/17/2022, 1:00:48 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:37.840Z" title="3/17/2022, 1:05:37 AM">2022-03-17</time>更新</span><span class="level-item">3 分钟读完 (大约490个字)</span></div></div><div class="content"><h4 id="微信小程序开发"><a href="#微信小程序开发" class="headerlink" title="微信小程序开发"></a>微信小程序开发</h4><p>1.数据绑定  ，和vue不同的是如果直接更改data并不会重新渲染，而是要使用setData({name:data})的方法</p>
-<p>2.调用组件的方法：</p>
-<ul>
-<li><p>获取元素：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const ele = this.selectComponent(id)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>调用组建的method中的方法：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ele.functionName()</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p>3.组件中的<code>properties</code>和<code>data</code>的区别：</p>
-<ul>
-<li>首先properties是外部可更改的属性，data外部不能修改</li>
-<li>两者用法差不多 都是this.data.name来取值</li>
-</ul>
-<p>4.小程序中的传参问题</p>
-<p>​    首先需要知道的是没有办法和vue中一样 使用函数名(参数)的形式实现，在小程序中如果想要传参数，则需要在绑定的元素中定义属性 data-参数名的形式，在回调函数中通过target.dataset属性获取，例如：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">data-streamId</span>=<span class="string">&#x27;&#123;&#123;stream.id&#125;&#125;&#x27;</span> <span class="attr">bindtap</span>=<span class="string">&#x27;test&#x27;</span>&gt;</span><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p style="margin-left:0pt;"> </p>
 
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">test</span>: <span class="keyword">function</span> (<span class="params">event</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(event.<span class="property">target</span>.<span class="property">dataset</span>.<span class="property">streamid</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p style="margin-left:0pt;"><strong><strong>增删改查：</strong></strong></p>
 
-<p>5.嵌套传参的问题：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&#x27;new-container&#x27;</span> <span class="attr">bindtap</span>=<span class="string">&#x27;update&#x27;</span> <span class="attr">data-name</span>=<span class="string">&#x27;&#123;&#123;item.name&#125;&#125;&#x27;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&#x27;title&#x27;</span>&gt;</span>&#123;&#123;item.title&#125;&#125;<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&#x27;num&#x27;</span>&gt;</span>&#123;&#123;item.num&#125;&#125;<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&#x27;tips&#x27;</span>&gt;</span>点击刷新<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p> <img src="https://img-blog.csdnimg.cn/20190227130645676.png" alt="在这里插入图片描述"></p>
-<p>点击内容区域的时候，如果使用target来取值会出现空，而currentTarget则不会<br><img src="https://img-blog.csdnimg.cn/20190227130737881.png" alt="在这里插入图片描述"></p>
-<p>在官方的文档上是这样介绍两者的<img src="https://img-blog.csdnimg.cn/20190227130757825.png" alt="在这里插入图片描述"></p>
-<p>6关于setData()修改数组对象的操作， 一般setData()传入的是一个对象,如下name是作为了key的名称</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">data</span>:&#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&#x27;fa&#x27;</span>,</span><br><span class="line">    <span class="attr">array</span>:[&#123;<span class="attr">name</span>:<span class="string">&#x27;aa&#x27;</span>,<span class="attr">num</span>:<span class="number">1</span>&#125;,&#123;<span class="attr">name</span>:<span class="string">&#x27;bb&#x27;</span>,<span class="attr">num</span>:<span class="number">2</span>&#125;]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">this</span>.<span class="title function_">setData</span>(&#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&#x27;wx&#x27;</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p style="margin-left:0pt;"><strong><strong>增：</strong></strong>insert into tbname (col,col,…) values(value1,value2,…);</p>
 
-<p>当我们只是想修改array数组中的num的值，这时候按照上面的就没法实现了， 这时候可以采用’array[0].num’:2来实现</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">this</span>.<span class="title function_">setData</span>(&#123;</span><br><span class="line">    [<span class="string">&#x27;array[0].num&#x27;</span>]:<span class="number">2</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p style="margin-left:0pt;"><strong><strong>删：</strong></strong>delete from tbname where 条件;</p>
 
-<p>但是呢这个’0‘又是不能动态更改的，所以呢还是需要整体修改例如：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="variable language_">this</span>.<span class="property">data</span>.<span class="property">increase</span>.<span class="property">length</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">data</span>.<span class="property">array</span>[i].<span class="property">name</span> == <span class="string">&#x27;aa&#x27;</span>)&#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">data</span>.<span class="property">increase</span>[i].<span class="property">num</span> = <span class="number">2</span></span><br><span class="line">    <span class="keyword">break</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">this</span>.<span class="title function_">setData</span>(&#123;</span><br><span class="line">  <span class="attr">array</span>: <span class="variable language_">this</span>.<span class="property">data</span>.<span class="property">array</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p style="margin-left:0pt;"><strong><strong>改：</strong></strong>update tbname set field=value where条件;</p>
 
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:47.269Z" title="3/17/2022, 1:00:47 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:36.580Z" title="3/17/2022, 1:05:36 AM">2022-03-17</time>更新</span><span class="level-item">8 分钟读完 (大约1157个字)</span></div></div><div class="content"><h4 id="去重"><a href="#去重" class="headerlink" title="去重"></a>去重</h4><p>MySQL中不能部分使用DISTINCT，DISTINCT关键字会应用于所有列而不仅是前置它的列。如果给出SELECT DISTINCT score,age，除非指定的两个列都不同，否则所有行都将被检索出来。</p>
-<p>例如如下的表</p>
-<table>
-<thead>
-<tr>
-<th>name</th>
-<th>score</th>
-<th>age</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>test1</td>
-<td>11</td>
-<td>11</td>
-</tr>
-<tr>
-<td>test2</td>
-<td>11</td>
-<td>11</td>
-</tr>
-<tr>
-<td>test3</td>
-<td>123</td>
-<td>123</td>
-</tr>
-<tr>
-<td>test4</td>
-<td>123</td>
-<td>11</td>
-</tr>
-</tbody></table>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> score ,age <span class="keyword">FROM</span> `student` </span><br></pre></td></tr></table></figure>
+<p style="margin-left:0pt;"><strong><strong>查：</strong></strong>select filed from tbname where 条件;</p>
 
-<p>结果：</p>
-<table>
-<thead>
-<tr>
-<th align="left">score</th>
-<th align="left">age</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">11</td>
-<td align="left">11</td>
-</tr>
-<tr>
-<td align="left">123</td>
-<td align="left">123</td>
-</tr>
-<tr>
-<td align="left">123</td>
-<td align="left">11</td>
-</tr>
-</tbody></table>
-<h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><ul>
-<li><p>按单个列排序</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> score <span class="keyword">FROM</span> <span class="string">&#x27;student&#x27;</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> score</span><br></pre></td></tr></table></figure>
+<p style="margin-left:0pt;"> </p>
 
-<table>
-<thead>
-<tr>
-<th>score</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>11</td>
-</tr>
-<tr>
-<td>11</td>
-</tr>
-<tr>
-<td>123</td>
-</tr>
-<tr>
-<td>123</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>按多个列排序</p>
-<p>会先按照第一列排序，如果第一列存在相同的会根据后面的列继续排列，换句话说就是当第一列所有数据全部不同，那么是不会根据后面的列再次排序的</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> score, age <span class="keyword">FROM</span> <span class="string">&#x27;student&#x27;</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> score, age</span><br></pre></td></tr></table></figure>
+<p style="margin-left:0pt;"><strong><strong>求和：</strong></strong>select sum(col) as name from tbname;</p>
 
-<table>
-<thead>
-<tr>
-<th>score</th>
-<th>age</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>11</td>
-<td>11</td>
-</tr>
-<tr>
-<td>11</td>
-<td>11</td>
-</tr>
-<tr>
-<td>123</td>
-<td>11</td>
-</tr>
-<tr>
-<td>123</td>
-<td>123</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>指定排序方向</p>
-<p>MySQL中默认为升序排序，如果想用降序排序需要指定DESC关键字，和DISTINCT不同的是DESC只会作用于它前面的列，想要每列都已降序排序就必须对每列都指定DESC关键字。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> score, age <span class="keyword">FROM</span> <span class="string">&#x27;student&#x27;</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> score <span class="keyword">DESC</span>，age</span><br></pre></td></tr></table></figure>
+<p style="margin-left:0pt;"><strong><strong>平均：</strong></strong>select avg(col) as name from tbname;</p>
 
-<table>
-<thead>
-<tr>
-<th>score</th>
-<th>age</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>123</td>
-<td>11</td>
-</tr>
-<tr>
-<td>123</td>
-<td>123</td>
-</tr>
-<tr>
-<td>11</td>
-<td>11</td>
-</tr>
-<tr>
-<td>11</td>
-<td>11</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>排序规则</p>
-<p>在对文本性的数据排序时，MySQL默认是不区分大小写的，即A和a相同，如果想要区分的话可能需要对数据库的设置做更改</p>
-</li>
-</ul>
-<h4 id="过滤数据"><a href="#过滤数据" class="headerlink" title="过滤数据"></a>过滤数据</h4><ul>
-<li><p>WHERE语句的操作符</p>
-<table>
-<thead>
-<tr>
-<th>操作符</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>&#x3D;</td>
-<td>等于</td>
-</tr>
-<tr>
-<td>&lt;&gt;</td>
-<td>不等于</td>
-</tr>
-<tr>
-<td>!&#x3D;</td>
-<td>不等于</td>
-</tr>
-<tr>
-<td>&lt;</td>
-<td></td>
-</tr>
-<tr>
-<td>&lt;&#x3D;</td>
-<td></td>
-</tr>
-<tr>
-<td>&gt;</td>
-<td></td>
-</tr>
-<tr>
-<td>&gt;&#x3D;</td>
-<td></td>
-</tr>
-<tr>
-<td>BETWEEN… AND…</td>
-<td>在两个指定值之间</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>匹配操作</p>
-<p>MySQL在执行WHERE语句匹配时默认不区分大小写，Abc和abc是一样的</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> tbnaem <span class="keyword">where</span> name<span class="operator">=</span><span class="string">&#x27;Abc&#x27;</span>;</span><br><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> tbnaem <span class="keyword">where</span> name<span class="operator">=</span><span class="string">&#x27;abc&#x27;</span>;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>空值检查</p>
-<p>NULL和0、空字符串是不同的，如果要匹配NULL需要用IS NULL子句实现</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tbname <span class="keyword">where</span> name <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>组合过滤</p>
-<ul>
-<li><p>AND操作符</p>
-<p>会对每个判断条件取与，满足所有条件才会返回</p>
-</li>
-<li><p>OR操作符</p>
-<p>满足任意一个条件即符合要求</p>
-</li>
-<li><p>同时使用AND和OR操作符</p>
-<p>MySQL会优先处理AND操作符，例如 ：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name, price <span class="keyword">from</span> tbname <span class="keyword">where</span> id <span class="operator">=</span> <span class="number">2</span> <span class="keyword">or</span> id <span class="operator">=</span> <span class="number">3</span> <span class="keyword">and</span> price<span class="operator">&lt;</span><span class="number">10</span></span><br></pre></td></tr></table></figure>
+<p style="margin-left:0pt;"><strong><strong>最大：</strong></strong>select max(col) as name from tbname;</p>
 
-<p>上面这个SQL语句会过滤出ID等于2或者ID等于3并且价格小于10的行，这显然和我们的意图不一样（ID等于2或者3，并且价格小于10）。为了解决这个问题，需使用圆括号将操作符分组区分开来，改为下面这种：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name, price <span class="keyword">from</span> tbname <span class="keyword">where</span> (id <span class="operator">=</span> <span class="number">2</span> <span class="keyword">or</span> id <span class="operator">=</span> <span class="number">3</span>) <span class="keyword">and</span> price<span class="operator">&lt;</span><span class="number">10</span></span><br></pre></td></tr></table></figure>
+<p style="margin-left:0pt;"><strong><strong>最小：</strong></strong>select min(col) as name from tbname;</p>
 
-<p><strong>因此在使用具有AND和OR操作符的where子句时，应当使用圆括号将操作符分组处理，不要依赖于默认的计算顺序以免出现错误。</strong></p>
-</li>
-</ul>
-</li>
-<li><p>IN操作符</p>
-<p>IN操作符可以指定条件范围，范围中的每个条件都可以进行匹配，类似于之前的OR操作符</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name, price <span class="keyword">from</span> tbname <span class="keyword">where</span> id <span class="keyword">in</span> (<span class="number">2</span>,<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p style="margin-left:0pt;"> </p>
 
-<p>相交于OR操作符，在更多的过滤条件下显得更为简洁直观，会有比OR操作符更好的性能，另外IN操作符可以包含其他的SELECT语句：</p>
-</li>
-<li><p>NOT操作符</p>
-<p>NOT操作符只有一个功能，否定它之后所跟的任何条件，例如IN、BETWEEN、EXISTS</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> tbname <span class="keyword">where</span> id <span class="keyword">not</span> <span class="keyword">in</span> (<span class="number">2</span>,<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p style="margin-left:0pt;"><strong><strong>外键定义：</strong></strong>外键是指引用另一个表中的一列或者多列，被引用的列应该具有主键约束或者唯一约束，外键用于建立和加强两个表数据之间的连接，被引用的表是主表，引用外键的表是从表。</p>
 
-<p>选取ID不是2,3的行。</p>
-</li>
-<li><p>通配符过滤（LIKE操作符）</p>
-<ul>
-<li><p>百分号（%）通配符</p>
-<p>%可以表示任何字符串出现任何次数，例如找到name是以<code>fml</code>开头的行</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> tbname <span class="keyword">where</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;fml%&#x27;</span></span><br></pre></td></tr></table></figure>
+<p style="margin-left:0pt;"><strong><strong>多表操作：</strong></strong></p>
 
-<p>或者包含abc的行</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> tbname <span class="keyword">where</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;%abc%&#x27;</span></span><br></pre></td></tr></table></figure>
+<p style="margin-left:0pt;"><strong><strong>建立外键：</strong></strong>alter table tbname add constraint 外键名 froeign key(外键字段名) references 外表表名(主键字段名);</p>
 
-<p>或者以a开头c结尾的行</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> tbname <span class="keyword">where</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;a%c&#x27;</span></span><br></pre></td></tr></table></figure>
+<p style="margin-left:0pt;">示例：alter table student add constraint fk_id foreign key(gid) references grade(id);</p>
 
-<p><strong>%看似可以匹配任何东西，但是NULL是例外的， LIKE  ‘’%‘’无法匹配值为NULL的行，另外值得注意的是尾空格可能也会干扰通配符的匹配</strong></p>
-</li>
-<li><p>下划线（_）通配符</p>
-<p>_只能匹配单个字符其他的和%一样</p>
-</li>
-<li><p>技巧</p>
-<ol>
-<li>不要过度使用通配符，如果其他操作符能够实现同样的目的那么就使用其他操作符。</li>
-<li>除非是必要的，否则不要将通配符放在开始处，那样是最慢的</li>
-</ol>
-</li>
-</ul>
-</li>
-<li><p>使用正则表达式</p>
-<p>使用正则表达式匹配的时候需要使用REGEXP关键字来代替LIKE，REGEXP后所跟的字符串就是正则表达式了。正则表达式怎么写就不在这说了</p>
-</li>
-</ul>
-</div></article></div><nav class="pagination" role="navigation" aria-label="pagination"><div class="pagination-previous"><a href="/page/2/">上一页</a></div><div class="pagination-next"><a href="/page/4/">下一页</a></div><ul class="pagination-list is-hidden-mobile"><li><a class="pagination-link" href="/">1</a></li><li><a class="pagination-link" href="/page/2/">2</a></li><li><a class="pagination-link is-current" href="/page/3/">3</a></li><li><a class="pagination-link" href="/page/4/">4</a></li><li><span class="pagination-ellipsis">&hellip;</span></li><li><a class="pagination-link" href="/page/8/">8</a></li></ul></nav></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/site/avatar.png" alt="fanmlei"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">fanmlei</p><p class="is-size-6 is-block">努力成为一名GEEK！</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Wuhan, China</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">75</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">9</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">28</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/fanmlei" target="_blank" rel="noopener">关注我</a></div></div></div><!--!--><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Arduino/"><span class="level-start"><span class="level-item">Arduino</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Django/"><span class="level-start"><span class="level-item">Django</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/categories/Docker/"><span class="level-start"><span class="level-item">Docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">16</span></span></a><ul><li><a class="level is-mobile" href="/categories/Python/%E7%AE%97%E6%B3%95/"><span class="level-start"><span class="level-item">算法</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"><span class="level-start"><span class="level-item">未分类</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%AE%97%E6%B3%95/"><span class="level-start"><span class="level-item">算法</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E7%AE%97%E6%B3%95/leetcode/"><span class="level-start"><span class="level-item">leetcode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:40.422Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93%E7%9A%84%E7%89%A9%E8%81%94%E7%BD%91%E6%8E%A7%E5%88%B6%EF%BC%88%E4%B8%80%EF%BC%89/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:39.165Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/WinSCP%E9%BB%98%E8%AE%A4%E4%BD%BF%E7%94%A8root%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%9A%84%E6%96%B9%E6%B3%95/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:37.937Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/Python%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1%E7%9A%84%E6%96%B9%E6%B3%95/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:36.621Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/PyQt5%E6%98%BE%E7%A4%BAGIF%E5%9B%BE%E7%89%87/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:35.436Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/PyQt5%E6%97%A0%E8%BE%B9%E6%A1%86%E5%90%8E%E7%AA%97%E5%8F%A3%E7%9A%84%E7%A7%BB%E5%8A%A8%E6%96%B9%E6%B3%95/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2022/03/"><span class="level-start"><span class="level-item">三月 2022</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/08/"><span class="level-start"><span class="level-item">八月 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/05/"><span class="level-start"><span class="level-item">五月 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/04/"><span class="level-start"><span class="level-item">四月 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/09/"><span class="level-start"><span class="level-item">九月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/12/"><span class="level-start"><span class="level-item">十二月 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/09/"><span class="level-start"><span class="level-item">九月 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/03/"><span class="level-start"><span class="level-item">三月 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/08/"><span class="level-start"><span class="level-item">八月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/05/"><span class="level-start"><span class="level-item">五月 2018</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/04/"><span class="level-start"><span class="level-item">四月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/Arduino/"><span class="tag">Arduino</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CSRF/"><span class="tag">CSRF</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/DRF/"><span class="tag">DRF</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Django/"><span class="tag">Django</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Django%E6%A8%A1%E7%89%88/"><span class="tag">Django模版</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Excel/"><span class="tag">Excel</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HTTP/"><span class="tag">HTTP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WebSocket/"><span class="tag">WebSocket</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bug/"><span class="tag">bug</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jQuery/"><span class="tag">jQuery</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/web%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">web中间件</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E8%AF%8D/"><span class="tag">分词</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/"><span class="tag">前后端分离</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8E%92%E5%BA%8F/"><span class="tag">排序</span><span class="tag">10</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%94%AF%E4%BB%98/"><span class="tag">支付</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/"><span class="tag">文件处理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%BA%90%E7%A0%81/"><span class="tag">源码</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%99%BB%E5%BD%95/"><span class="tag">登录</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%A1%AC%E4%BB%B6/"><span class="tag">硬件</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AC%94%E8%AE%B0/"><span class="tag">笔记</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95/"><span class="tag">算法</span><span class="tag">14</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/"><span class="tag">编程基础</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"><span class="tag">编程语言</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C/"><span class="tag">网络</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/"><span class="tag">网络请求</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%82%AE%E7%AE%B1/"><span class="tag">邮箱</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%83%A8%E7%BD%B2/"><span class="tag">部署</span><span class="tag">1</span></a></div></div></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/site/avatar.png" alt="fanmlei`s blog" height="28"></a><p class="is-size-7"><span>&copy; 2022 fanmlei</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/fanmlei/blog"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+<p style="margin-left:0pt;"><strong><strong>删除外键：</strong></strong>alter table tbname drop foreign key 外键名;</p>
+
+<p style="margin-left:0pt;">示例：alter table student drop foreign key fk_id;</p>
+
+<p style="margin-left:0pt;"><strong><strong>添加数据：</strong></strong>当有外键的表添加数据的时候其字段值只能是被关联表中已有的数据，例如grade中id字段只有1和2，那么student中的gid值只能设为1和2.</p>
+
+<p style="margin-left:0pt;"><strong><strong>删除数据：</strong></strong>因为grade表和student表具有关联关系，参照列中的被参照值是不能被删除的，所以想删除grade表中的数据必须先将student中关联数据都删除掉后再删除grade中的数据。</p>
+
+<p style="margin-left:0pt;"><strong><strong>连接查询：</strong></strong></p>
+
+<p style="margin-left:0pt;">首先建立两个表：</p>
+
+<p style="margin-left:0pt;">表1：create table department (did int not null primary key, dname varchar(32));</p>
+
+<p style="margin-left:0pt;">表2：create table employee(id int not null primary key, name varchar(32), age int, did int not null);</p>
+
+<p style="margin-left:0pt;">插入数据</p>
+
+<p style="margin-left:0pt;">insert into department(did,dname)VALUES (1,'网络部'),(2,'媒体部'),(3,'研发部'),(5,'人事部');</p>
+
+<p style="margin-left:0pt;"><span style="color:#000000;">I</span><span style="color:#000000;">nsert into</span><span style="color:#000000;"> employee(id,name,age,did)</span> <span style="color:#000000;">VALUES (1,'王红',20,1),(2,'李强',22,1),(3,'赵四',20,2),(4,'郝娟',20,4);</span></p>
+
+<p style="margin-left:0pt;"><strong><strong>交叉连接：</strong></strong>交叉连接返回的结果是两个连接表中所有数据的笛卡尔集，即返回第一个表中符合条件的数据乘以第二个表中符合条件的数据。</p>
+
+<p style="margin-left:0pt;">语句：select 字段 from tbname1 cross join tbname2;</p>
+
+<p style="margin-left:0pt;">例如：select * from department cross join employee;</p>
+
+<p style="margin-left:0pt;">返回结果为：有16行（4*4）</p>
+
+<p style="margin-left:0pt;"><strong><strong>内连接：</strong></strong>使用比较运算符对两个表中的数据进行比较，并列出与连接条件匹配的数据</p>
+
+<p style="margin-left:0pt;">语句：select 字段 from tbname1 [inner] join tbname2 on tbname1.关系字段=tbname2.关系字段;</p>
+
+<p style="margin-left:0pt;">例如 select name from employee join department on employee.did=department.did;</p>
+
+<p style="margin-left:0pt;">返回结果为：3行（did为1，2，3的数据）<br /><img alt="" class="has" height="109" src="https://img-blog.csdn.net/20180818091518909?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="123" /></p>
+
+<p style="margin-left:0pt;"><strong><strong>自连接：</strong></strong>如果在一个连接查询中涉及的两个表其实是同一个表，这种查询称为自连接查询</p>
+
+<p style="margin-left:0pt;">语句：select p1.* from tbname as p1 join tbname as p2 on p1.字段 = p2.字段;</p>
+
+<p style="margin-left:0pt;">示例：查询 name为王红的人所属部门员工</p>
+
+<p style="margin-left:0pt;">select p1.* from employee as p1 join employee as p2 on p1.did = p2.did where p2.name = ‘王红’;</p>
+
+<p style="margin-left:0pt;">返回结果为：2行（网络部的两个：王红和李强）<br /><img alt="" class="has" height="114" src="https://img-blog.csdn.net/20180818091540331?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="229" /></p>
+
+<p style="margin-left:0pt;"> </p>
+
+<p style="margin-left:0pt;"><strong><strong>外连接：</strong></strong>外连接分为左连接和右连接，当返回的查询结果不仅需要包括符合条件的数据，还需要包含其中的一个表或者两个表的所有数据的时候，需要用到外连接查询</p>
+
+<p style="margin-left:0pt;">语句：select 字段 from tbname1 left|right [outer] join tbname2;</p>
+
+<p style="margin-left:0pt;">左连接：left join：返回包括左表中的所有记录和右表中符合条件的记录。</p>
+
+<p style="margin-left:0pt;">例如：select department.dname,employee.name from department left join employee on department.did = employee.did;</p>
+
+<p style="margin-left:0pt;"><img alt="" class="has" height="146" src="https://img-blog.csdn.net/20180818091604776?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="157" /></p>
+
+<p style="margin-left:0pt;">右连接：right join：返回包括右表的所有记录和左表符合条件的记录。</p>
+
+<p style="margin-left:0pt;">例如：select department.dname,employee.name from department right join employee on department.did = employee.did;</p>
+
+<p style="margin-left:0pt;"><img alt="" class="has" height="123" src="https://img-blog.csdn.net/20180818091619299?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="155" /></p>
+
+<p style="margin-left:0pt;"><strong><strong>子查询：</strong></strong>指一个查询语句嵌套在另一个查询语句内部的查询，在执行的时候会先执行子查询中的语句，然后将返回的结果作为外层查询的过滤条件。<strong><strong>需要注意的是第一个条件的判断字段要包含在第二个查询语句的字段中，否则报错。</strong></strong></p>
+
+<p style="margin-left:0pt;"><strong><em><strong><em>IN/NOT IN语句</em></strong></em></strong>：select 字段from tbname where 条件 in /not in (select 字段 where 条件)  </p>
+
+<p style="margin-left:0pt;"><strong><em><strong><em>EXISTS语句</em></strong></em></strong>：EXISTS关键字后面的参数可以是任何一个子查询，但是不会产生任何数据，只返回TRUE或者FALSE，当返回TRUE的时候外层查询才会执行。</p>
+
+<p style="margin-left:0pt;">语句：select 字段 from tbname where exists (select 字段 from tbname where 条件)</p>
+
+<p style="margin-left:0pt;"><strong><em><strong><em>ANY语句：</em></strong></em></strong>ANY关键字表示只要满足内层子查询中的任意一个条件，就会返回一个结果作为外层查询条件。</p>
+
+<p style="margin-left:0pt;">语句：select 字段from tbname where 字段 比较符 any(select字段 from tbnamewhere条件)</p>
+
+<p style="margin-left:0pt;"><strong><em><strong><em>ALL语句</em></strong></em></strong>：类似于ANY只是他需要满足所有条件</p>
+
+<p style="margin-left:0pt;">语句：select字段 from tbname where 字段 比较符 all(select 字段 from tbname where条件)</p>
+
+<p style="margin-left:0pt;"> </p></div></article></div><nav class="pagination" role="navigation" aria-label="pagination"><div class="pagination-previous"><a href="/page/2/">上一页</a></div><div class="pagination-next"><a href="/page/4/">下一页</a></div><ul class="pagination-list is-hidden-mobile"><li><a class="pagination-link" href="/">1</a></li><li><a class="pagination-link" href="/page/2/">2</a></li><li><a class="pagination-link is-current" href="/page/3/">3</a></li><li><a class="pagination-link" href="/page/4/">4</a></li><li><span class="pagination-ellipsis">&hellip;</span></li><li><a class="pagination-link" href="/page/9/">9</a></li></ul></nav></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/site/avatar.png" alt="fanmlei"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">fanmlei</p><p class="is-size-6 is-block">努力成为一名GEEK！</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Wuhan, China</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">81</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">12</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">37</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/fanmlei" target="_blank" rel="noopener">关注我</a></div></div></div><!--!--><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Arduino/"><span class="level-start"><span class="level-item">Arduino</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Django/"><span class="level-start"><span class="level-item">Django</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/categories/Docker/"><span class="level-start"><span class="level-item">Docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Odoo/"><span class="level-start"><span class="level-item">Odoo</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a><ul><li><a class="level is-mobile" href="/categories/Python/%E7%AE%97%E6%B3%95/"><span class="level-start"><span class="level-item">算法</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="level-start"><span class="level-item">微信小程序</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"><span class="level-start"><span class="level-item">未分类</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/"><span class="level-start"><span class="level-item">物联网</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%AE%97%E6%B3%95/"><span class="level-start"><span class="level-item">算法</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E7%AE%97%E6%B3%95/leetcode/"><span class="level-start"><span class="level-item">leetcode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-08-16T02:35:18.000Z">2021-08-16</time></p><p class="title"><a href="/2021/08/16/Python%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%B5%85%E6%9E%90/">Python的多线程使用浅析</a></p><p class="categories"><a href="/categories/Python/">Python</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-05-14T08:30:24.000Z">2021-05-14</time></p><p class="title"><a href="/2021/05/14/Django%20rest%20framework%20%20%E8%AE%A4%E8%AF%81%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">Django rest framework  认证组件源码分析</a></p><p class="categories"><a href="/categories/Django/">Django</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-05-07T11:42:49.000Z">2021-05-07</time></p><p class="title"><a href="/2021/05/07/HTTP%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%80/">HTTP协议基础</a></p><p class="categories"><a href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/">未分类</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-04-19T18:21:08.000Z">2021-04-20</time></p><p class="title"><a href="/2021/04/20/Postgresql%E7%9A%84%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2%E5%8A%9F%E8%83%BD/">Postgresql的全文检索功能</a></p><p class="categories"><a href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/">未分类</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-04-17T11:42:49.000Z">2021-04-17</time></p><p class="title"><a href="/2021/04/17/jieba+whoosh%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%9A%84%E5%95%86%E5%93%81%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/">jieba+whoosh实现简单的商品搜索功能</a></p><p class="categories"><a href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/">未分类</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2021/08/"><span class="level-start"><span class="level-item">八月 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/05/"><span class="level-start"><span class="level-item">五月 2021</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/04/"><span class="level-start"><span class="level-item">四月 2021</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/09/"><span class="level-start"><span class="level-item">九月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/12/"><span class="level-start"><span class="level-item">十二月 2019</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/09/"><span class="level-start"><span class="level-item">九月 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/03/"><span class="level-start"><span class="level-item">三月 2019</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/02/"><span class="level-start"><span class="level-item">二月 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/08/"><span class="level-start"><span class="level-item">八月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/06/"><span class="level-start"><span class="level-item">六月 2018</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/05/"><span class="level-start"><span class="level-item">五月 2018</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/04/"><span class="level-start"><span class="level-item">四月 2018</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/11/"><span class="level-start"><span class="level-item">十一月 2017</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/Arduino/"><span class="tag">Arduino</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CSRF/"><span class="tag">CSRF</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/DRF/"><span class="tag">DRF</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Django/"><span class="tag">Django</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Django%E6%A8%A1%E7%89%88/"><span class="tag">Django模版</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Excel/"><span class="tag">Excel</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HTTP/"><span class="tag">HTTP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MQ/"><span class="tag">MQ</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/PyQt/"><span class="tag">PyQt</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Reids/"><span class="tag">Reids</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WebSocket/"><span class="tag">WebSocket</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bug/"><span class="tag">bug</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jQuery/"><span class="tag">jQuery</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/odoo/"><span class="tag">odoo</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/web%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">web中间件</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E8%AF%8D/"><span class="tag">分词</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/"><span class="tag">前后端分离</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%90%8E%E7%AB%AF/"><span class="tag">后端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="tag">小程序</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8E%92%E5%BA%8F/"><span class="tag">排序</span><span class="tag">10</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%94%AF%E4%BB%98/"><span class="tag">支付</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/"><span class="tag">文件处理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%BA%90%E7%A0%81/"><span class="tag">源码</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%89%A9%E8%81%94%E7%BD%91/"><span class="tag">物联网</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%99%BB%E5%BD%95/"><span class="tag">登录</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%A1%AC%E4%BB%B6/"><span class="tag">硬件</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AC%94%E8%AE%B0/"><span class="tag">笔记</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95/"><span class="tag">算法</span><span class="tag">14</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/"><span class="tag">编程基础</span><span class="tag">12</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"><span class="tag">编程语言</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C/"><span class="tag">网络</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/"><span class="tag">网络请求</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%82%AE%E7%AE%B1/"><span class="tag">邮箱</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%83%A8%E7%BD%B2/"><span class="tag">部署</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%98%9F%E5%88%97/"><span class="tag">队列</span><span class="tag">1</span></a></div></div></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/site/avatar.png" alt="fanmlei`s blog" height="28"></a><p class="is-size-7"><span>&copy; 2022 fanmlei</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/fanmlei/blog"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
             article: {
                 highlight: {
                     clipboard: true,

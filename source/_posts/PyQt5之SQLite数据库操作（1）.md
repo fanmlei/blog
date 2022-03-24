@@ -1,4 +1,11 @@
-
+---
+title: PyQt5之SQLite数据库操作（1）
+date: 2017-11-20 02:21:08
+categories: 
+- 未分类
+tags:
+- PyQt
+---
 <h3>连接数据库</h3>
 <p>导入库文件</p>
 <p><pre name="code" class="python">from PyQt5 import QtSql

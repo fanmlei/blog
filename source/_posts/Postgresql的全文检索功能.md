@@ -1,3 +1,11 @@
+---
+title: Postgresql的全文检索功能
+date: 2021-04-20 02:21:08
+categories: 
+- 未分类
+tags:
+- 分词
+---
 之前做过一个jieba+whoosh的商品搜索功能，后来发现Postgresql数据库自带有全文检索的功能，那么就尝试使用Postgresql的全文检索功能来实现一次
 ### postgresql配置
 - 环境：Ubuntu16.04

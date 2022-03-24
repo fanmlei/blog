@@ -1,4 +1,9 @@
-
+---
+title: Python显示进度条的方法
+date: 2018-02-10 02:21:08
+categories: 
+- Python
+---
 <p>使用&nbsp;progressive&nbsp;库实现</p>
 <p>第一步&nbsp;导入模块</p>
 <p><span style="background-color:rgb(240,240,240)">from progressive.bar import Bar</span></p>

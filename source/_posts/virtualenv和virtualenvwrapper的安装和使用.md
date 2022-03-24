@@ -1,3 +1,9 @@
+---
+title: virtualenv和virtualenvwrapper的安装和使用
+date: 2018-03-09 02:21:08
+categories: 
+- 未分类
+---
 
 <p><span style="white-space:pre"></span>virtualenv可以让用户创建独立的python环境，每个环境互不干扰。<span style="white-space:pre">virtualenvwrapper则可以让我们更方便的管理每个环境。</span></p>
 <p><span style="white-space:pre"><span style="white-space:pre"></span>1：安装virtualenv 和 virtualenvwrapper</span></p>

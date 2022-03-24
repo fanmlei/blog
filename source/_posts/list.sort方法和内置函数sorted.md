@@ -1,3 +1,11 @@
+---
+title: list.sort方法和内置函数sorted
+date: 2019-03-07 02:21:08
+categories: 
+- Python
+tags:
+- 编程基础
+---
 <h3>list.sort方法和内置函数sorted的异同</h3>
 
 <p>list.sort方法和sorted函数都是对列表进行排序的，但是这两种方法也是有少许不同的，list.sort排序是在原有基础上进行的，不会生成返回一个新的list， 但是sorted函数则不同，他会产生一个新对象并返回。如下</p>

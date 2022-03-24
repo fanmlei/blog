@@ -1,1429 +1,350 @@
 <!doctype html>
-<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>fanmlei`s blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="fanmlei`s blog"><meta name="msapplication-TileImage" content="/img/site/avatar.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="fanmlei`s blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta property="og:type" content="blog"><meta property="og:title" content="fanmlei`s blog"><meta property="og:url" content="https://blog.iotforfml.cn/"><meta property="og:site_name" content="fanmlei`s blog"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://blog.iotforfml.cn/img/og_image.png"><meta property="article:author" content="fanmlei"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.iotforfml.cn"},"headline":"fanmlei`s blog","image":["https://blog.iotforfml.cn/img/og_image.png"],"author":{"@type":"Person","name":"fanmlei"},"publisher":{"@type":"Organization","name":"fanmlei`s blog","logo":{"@type":"ImageObject","url":"https://blog.iotforfml.cn/img/site/avatar.png"}},"description":""}</script><link rel="icon" href="/img/site/avatar.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/site/avatar.png" alt="fanmlei`s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/fanmlei/blog"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:46.027Z" title="3/17/2022, 1:00:46 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:35.381Z" title="3/17/2022, 1:05:35 AM">2022-03-17</time>更新</span><span class="level-item">11 分钟读完 (大约1614个字)</span></div></div><div class="content"><h4 id="计算字段"><a href="#计算字段" class="headerlink" title="计算字段"></a>计算字段</h4><p>一般数据库中存储的数据可能不会是我们所需要的格式，例如存储一个地址，在数据库中可能会将城市、区和街道分别存入不同的列中，但是我们可能需要直接获取一个完整的地址，这时候就需要做一些转换操作了，可以直接取出每个字段的值，然后在我们自己的程序中组合，同样也可以使用SQL直接在数据库中完成，而且一般来说在数据库中完成这些操作要率相对于我们自己去实现要快，下面就是一些常用的计算方法。</p>
-<p>表：</p>
-<table>
-<thead>
-<tr>
-<th>name</th>
-<th>category</th>
-<th>number</th>
-<th>price</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>硬盘</td>
-<td>电子类</td>
-<td>10</td>
-<td>399</td>
-</tr>
-<tr>
-<td>乐事薯片</td>
-<td>食品类</td>
-<td>24</td>
-<td>7.5</td>
-</tr>
-<tr>
-<td>PS4</td>
-<td>电子类</td>
-<td>1</td>
-<td>2799</td>
-</tr>
-<tr>
-<td>流畅的Python</td>
-<td>书籍类</td>
-<td>5</td>
-<td>105</td>
-</tr>
-</tbody></table>
-<ul>
-<li><p>拼接字段</p>
-<p>在select语句中可以使用Concat()函数实现两列的拼接操作：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> concat(name,<span class="string">&#x27;(&#x27;</span>,category,<span class="string">&#x27;)&#x27;</span>) <span class="keyword">as</span> goods <span class="keyword">from</span> goods</span><br></pre></td></tr></table></figure>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>fanmlei`s blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="fanmlei`s blog"><meta name="msapplication-TileImage" content="/img/site/avatar.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="fanmlei`s blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta property="og:type" content="blog"><meta property="og:title" content="fanmlei`s blog"><meta property="og:url" content="https://blog.iotforfml.cn/"><meta property="og:site_name" content="fanmlei`s blog"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://blog.iotforfml.cn/img/og_image.png"><meta property="article:author" content="fanmlei"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.iotforfml.cn"},"headline":"fanmlei`s blog","image":["https://blog.iotforfml.cn/img/og_image.png"],"author":{"@type":"Person","name":"fanmlei"},"publisher":{"@type":"Organization","name":"fanmlei`s blog","logo":{"@type":"ImageObject","url":"https://blog.iotforfml.cn/img/site/avatar.png"}},"description":""}</script><link rel="icon" href="/img/site/avatar.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/site/avatar.png" alt="fanmlei`s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/fanmlei/blog"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-11-06T18:21:08.000Z" title="11/7/2018, 2:21:08 AM">2018-11-07</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/">物联网</a></span><span class="level-item">10 分钟读完 (大约1455个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/11/07/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E7%89%A9%E8%81%94%E7%BD%91%E5%B9%B3%E5%8F%B0%EF%BC%886%EF%BC%89%EF%BC%9A%E6%B6%88%E6%81%AF%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96/">从零开始搭建物联网平台（6）：消息的持久化</a></h1><div class="content"><h3>遇到的问题：</h3>
 
-<table>
-<thead>
-<tr>
-<th align="left">goods</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">硬盘(电子类)</td>
-</tr>
-<tr>
-<td align="left">乐事薯片(食品类)</td>
-</tr>
-<tr>
-<td align="left">PS4(电子类)</td>
-</tr>
-<tr>
-<td align="left">流畅的Python(书籍类)</td>
-</tr>
-</tbody></table>
-<p>其他：RTrim()函数去除右边所有空格，LTrim()去除左边所有空格， as：使用别名</p>
-</li>
-<li><p>执行算术计算</p>
-<p>依然使用上面那个表，如果我们需要取出所有商品的总金额，我们可以取出每行的价格和数量自己计算，同样也可是使用MySQL计算完成之后直接返回总金额。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name, number<span class="operator">*</span>price <span class="keyword">as</span> total_price <span class="keyword">from</span> goods</span><br></pre></td></tr></table></figure>
+<p style="text-indent:50px;">查看了EMQ文档发现并不提供消息的持久化功能，MQTT协议是按照设备一直在线设计的，数据都是保存在内存里的，但是考虑到用户上传传感器数据不可能接收了就扔掉，那样就没法查看历史数据了，所以用户上传的消息必须要能够保存下来，以便查看历史数据，这样一来持久化功能就需要我们自己来实现。</p>
 
-<table>
-<thead>
-<tr>
-<th>name</th>
-<th>total_price</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>硬盘</td>
-<td>3990</td>
-</tr>
-<tr>
-<td>乐事薯片</td>
-<td>180</td>
-</tr>
-<tr>
-<td>PS4</td>
-<td>2799</td>
-</tr>
-<tr>
-<td>流畅的Python</td>
-<td>525</td>
-</tr>
-</tbody></table>
-<p>MySQL支持的运算符有 +、 -、 *、 &#x2F;  ，可以使用()来区分计算顺序。</p>
-</li>
-</ul>
-<h4 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h4><ul>
-<li><p>文本处理函数</p>
-<table>
-<thead>
-<tr>
-<th>函 数</th>
-<th>说 明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Left(str,length)</td>
-<td>返回串左边的字符</td>
-</tr>
-<tr>
-<td>Length(str)</td>
-<td>返回串的长度(字节长度 )， UTF-8编码中文三个字节，英文一个字节</td>
-</tr>
-<tr>
-<td>Locate(<a target="_blank" rel="noopener" href="http://xiaolan.gjjblog.com/">substr</a>,str,pos)</td>
-<td>返回子串 substr 在<a target="_blank" rel="noopener" href="http://xiaolan.gjjblog.com/">字符串</a> str 第 pos 位置后中第一次出现的位置。如果子串 substr 在 str 中不存在，返回值为 0   <strong>（pos可选）</strong></td>
-</tr>
-<tr>
-<td>Lower(str)</td>
-<td>将串转换为小写</td>
-</tr>
-<tr>
-<td>LTrim(str)</td>
-<td>去掉串左边的空格</td>
-</tr>
-<tr>
-<td>Righ(str,length)</td>
-<td>返回串右边的字符</td>
-</tr>
-<tr>
-<td>RTrim(str)</td>
-<td>去掉串右边的空格</td>
-</tr>
-<tr>
-<td>Soundex()</td>
-<td>返回串的SOUNDEX值（不常用）SOUNDEX是一个将任何文本串转换为描述其语音表示的字母数字模式的算法</td>
-</tr>
-<tr>
-<td>SubString(str, pos, len)</td>
-<td>返回字符串第pos位置后的len长度的子串  <strong>第一个字符pos为1，len可选，默认到最后一位</strong></td>
-</tr>
-<tr>
-<td>Upper()</td>
-<td>将串转换为大写</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>日期和时间处理函数</p>
-<table>
-<thead>
-<tr>
-<th>AddDate()</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>AddDate()</td>
-<td>增加一个日期（天、周等）</td>
-</tr>
-<tr>
-<td>AddTime()</td>
-<td>增加一个时间（时、分等）</td>
-</tr>
-<tr>
-<td>CurDate()</td>
-<td>返回当前日期</td>
-</tr>
-<tr>
-<td>CurTime()</td>
-<td>返回当前时间</td>
-</tr>
-<tr>
-<td>Date()</td>
-<td>返回日期时间的日期部分</td>
-</tr>
-<tr>
-<td>DateDiff()</td>
-<td>计算两个日期之差</td>
-</tr>
-<tr>
-<td>Date_Add()</td>
-<td>高度灵活的日期运算函数</td>
-</tr>
-<tr>
-<td>Date_Format()</td>
-<td>返回一个格式化的日期或时间串</td>
-</tr>
-<tr>
-<td>Day()</td>
-<td>返回一个日期的天数部分</td>
-</tr>
-<tr>
-<td>DayOfWeek()</td>
-<td>对于一个日期，返回对应的星期几</td>
-</tr>
-<tr>
-<td>Hour()</td>
-<td>返回一个时间的小时部分</td>
-</tr>
-<tr>
-<td>Minute()</td>
-<td>返回一个时间的分钟部分</td>
-</tr>
-<tr>
-<td>Month()</td>
-<td>返回一个日期的月份部分</td>
-</tr>
-<tr>
-<td>Now()</td>
-<td>返回当前日期和时间</td>
-</tr>
-<tr>
-<td>Second()</td>
-<td>返回一个时间的秒部分</td>
-</tr>
-<tr>
-<td>Time()</td>
-<td>返回一个日期时间的时间部分</td>
-</tr>
-<tr>
-<td>Year()</td>
-<td>返回一个日期的年份部分</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>数值处理函数</p>
-<table>
-<thead>
-<tr>
-<th>函数</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Abs()</td>
-<td>返回一个数的绝对值</td>
-</tr>
-<tr>
-<td>Cos()</td>
-<td>返回一个角度的余弦</td>
-</tr>
-<tr>
-<td>Exp()</td>
-<td>返回一个数的指数值</td>
-</tr>
-<tr>
-<td>Mod()</td>
-<td>返回除操作的余数</td>
-</tr>
-<tr>
-<td>Pi()</td>
-<td>返回圆周率</td>
-</tr>
-<tr>
-<td>Rand()</td>
-<td>返回一个随机数</td>
-</tr>
-<tr>
-<td>Sin()</td>
-<td>返回一个角度的正弦</td>
-</tr>
-<tr>
-<td>Sqrt()</td>
-<td>返回一个数的平方根</td>
-</tr>
-<tr>
-<td>Tan()</td>
-<td>返回一个角度的正切</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>聚集函数</p>
-<p>默认参数为ALL，可使用DISTINCT关键字</p>
-<table>
-<thead>
-<tr>
-<th>函 数</th>
-<th>说 明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>AVG()</td>
-<td>返回某列的平均值</td>
-</tr>
-<tr>
-<td>COUNT()</td>
-<td>返回某列的行数（指定列名会忽略NULL行）</td>
-</tr>
-<tr>
-<td>MAX()</td>
-<td>返回某列的最大值</td>
-</tr>
-<tr>
-<td>MIN()</td>
-<td>返回某列的最小值</td>
-</tr>
-<tr>
-<td>SUM()</td>
-<td>返回某列值之和</td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<h4 id="数据的分组"><a href="#数据的分组" class="headerlink" title="数据的分组"></a>数据的分组</h4><table>
-<thead>
-<tr>
-<th>name</th>
-<th>category</th>
-<th>number</th>
-<th>price</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>硬盘</td>
-<td>电子类</td>
-<td>10</td>
-<td>399</td>
-</tr>
-<tr>
-<td>乐事薯片</td>
-<td>食品类</td>
-<td>24</td>
-<td>7.5</td>
-</tr>
-<tr>
-<td>PS4</td>
-<td>电子类</td>
-<td>1</td>
-<td>2799</td>
-</tr>
-<tr>
-<td>流畅的Python</td>
-<td>书籍类</td>
-<td>5</td>
-<td>105</td>
-</tr>
-</tbody></table>
-<ul>
-<li><p>GROUP BY</p>
-<p>按照category分组，并计算每组的数量</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> category , <span class="built_in">count</span>(<span class="operator">*</span>)<span class="keyword">as</span> num <span class="keyword">from</span> goods <span class="keyword">group</span> <span class="keyword">by</span> category </span><br></pre></td></tr></table></figure>
+<p style="text-indent:50px;">另外还会出现一个问题，当两个设备注册的主题名一样的时候，不能分出是哪一个设备发出的消息，在接收订阅消息的时候发现没办法获取到发送消息的clientID，而且其他设备也可以订阅到任意设备的消息，对于敏感信息来说存在安全性。</p>
 
-<table>
-<thead>
-<tr>
-<th>category</th>
-<th>num</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>书籍类</td>
-<td>1</td>
-</tr>
-<tr>
-<td>电子类</td>
-<td>2</td>
-</tr>
-<tr>
-<td>食品类</td>
-<td>1</td>
-</tr>
-</tbody></table>
-<ul>
-<li>GROUP BY子句可以包含任意数目的列</li>
-<li>如果在GROUP BY子句中嵌套了分组，数据将在最后规定的分组上进行汇总。换句话说，在建立分组时，指定的所有列都一起计算（所以不能从个别的列取回数据）。</li>
-<li>GROUP BY子句中列出的每个列都必须是检索列或有效的表达式（但不能是聚集函数）。如果在SELECT中使用表达式，则必须在GROUP BY子句中指定相同的表达式。不能使用别名。</li>
-<li>除聚集计算语句外，SELECT语句中的每个列都必须在GROUP BY子句中给出。</li>
-<li>如果分组列中具有NULL值，则NULL将作为一个分组返回。如果列中有多行NULL值，它们将分为一组。</li>
-<li>GROUP BY子句必须出现在WHERE子句之后，ORDER BY子句之前</li>
-</ul>
-</li>
-<li><p>HAVING（过滤分组）</p>
-<p>HAVING类似于WHERE，所有的WHERE子句都可以使用HAVING来代替，两者唯一的差别是WHERE过滤行而HAVING过滤分组，换一句话说，WHERE在数据分组之前过滤，HAVING在分组之后过滤，WHERE排除的行不包含在分组之中。</p>
-<p>选取种类大于等于两个的分组</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> category, <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">as</span> num <span class="keyword">from</span> goods <span class="keyword">group</span> <span class="keyword">by</span> category <span class="keyword">HAVING</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="operator">&gt;=</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h3>解决方法：</h3>
 
-<table>
-<thead>
-<tr>
-<th>category</th>
-<th>num</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>电子类</td>
-<td>2</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>分组排序</p>
-<p>使用GROUP BY分组得到的数据顺序可能不是统一的，如果想实现分组排序还需要用到ORDER BY对分组结果进行排序</p>
-<p>例如按照category分组，并按照数目从小到大排序</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> category ,<span class="built_in">count</span>(<span class="operator">*</span>) num <span class="keyword">from</span> goods <span class="keyword">group</span> <span class="keyword">by</span> category <span class="keyword">order</span> <span class="keyword">by</span> <span class="built_in">count</span>(<span class="operator">*</span>)</span><br></pre></td></tr></table></figure>
+<p style="text-indent:50px;">初步打算是，用户需要在后台注册自己的设备和数据流信息，后台会对所有注册的信息进行订阅接收到消息后，后台会把消息写入到对应的表中，另外设备发布主题只能使用（clientID/主题名）命名方式，以便后台能够区分是哪一个设备发送过来的消息。对于MQTT了解还是不够深，只能使用这样的笨办法来解决了，以后若是找到其他的方法在进行改进。</p>
 
-<table>
-<thead>
-<tr>
-<th>category</th>
-<th>num</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>食品类</td>
-<td>1</td>
-</tr>
-<tr>
-<td>书籍类</td>
-<td>1</td>
-</tr>
-<tr>
-<td>电子类</td>
-<td>2</td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<p><strong>总结一下</strong></p>
-<p><strong>在SELECT语句中，所有子句的顺序如下</strong></p>
-<p><strong>SELECT →  FROM  → WHERE → GROUP BY → HAVING → ORDER BY</strong></p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:42.329Z" title="3/17/2022, 1:00:42 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:31.517Z" title="3/17/2022, 1:05:31 AM">2022-03-17</time>更新</span><span class="level-item">9 分钟读完 (大约1424个字)</span></div></div><div class="content"><p style="text-indent:50px;">回来更新了，先说明一下，这个项目没有烂尾，没有烂尾，没有烂尾，第一版其实已经做完几个月了，后来想实现小程序端的部分功能，最后结果就是导致小程序和web两个的接口不兼容，而且第一次设计的时候有很多地方没有设计好，所以又推翻重做了，在这一版本中，会对接入设备的订阅和发布做出严格的限制（无法订阅除系统topic之外的消息，无法发布没有注册的消息），但是为了实现部分设备之间的通信会设置一个自组网络，可将自己的设备添加到这个网络中，在这个网络中进行通信。废话不多说进入正题。</p>
+<h3>解决问题：</h3>
 
-<h3 style="text-indent:50px;">Models</h3>
-
-<p style="text-indent:50px;">首先需要建立表来存储用户保存的指令内容，这里还是用django的models创建，和user、device表是一对多的关联，其中device_id 会作为消息的topic，所以设备想要接收消息需要订阅device_id的topic</p>
+<p style="text-indent:50px;">首先需要通过python建立mqtt连接监听所有注册的主题信息，这里使用了paho-mqtt库来实现，为了方便以后的调用将其封装成一个类，最开始的时候想把一些常用的操作也封装进去，单独测试完全可以，但是一旦放到Django请求中处理的时候，mqtt能够正常返回成功信息，但是实际上并没有正确执行，这一点始终没有找到原因，最终只能简化，只包含最基础的功能。</p>
 
 <pre class="has">
-<code class="language-python">from django.db import models
+<code class="language-python">class MqClient(object):
+    def __init__(self, client_id, username, password):
+        self.client = client.Client(client_id=client_id,
+                                    clean_session=True)  # 初始化,clean_session为false的时候EMQ会保存订阅状态，可以不再次订阅
+        self.client.username_pw_set(username, password)  # 设置连接用户名
+        self.client.on_connect = self.on_connect
+        self.client.on_message = self.on_message
+        self._client_status = False  # 连接状态
+        self._cloop = None
+        self._connect()  # 实例化会自动连接
 
-class CMD(models.Model):
+    def _connect(self, host="your IP ", port=1883, keepalive=60):
+        """连接服务器"""
+        self.client.connect_async(host, port, keepalive)
+        # 开启线程执行
+        self._cloop = threading.Thread(target=self.client.loop_start())
+        self._cloop.start()
 
-    name = models.CharField(max_length=32, null=False)  # 指令名称
-    cmd_id = models.IntegerField(unique=True, null=False, db_index=True)  # 指令ID
-    payload = models.CharField(max_length=32, null=False)  # 消息内容
-    qos = models.IntegerField(default=0,choices=[(0, 0), (1, 1), (2, 2),])  # 消息质量
-    ctime = models.DateTimeField(auto_now_add=True)  # 创建时间
-    token = models.CharField(max_length=64, null=False)  # 鉴权信息
-    introduce = models.TextField(null=True)  # 指令介绍
-    user = models.ForeignKey('user.UserInfo', to_field='uid', on_delete=models.CASCADE)  # 用户ID
-    device_id = models.ForeignKey('device.Device', to_field='did', on_delete=None)  # 指令接收的设备ID（指令的消息头topic）
+    def on_connect(self, client, userdata, flags, rc):
+        """连接成功的回调函数"""
+        # 修改客户端状态
+        if rc == 0:
+            self._client_status = True
 
-    class Meta:
-        db_table = 'quick_cmd'</code></pre>
-
-<h3 style="text-indent:50px;">获取快捷指令</h3>
-
-<p style="text-indent:50px;">使用了rest_framework做了全局的认证，request.user就是认证通过后返回的user_id，返回的数据格式为：{'code':0,'msg':'', 'data':[ {指令1}, {指令2}]}</p>
-
-<pre class="has">
-<code class="language-python">class CMDInfo(APIView):
-    """
-    快捷指令信息
-    """
+    def init_sub(self):
+        # 读取数据库中所有的已经注册过的topic并且订阅
+        for i in models.Device.objects.all():
+            for j in i.dev_stream.all():
+                self.client.subscribe(str(i.device_id) + '/' + j.name, j.qos)
 
     @staticmethod
-    def get(request, *args):
-        """
-        获取指令信息（全部）
-        :param request: 
-        :param args: 指定cmd_id 获取单个信息
-        :return: json
-        """
-        res = &#123;'code': 0, 'msg': '', 'data': []&#125;
-        try:
-            if not args:
-                cmd_obj = CMD.objects.filter(user_id= request.user).all()
-            else:
-                cmd_obj = CMD.objects.filter(cmd_id=args[0]).all()
-            for i in cmd_obj:
-                res['data'].append(model_to_dict(i))
-        except Exception as e:
-            res['code'] = 1
-            res['msg'] = e.__repr__()
-        return JsonResponse(res)</code></pre>
+    def on_message(client, userdata, msg):
+        client_id = msg.topic.split('/')[0]
+        stream = msg.topic.split('/')[1]
+        data = msg.payload.decode()
+        # 接收订阅信息写入到数据库中
+        models.DataStream.objects.filter(device__device_id=client_id).filter(name=stream).first().data.add(
+            models.Data.objects.create(data=data))</code></pre>
 
-<h3 style="text-indent:50px;">展示指令标签</h3>
-
-<p style="text-indent:50px;">以小程序端为例：在onLoad函数里请求后台接口，然后在wxml将数据渲染出来，这里使用了iview Weapp的组件</p>
+<p style="text-indent:50px;">有了封装好的类，现在我们需要做的是：在Django项目启动完成之后自动执行监听任务的，最开始的时候打算放到setting或者__init__里面，但是因为类里面封装了model操作，那时候项目还没有加载完model会报错，所以最终新建了一个app，然后放到其下的urls，这样当项目启动完成的时候就会自动加载了。</p>
 
 <pre class="has">
-<code class="language-javascript">// .js文件
+<code>from utils.mqtt_client import MqClient
 
-onLoad: function(options) &#123;
-    api.cmdInfo((res) =&gt; &#123;
-      $Toast.hide()
-      if (res.data.code === 0) &#123;
-        //生成随机的颜色
-        var tagsinfo = res.data.data
-        for (var i = 0; i &lt; tagsinfo.length; i++)&#123;
-          tagsinfo[i].color = this.data.color[Math.floor(Math.random() * 5)]
-        &#125;  
-        this.setData(&#123;
-          quickCMD: tagsinfo
-        &#125;)
-      &#125;
-    &#125;)
-  &#125;,
+MQClient = MqClient(your client ID, username, password)
+MQClient.init_sub()</code></pre>
 
-
-// .wxml文件
-
-  &lt;view class='tags-pannel'&gt;
-    快捷指令
-    &lt;view class='edit'&gt;编辑&lt;/view&gt;
-    &lt;view wx:if='&#123;&#123;quickCMD.length&gt;0&#125;&#125;' style="padding-top:20px"&gt;
-      &lt;i-tag class="tags" color="&#123;&#123;item.color&#125;&#125;" data-cmd="&#123;&#123;item&#125;&#125;" bindtap="quickeSend" wx:for="&#123;&#123;quickCMD&#125;&#125;" wx:key='&#123;&#123;index&#125;&#125;'&gt;
-        &#123;&#123;item.name&#125;&#125;
-      &lt;/i-tag&gt;
-    &lt;/view&gt;
-    &lt;view wx:else&gt;
-      &lt;no-data title='未找到已经保存快捷指令！' /&gt;
-    &lt;/view&gt;
-  &lt;/view&gt;</code></pre>
-
-<h3 style="text-indent:50px;">发送指令</h3>
-
-<p style="text-indent:50px;">在wxml文件中绑定了点击事件：quickSend事件，通过target.dataset来传递参数，并将需要用到的数据转换为键值对类型，传给后台接口。</p>
+<p style="text-indent:50px;">接下来测试一下实时新增订阅的功能，先从urls文件导入示例化之后的对象，调用client的subscribe方法</p>
 
 <pre class="has">
-<code class="language-javascript">quickSend: function(e) &#123;
-    let data = &#123;
-      'topic': e.target.dataset.cmd.device_id,
-      'qos': e.target.dataset.cmd.qos,
-      'payload': e.target.dataset.cmd.payload
-    &#125;
-    api.sendCmd(data,(res)=&gt;&#123;
-      if (res.data.code === 0) &#123;
-        $Toast(&#123;
-          content: '发送成功',
-          type: 'success',
-          duration: 1
-        &#125;);
-      &#125; else&#123;
-        $Toast(&#123;
-          content: '发送失败！',
-          type: 'error',
-          duration: 1
-        &#125;);
-      &#125;
-    &#125;)
-  &#125;,</code></pre>
+<code class="language-python">from mqtt.urls import MQClient
+class Test(APIView):
+    def post(self, request):
+        topic = request.POST.get('topic')
+        qos = int(request.POST.get('qos'))
+        if topic:
+            MQClient.client.subscribe(topic,qos)
+        return HttpResponse("ok")</code></pre>
 
-<p style="text-indent:50px;">后端接收发送过来的data还需要对数据格式进行验证，这里使用了django 的forms实现</p>
+<p style="text-align:center;"><img alt="" class="has" height="100" src="https://img-blog.csdnimg.cn/20181107111120198.png" width="1173" /></p>
+
+<p style="text-align:center;"><img alt="" class="has" height="86" src="https://img-blog.csdnimg.cn/20181107111210936.png" width="998" /></p>
+
+<p style="text-indent:50px;">最后就剩下把数据存入数据库中了，这个操作已经写在那个类中了。简单说明一下 ，当paho接收了mqtt请求的时候会产生一个回调，执行下面这个函数，接收到的类容包含在msg中，msg主要有topic和payload两个属性，topic是订阅的主题名，payload则是具体的消息内容，按照之前的规定，主题名为client/stream，对topic内容拆分获取到client_id和stream，最后就是数据库的插入操作了，涉及到多表操作，简单点说就是，先插入一个data数据，然后根据client_id和stream来确定stream，最后再通过add方法将两者关联起来，这样就完成了消息的保存了。</p>
 
 <pre class="has">
-<code class="language-python">from django import forms
-from django.core.validators import ValidationError
+<code class="language-python">def on_message(client, userdata, msg):
+        client_id = msg.topic.split('/')[0]
+        stream = msg.topic.split('/')[1]
+        data = msg.payload.decode()
+        # 接收订阅信息写入到数据库中
+        models.DataStream.objects.filter(device__device_id=client_id).filter(name=stream).first().data.add(
+            models.Data.objects.create(data=data))</code></pre>
 
-class QuickCMDForm(forms.Form):
-    topic = forms.CharField(
-        required=True,  # 是否为空
-        error_messages=&#123;
-            'required': 'topic不能为空',
-            'max_length': '用户名长度超过限制'
-        &#125;
-    )
-    payload = forms.CharField(
-        required=True,
-        max_length=32,  # 最长长度
-        error_messages=&#123;
-            'required': '消息不能为空',
-            'max_length': '消息报文超过长度限制'
-        &#125;
-    )
-    qos = forms.IntegerField(
-        required=True,
-        error_messages=&#123;
-            'required': 'QoS不能为空',
-        &#125;
-    )
-
-    # 自定义校验
-    # 检查QoS值是否正确
-    def clean_qos(self):
-        qos = self.cleaned_data['qos']
-        is_exits = True if qos in [0,1,2] else False
-        if not is_exits:
-            raise ValidationError('QoS设置错误')
-        return qos</code></pre>
-
-<p style="text-indent:50px;">对应的view当验证通过之后，还需要对数据进行处理，QoS要为int类型，topic和payload都是str类型的，以免EMQ接收请求失败，再通过HTTP请求EMQ的API实现指令的下发。</p>
-
-<pre class="has">
-<code class="language-python">class SendCMD(APIView):
-    """
-    发送指令
-    """
-    parser_classes = [JSONParser, FormParser]
-    @staticmethod
-    def post(request):
-        print(request.data)
-        cmd_form = QuickCMDForm(request.data)
-        if cmd_form.is_valid():  # 检查消息格式是否正确
-            try:
-                data = &#123;
-                    'topic': str(request.data.get('topic')),
-                    'payload': str(request.data.get('payload')),
-                    'qos': int(request.data.get('qos'))  # qos必须为整数
-                &#125;
-                data = json.dumps(data)  # Dict转Json
-                print(data)
-                auth = HTTPBasicAuth(settings.MQTT_USER['username'], settings.MQTT_USER['password'])  # basicAuth认证
-                recv = requests.post(url=settings.BASE_EMQ_URL+"/api/v2/mqtt/publish" ,auth=auth, data=data)
-                if recv.status_code == 200:
-                    return JsonResponse(recv.json())
-                    # return json.loads(res.text)
-                else:
-                    return JsonResponse(&#123;'code': 1, 'result': []&#125;)
-            except Exception as e:
-                return JsonResponse(&#123;"code": 1, 'msg': e.__repr__(),'result': []&#125;)
-        else:
-            res = &#123;'code': 1, 'msg': ""&#125;
-            for i, error in cmd_form.errors.items():
-                res['msg'] = error[0]
-            return JsonResponse(res)</code></pre>
-
-<p style="text-indent:50px;">EMQ提供了HTTP请求的方式来发布消息</p>
-
-<p style="text-indent:50px;">API 定义:POST api/v2/mqtt/publish</p>
-
-<p style="text-indent:50px;">请求参数:{ "topic" : "/World", "payload": "hello", "qos": 0, "retain" : false, "client_id": "mqttjs_722b4d845f" }</p>
-
-<p style="text-indent:50px;">topic 参数必填，其他参数可选。payload 默认值空字符串，qos 默认为 0，retain 默认为 false，client_id 默认为 ‘http’。</p>
-
-<p style="text-indent:50px;">请求成功：{ "code": 0, "result": [] }</p>
+<p style="text-indent:50px;">测试一下，数据库里面已经准备一些client和stream数据，还是使用EMQ的websocket来测试，发送主题为123456/hum，消息内容为654321，在来看一下数据库中数据是否插入成功。</p>
 
 <p style="text-indent:50px;"> </p>
 
-<h3 style="text-indent:50px;">总结</h3>
+<p style="text-align:center;"><img alt="" class="has" height="140" src="https://img-blog.csdnimg.cn/20181107113047550.png" width="785" /></p>
 
-<p style="text-indent:50px;">主要流程：获取用户的快捷指令信息---&gt; 页面展示 ---&gt;点击发送---&gt;后台验证消息可靠性---&gt;通过HTTP请求EMQ的API实现发布消息---&gt; 将结果返回给前端显示<br />
- </p>
+<div style="text-align:center;">
+<figure class="image"><img alt="" height="51" src="https://img-blog.csdnimg.cn/20181107113809200.png" width="561" /><figcaption>data表</figcaption></figure></div>
 
-<p style="text-indent:50px;">最后放几张小程序的截图：</p>
+<div style="text-align:center;">
+<figure class="image"><img alt="" height="85" src="https://img-blog.csdnimg.cn/20181107113844420.png" width="822" /><figcaption>stream表</figcaption></figure></div>
 
-<p style="text-indent:50px;"><img alt="" class="has" height="400" src="https://img-blog.csdnimg.cn/201903111501442.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" /><img alt="" class="has" height="400" src="https://img-blog.csdnimg.cn/20190311150238562.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" /><img alt="" class="has" height="400" src="https://img-blog.csdnimg.cn/20190311150301543.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" /></p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-03-16T17:00:41.111Z" title="3/17/2022, 1:00:41 AM">2022-03-17</time>发表</span><span class="level-item"><time dateTime="2022-03-16T17:05:30.251Z" title="3/17/2022, 1:05:30 AM">2022-03-17</time>更新</span><span class="level-item">7 分钟读完 (大约1117个字)</span></div></div><div class="content"><p style="text-indent:50px;">微信小程序不支持Cookie的，所以为了保存用户登录状态就必须换一个方式实现，这里采用jwt的方式，关于jwt简单来说就是第一次登录验证成功后对想要保存的信息进行加密，然后将加密过后的内容返回给前端，前端每次请求的时候都携带上这个token，后端拿到token后对其解密就能获取之前保存的信息了。</p>
+<div style="text-align:center;">
+<figure class="image"><img alt="" height="64" src="https://img-blog.csdnimg.cn/20181107113941992.png" width="536" /><figcaption>stream和data关联表</figcaption></figure></div>
 
-<h3 style="text-indent:0px;">整体流程：</h3>
+<p style="text-indent:50px;"> </p>
 
-<p style="text-indent:0;">这里先看一下小程序官方给的登录流程，这只是最基础的流程，根据设计需要我们还需要添加自己的逻辑进去<br /><img alt="" class="has" height="600" src="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/image/api-login.jpg?t=19031915" width="800" /></p>
+<h3 style="text-indent:0px;">更新：</h3>
 
-<p style="text-indent:0;">下面是具体的流程图，接下来会根据这个流程图具体看看小程序端和后端应该怎么实现。<br /><img alt="" class="has" height="717" src="https://img-blog.csdnimg.cn/20190319205346244.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="800" /></p>
+<p style="text-indent:50px;">最终对这一部分做了修改，没有将MQTT相关的东西放到Django里面，独立出来了，这样也方便日后的扩展和管理，数据库操作改用了sqlachemy实现，其他内容基本不变</p>
 
-<h3 style="text-indent:0px;">小程序的具体实现</h3>
+<p style="text-indent:50px;"> </p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-11-04T18:21:08.000Z" title="11/5/2018, 2:21:08 AM">2018-11-05</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/">物联网</a></span><span class="level-item">3 分钟读完 (大约440个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/11/05/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E7%89%A9%E8%81%94%E7%BD%91%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%9A%E6%90%AD%E5%BB%BA%E5%90%8E%E5%8F%B0%E6%9C%8D%E5%8A%A1(%E4%B8%80%EF%BC%89/">从零开始搭建物联网平台（5）：搭建后台服务(一）</a></h1><div class="content"><h3>数据库的设计：</h3>
 
-<p style="text-indent:0;">以index页面为起始页面，当页面进行加载的时候会调用onload函数，所以可以在onload函数中检测storage中是否有jwt</p>
+<p style="text-indent:50px;">后台使用Django web框架实现，Django和python怎么用就不介绍了，东西太多了，看完下面的这些博客就可以了，差不多就够了<a target="_blank" rel="noopener" href="https://www.cnblogs.com/wupeiqi/articles/4938499.html">https://www.cnblogs.com/wupeiqi/articles/4938499.html</a></p>
 
-<pre class="has">
-<code class="language-javascript">onLoad: function() &#123; 
-    // 获取本地的jwt，如果有则跳转到home页面，否则重新获取jwt
-    wx.getStorage(&#123;
-      key: 'jwt',
-      success: function(res) &#123;
-        wx.switchTab(&#123;
-          url: '../home/home'
-        &#125;)
-      &#125;,
-    &#125;)
-  &#125;,</code></pre>
+<ol><li style="text-indent:0px;">数据库设计：<br />
+            我是这样想的，首先会有一个主账户，也是登陆网站的账户，其下可创建设备，每个设备又都可以创建不同的数据流，数据流由设备publish的主题来区分，数据流又由设备发送过来的一个一个的数据点组成，这样一来共需要4张表存放信息，每张表又和下一级一对多的关系。<img alt="" class="has" height="363" src="https://img-blog.csdnimg.cn/20181105155945264.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="751" /></li>
+    <li style="text-indent:0px;">使用Django models创建表结构，代码先不放上来因为后期可能会不断的调整，等项目整个完成之后再开源出来。对应的ER图如下
+    <p style="text-align:center;"><img alt="" class="has" height="393" src="https://img-blog.csdnimg.cn/2018110515492943.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="861" /></p>
+    </li>
+</ol><h3 style="text-indent:0px;">EMQ的MySQL插件配置：</h3>
 
-<p style="text-indent:0;">如果没有找到jwt，这是会调用登录函数从后端获取jwt</p>
+<p style="text-indent:50px;">之前我们使用MySQL认证的时候使用的是官方给的示例数据库结构，现在为了和后台服务整合到一起还需要再次修改，首先打开dashboard的MySQL插件配置，只需要对两处进行修改，第一处修改认证使用的数据库，第二处修改认证的查询语句。示例：select password from website_userinfo where user_id = '%u' limit 1，修改完成后保存退出，重启插件。</p>
 
-<pre class="has">
-<code class="language-javascript">//用户登录
-let login = function(code) &#123;
-  wx.request(&#123;
-    url: login_url,
-    method: 'post',
-    data: &#123;
-      'code': code
-    &#125;,
-    success(res) &#123;
-      // 登录成功
-      if (res.data.code === 0) &#123;
-        // 将后台返回的jwt写入storage中保存
-        // 这里要使用同步的方法，避免异步请求的时候没有token
-        wx.setStorageSync('jwt', res.data.data)
-        // 跳回主页
-        wx.switchTab(&#123;
-          url: '../home/home'
-        &#125;)
-      &#125;
-      // 登录失败没有找到绑定的信息，跳转到绑定页面
-      else &#123;
-        wx.navigateTo(&#123;
-          url: '../bind/bind',
-        &#125;)
-      &#125;
-    &#125;,
-    fail(res) &#123;
-      wx.showToast(&#123;
-        title: '服务器错误，登录失败！',
-        duration: 1000,
-        icon: 'none',
-      &#125;)
-    &#125;
-  &#125;)
-&#125;</code></pre>
+<p style="text-align:center;"><img alt="" class="has" height="106" src="https://img-blog.csdnimg.cn/20181105161204211.png" width="542" /></p>
 
-<p>在bind页面中，需要填写我们的账户信息，这里使用了小程序的form、input组件，需要对password进行MD5加密处理后再提交输入的内容，后端会验证用户名和密码，如果成功后会将获取到的openID和这个用户绑定，并生成jwt。</p>
+<p style="text-align:center;"><img alt="" class="has" height="109" src="https://img-blog.csdnimg.cn/2018110516132420.png" width="505" /></p>
+
+<h3 style="text-indent:0px;">连接验证：</h3>
+
+<p style="text-indent:50px;">在连接之前需要先在数据库里面创建一些伪造数据，在website_userinfo里面插入user_id=678518606，password=123然后使用EMQ的websocket连接测试，连接成功则上述的修改完成。</p>
+
+<p style="text-align:center;"><img alt="" class="has" height="351" src="https://img-blog.csdnimg.cn/2018110516380229.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="1056" /></p>
+
+<p style="text-indent:50px;"> </p>
+
+<p style="text-indent:50px;"> </p>
+
+<p style="text-indent:50px;"> </p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-11-03T18:21:08.000Z" title="11/4/2018, 2:21:08 AM">2018-11-04</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/">物联网</a></span><span class="level-item">5 分钟读完 (大约731个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/11/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E7%89%A9%E8%81%94%E7%BD%91%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%9A%E8%AE%A2%E9%98%85%E7%B3%BB%E7%BB%9F%E4%B8%BB%E9%A2%98%E8%8E%B7%E5%8F%96%E8%AE%BE%E5%A4%87%E4%B8%8A%E4%B8%8B%E7%BA%BF%E6%B6%88%E6%81%AF/">从零开始搭建物联网平台（4）：订阅系统主题获取设备上下线消息</a></h1><div class="content"><h3>$SYS-系统主题</h3>
+
+<p style="text-indent:50px;">先来看一段EMQ对于系统主题的介绍：EMQ 消息服务器周期性发布自身运行状态、MQTT 协议统计、客户端上下线状态到 $SYS/ 开头系统主题。$SYS 主题路径以 “$SYS/brokers/{node}/” 开头，’${node}’ 是 Erlang 节点名称</p>
+
+<p style="text-indent:50px;">系统主题主要包括一下几大部分：<br />
+               1 ：服务器版本、启动时间与描述消息<br />
+               2 ：MQTT 客户端上下线状态消息<br />
+               3 ：系统统计消息</p>
+
+<p style="text-indent:50px;">详细的介绍请看EMQ官方文档：<a target="_blank" rel="noopener" href="http://www.emqtt.com/docs/v2/guide.html#sys">http://www.emqtt.com/docs/v2/guide.html#sys</a>，就目前来说呢好像只有上下线状态有点用，另外两个以后要是用到了在详细说明。</p>
+
+<p style="text-indent:50px;">客户端上下线状态消息的$SYS 主题前缀为: $SYS/brokers/${node}/clients/，可选择具体客户端${clientid}/connected的上下线消息，也可以选择所有设备的上下线消息：#，这里选择接收说有设备的上下线消息，那么需要订阅的主题为$SYS/brokers/emq@127.0.0.1/clients/#</p>
+
+<h3>修改访问控制规则</h3>
+
+<p style="text-indent:50px;">EMQ默认情况下只有本地的dashboard才能订阅系统消息，因此还需要对EMQ配置做一些修改。方法很简单，以linux系统为例，首先进入到/etc/emqttd/目录下，找到acl.conf文件， 使用vim打开编辑<br /><img alt="" class="has" height="41" src="https://img-blog.csdnimg.cn/2018110417264799.png" width="440" /></p>
+
+<p style="text-indent:50px;">在文本末尾增加<span style="color:#f33b45;">{allow, all, subscribe, ["$SYS/brokers/+/clients/#"]}. </span> 这一行的意思就是允许所有设备订阅$SYS/brokers/+/clients/#主题，也就是所有设备都能获取到其他设备的上下线消息，这里只是为了测试方便，以后为了安全考虑这部分可能会做出修改，保存退出，使用emqttd restart命令重启mqtt服务，至此控制访问规则的编辑完成。<br /><img alt="" class="has" height="164" src="https://img-blog.csdnimg.cn/20181104172921446.png" width="778" /></p>
+
+<h3>测试代码</h3>
+
+<p style="text-indent:50px;">这里我使用python进行编写，用的了paho-mqtt库实现mqtt通信，因为代码不是很复杂，暂时先不展看说明paho-mqtt的使用。通过订阅$SYS/brokers/emq@127.0.0.1/clients/#主题即可接收到其他设备上下线的消息</p>
 
 <pre class="has">
-<code class="language-javascript">//用户绑定
-let bind = function(username, password) &#123;
-  var password = md5(password)
-  //重新获取code避免长时间code失效
-  wx.login(&#123;
-    success: res =&gt; &#123;
-      wx.request(&#123;
-        url: bind_url,
-        method: 'POST',
-        data: &#123;
-          'username': username,
-          'password': password,
-          'code': res.code
-        &#125;,
-        success(res) &#123;
-          // 绑定成功
-          if (res.data.code === 0) &#123;
-            // 将后台返回的jwt写入storage中保存
-            // 这里要使用同步的方法，避免异步请求的时候没有token
-            wx.setStorageSync('jwt', res.data.data)
-            // 跳回主页
-            wx.switchTab(&#123;
-              url: '../home/home'
-            &#125;)
-          &#125; else &#123;
-            wx.showToast(&#123;
-              title: res.data.msg,
-              duration: 1000,
-              icon: 'none',
-            &#125;)
-          &#125;
-        &#125;,
-        fail(res) &#123;
-          wx.showToast(&#123;
-            title: '服务器错误，绑定失败！',
-            duration: 1000,
-            icon: 'none',
-          &#125;)
-        &#125;
-      &#125;)
-    &#125;
-  &#125;)
-&#125;</code></pre>
+<code class="language-python">import paho.mqtt.client as mqtt
 
-<p>注册页面和绑定页面逻辑基本类似就不在此多说了</p>
+def on_connect(client, userdata, flags, rc):
+    print("Connected with result code " + str(rc))
+    client.subscribe("$SYS/brokers/emq@127.0.0.1/clients/#")
 
-<h3>后端的具体实现</h3>
+def on_message(client, userdata, msg):
+    print(msg.topic + " " + str(msg.payload))
 
-<p>这里使用了PyJWT去生成jwt和解码jwt<br /><strong>openid的获取</strong>，下面官方对请求参数的要求<br /><img alt="" class="has" height="292" src="https://img-blog.csdnimg.cn/20190319212824237.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="800" /></p>
+client = mqtt.Client(client_id='python_test')
+client.username_pw_set('*****', '*****')  # 设置连接用户名
+client.on_connect = on_connect
+client.on_message = on_message
+
+client.connect("your ip address", 1883, 60)
+
+client.loop_forever()</code></pre>
+
+<p style="text-indent:50px;">运行这段代码，然后呢使用EMQ提供的websocket方式新建一个连接然后断开，看一下在控制台是否能够接收到上下线消息。如果成功将收到分别是上线和下线两条消息，不成功的话那就先在Dashboard的订阅页面查看是否成功订阅了系统消息。</p>
+
+<p style="text-align:center;"><img alt="" class="has" height="87" src="https://img-blog.csdnimg.cn/2018110417530639.png" width="1200" /></p>
+
+<p style="text-align:center;"><img alt="" class="has" height="155" src="https://img-blog.csdnimg.cn/20181104175511362.png" width="1177" /></p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-11-03T18:21:08.000Z" title="11/4/2018, 2:21:08 AM">2018-11-04</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/">物联网</a></span><span class="level-item">5 分钟读完 (大约766个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/11/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E7%89%A9%E8%81%94%E7%BD%91%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%9AMQTT%E6%9C%8D%E5%8A%A1%E7%9A%84%E6%90%AD%E5%BB%BA/">从零开始搭建物联网平台（2）：MQTT服务的搭建</a></h1><div class="content"><h3 id="EMQ%EF%BC%9A">EMQ：</h3>
+
+<p style="text-indent:50px;">现有的MQTT服务器有很多，例如Mosquitto、Apache-Apollo、EMQ等等，最后呢选择了EMQ毕，国内公司的开源产品，中文资料相对要多一些。EMQ的官网宣称是百万级分布式开源物联网MQTT消息服务器，百不百万倒无所谓，反正是给自用的没有那么多的数据产生。</p>
+
+<h3 id="%E5%AE%89%E8%A3%85%EF%BC%9A">安装：</h3>
+
+<p style="text-indent:50px;">服务器系统版本为Ubuntu14.04，首先在EMQ官网下载对应的安装包<a target="_blank" rel="noopener" href="http://emqtt.com/downloads/latest/ubuntu14_04-deb">http://emqtt.com/downloads/latest/ubuntu14_04-deb</a>，进入目录 输入命令：sudo dpkg -i emqttd-ubuntu16.04_v2.0_amd64.deb进行安装。按照官方的说明完成上述操作之后还需要安装依赖lksctp-tools库apt-get install lksctp-tools。至此MQTT服务已经搭建好了，但是还需要一些配置方可使用。</p>
+
+<h3 id="%E9%85%8D%E7%BD%AE%EF%BC%9A">配置：</h3>
+
+<p style="text-indent:50px;">EMQ提供了Web 管理控制台，默认是开启的，URL 地址: <a target="_blank" rel="noopener" href="http://localhost:18083/">http://localhost:18083</a> ，缺省用户名/密码: admin/public。登陆成功之后就能可查询 EMQ 消息服务器基本信息、统计数据、度量数据，查询系统客户端(Client)、会话(Session)、主题(Topic)、订阅(Subscription)，以及对插件的管理。</p>
+
+<p style="text-indent:50px;">插件里面我觉得最重要的应该是认证插件，当然了是可以不需要认证功能的，但是呢安全性和规范性还是需要认证功能的，EMQ提供了很种方式的认证功能，我选择MySQL认证访问插件。</p>
+
+<p style="text-indent:50px;">进入到插件管理页面，打开MySQL配置，第一步填写 MySQL数据库的相关信息，还需要注意一下要把加密方式给去掉，这样连接的时候要方便一些。完成这些配置之后要到MySQL对应的数据库创建用户和访问控制表：</p>
 
 <pre class="has">
-<code class="language-python">def get_openid(code):
-    """
-    获取微信的openID
-    :param code:
-    :return: openid 
-    """
-    # 构建请求参数
-    payload = &#123;'appid': settings.WX_APPID,
-               'secret': settings.WX_SECRET,
-               'js_code': code,
-               'grant_type': 'authorization_code'&#125;
-    # 请求微信接口，获取用户的openID
-    recv = requests.get("https://api.weixin.qq.com/sns/jscode2session", params=payload)
-    if recv.status_code == 200:
-        recv = json.loads(recv.text)
-        return recv['openid']
-    else:
-        return ''</code></pre>
-
-<p><strong>用户登录接口</strong>：</p>
+<code class="language-sql">CREATE TABLE `mqtt_user` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `salt` varchar(35) DEFAULT NULL,
+  `is_superuser` tinyint(1) DEFAULT 0,
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `mqtt_username` (`username`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;</code></pre>
 
 <pre class="has">
-<code class="language-python">    def post(request):
-        """
-        微信端登录
-        :param request: data&#123; code &#125;
-        :return: &#123;'code': 0, 'msg': '', 'data': jwt&#125;
-        """
-        res = &#123;'code': 0, 'msg': '', 'data': ''&#125;
-        try:
-            code = request.data.get('code')
-            if code:
-                openid = get_openid(code)
-                # 通过openID查找用户信息
-                user_obj = UserInfo.objects.filter(wx=openid).first()
-                # 找到用户后生成
-                if user_obj:
-                    # 生成jwt并返回
-                    res['data'] = create_jwt.create_jwt(user_id=user_obj.uid)
-                # 没有查找到对应用户提示先进行绑定
-                else:
-                    res['code'] = 1001
-                    res['msg'] = '请先绑定微信'
-            else:
-                res['code'] = 1002
-                res['msg'] = '登录失败'
-        except Exception :
-            res['code'] = 1003
-            res['msg'] = '登录失败'
-        return JsonResponse(res)</code></pre>
+<code class="language-sql">CREATE TABLE `mqtt_acl` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `allow` int(1) DEFAULT NULL COMMENT '0: deny, 1: allow',
+  `ipaddr` varchar(60) DEFAULT NULL COMMENT 'IpAddress',
+  `username` varchar(100) DEFAULT NULL COMMENT 'Username',
+  `clientid` varchar(100) DEFAULT NULL COMMENT 'ClientId',
+  `access` int(2) NOT NULL COMMENT '1: subscribe, 2: publish, 3: pubsub',
+  `topic` varchar(100) NOT NULL DEFAULT '' COMMENT 'Topic Filter',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<p><strong>用户绑定接口：</strong></p>
+INSERT INTO `mqtt_acl` (`id`, `allow`, `ipaddr`, `username`, `clientid`, `access`, `topic`)
+VALUES
+    (1,1,NULL,'$all',NULL,2,'#'),
+    (2,0,NULL,'$all',NULL,1,'$SYS/#'),
+    (3,0,NULL,'$all',NULL,1,'eq #'),
+    (5,1,'127.0.0.1',NULL,NULL,2,'$SYS/#'),
+    (6,1,'127.0.0.1',NULL,NULL,2,'#'),
+    (7,1,NULL,'dashboard',NULL,1,'$SYS/#');</code></pre>
+
+<p style="text-indent:50px;">为了测试方便先在用户表里面插入一个测试账户信息，例如username：admin 、password：123456，至此认证功能基本上配置好了。</p>
+
+<h3 id="%E6%B5%8B%E8%AF%95%EF%BC%9A">测试：</h3>
+
+<p style="text-indent:50px;">现在还没有完成硬件部分的设计，只能通过EMQ提供的Websocket工具来测试连通性，打开websocket页面，填写好之前在用户表里面的账户和密码，点击连接测试能否连接成功，如果成功了那么整个MQTT服务的搭建也就顺利完成了。</p>
+
+<p style="text-indent:50px;"> </p>
+
+<p style="text-indent:50px;"> </p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-11-03T18:21:08.000Z" title="11/4/2018, 2:21:08 AM">2018-11-04</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/">物联网</a></span><span class="level-item">6 分钟读完 (大约882个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/11/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E7%89%A9%E8%81%94%E7%BD%91%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%9A%E5%BC%80%E7%AF%87/">从零开始搭建物联网平台（1）：开篇</a></h1><div class="content"><h3>前言：</h3>
+
+<p style="text-indent:50px;">读大学的时候学的是物联网工程，大概是在大二的时候开始接触单片机，那时候特喜欢捣鼓那些东西，就觉得特别酷有极客范。还记得第一次做物联网相关的是一个远程控制的开关，第一次调通的时候真的很兴奋，啥也没干就挂在那用手机控制继电器听咔嗒咔哒的声音，现在想想真的好小儿科，明明只是按照人家的教程改改代码却也能兴奋那么就。但是有一句话不是说所有的编程语言第一个代码都是Hello World，一切都要从最基础的开始，当我们有能力的时候才能做更大的事。</p>
+
+<p style="text-indent:50px;">言归正传，之前也用过一些很成熟的物联网平台例如移动的OneNET、 Yeelink，做的都很好功能也很强大，我也做过一些扩展功能，例如那时候OneNET是没有手机端的，于是就根据OneNET提供的API实现了微信公众号的访问和控制（最开始的几篇博客有介绍），可是觉得这些一点也不极客，无非是在调用API。搭建一个个人的物联网平台这个想法很久之前就有了，只是一直迟迟未开始，现在我觉得是时候开始着手实现这个想法了。关于这个物联网平台我的想法是够用就好，也许它很简单，功能有点low，设计不合理等等，毕竟是我自己做出来的，开心就好【手动滑稽】，当然呢我也会尽力去完善。立一个Flag半年之内完成。</p>
+
+<p style="text-indent:50px;"><span style="color:#f33b45;">最后也是最重要的一点，这不是一个教程，只是我个人的一些开发记录，里面可能会有很多漏洞，不合理的地方，而且之前的操作可能会在后面给推翻重做，所以啊，参考就行了不要当真。</span></p>
+
+<h3>整体构思：</h3>
+
+<p style="text-align:center;"><img alt="" class="has" height="431" src="https://img-blog.csdnimg.cn/20181104024403255.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="805" /></p>
+
+<p style="text-indent:0;">图画的有点low不要介意，简单说一下<br />
+        硬件：这里选择Arduino平台开发，之所以不先考虑stm32或者51之类的，是因为那两个我都没完整的了解过，等以后会提供更多的连接例程，目前手上现有一个NodeMCU、和一个ArduinoMEGA2560，考虑到Arduino和ESP8266连线太麻烦了，就以NodeMCU为例。<br />
+        平台：协议就使用MQTT好了，后台用Django，数据库MySQL。<br />
+        手机：还是借助微信公众号之前也有一些经验，最主要的是APP开发不会。<br />
+        电脑：应该会和OneNET类似，前端大概率会用vue开发，这个应该会放到最后实现，vue还在学习阶段。<br />
+        大致功能包括： 用户注册、添加设备、上传数据、查看历史数据、发送控制指令、微信提醒，目前想到的就只有这么多了，以后还有新的再来添加。</p>
+
+<p style="text-indent:0;"> </p>
+
+<h3 style="text-indent:0px;"><strong>更新一下：</strong></h3>
+
+<p><strong>项目差不多完成了75%左右，在制作过程中对原有的一些设计做了优化和调整目前项目的整个架构图如下</strong></p>
+
+<p><img alt="" class="has" height="567" src="https://img-blog.csdnimg.cn/20190218132744174.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="918" /></p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-11-03T18:21:08.000Z" title="11/4/2018, 2:21:08 AM">2018-11-04</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/">物联网</a></span><span class="level-item">5 分钟读完 (大约675个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/11/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E7%89%A9%E8%81%94%E7%BD%91%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%9A%E7%A1%AC%E4%BB%B6%E9%83%A8%E5%88%86%E7%9A%84%E8%BF%9E%E6%8E%A5%E6%B5%8B%E8%AF%95/">从零开始搭建物联网平台（3）：硬件部分的连接测试</a></h1><div class="content"><h3>搭建开发环境：</h3>
+
+<p style="text-indent:50px;">在开篇的时候就说过硬件部分会使用Arduino平台和NodeMCU，只是Arduino平台不能直接对NodeMCU进开发，正好换电脑了也需要重新安装一遍，就顺便说一下。</p>
+
+<p style="text-indent:50px;">首先下载ArduinoIDE安装包官网太慢可以用这个链接：<a target="_blank" rel="noopener" href="https://coding.net/u/coloz/p/arduino-installer/git/raw/master/1.8.7/arduino-1.8.7-windows.exe">Arduino 1.8.7</a>我使用的版本是1.8.7，安装完成之后进入到首选项在附加开发板管理器网址处填写：<a target="_blank" rel="noopener" href="http://arduino.esp8266.com/stable/package_esp8266com_index.json">http://arduino.esp8266.com/stable/package_esp8266com_index.json</a></p>
+
+<p style="text-align:center;"><img alt="" class="has" height="156" src="https://img-blog.csdnimg.cn/20181104030952144.png" width="712" /></p>
+
+<p style="text-indent:50px;"> </p>
+
+<p style="text-indent:50px;">填写完成之后关闭重启，在工具→开发板→开发板管理器中搜索ESP8266，下载安装，这一步可能会比较慢要等待一段时间。</p>
+
+<p style="text-align:center;"><img alt="" class="has" height="232" src="https://img-blog.csdnimg.cn/20181104031257122.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="951" /></p>
+
+<p style="text-indent:50px;">开发板添加完成之后，再次打开开发板会多出很多型号的开发板，其中就包括我们使用的NodeMCU，关于0.9和1.0两个暂时不知道有什么区别，应该是使用的ESP芯片型号的不同，目前来说选这两个中的任意一个都没有问题。至此NodeMCU开发环境搭建完成了。</p>
+
+<p style="text-align:center;"><img alt="" class="has" height="335" src="https://img-blog.csdnimg.cn/20181104031528431.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="301" /></p>
+
+<h3 style="text-indent:0px;">连接测试：</h3>
+
+<p style="text-indent:50px;">物联网协议采用的是MQTT，本着不造轮子的原则，先看一下有没有对应的库可以使用，在项目→加载库→管理库搜索MQTT，会出现一大堆各种各样的库，根据使用的广泛程度最后选择PubSubClient，点击安装。</p>
+
+<p style="text-align:center;"><img alt="" class="has" height="186" src="https://img-blog.csdnimg.cn/20181104032336364.png" width="931" /></p>
+
+<p style="text-indent:50px;">安装成功后，在文件→示例中可以找到PubSubClient的一些使用例程，选择mqtt_esp8266打开，这个就是需要用到的测试代码。</p>
+
+<p style="text-align:center;"><img alt="" class="has" height="167" src="https://img-blog.csdnimg.cn/20181104032509898.png" width="633" /></p>
+
+<p style="text-indent:50px;">当然呢，代码需要简单的修改一下才可以使用，不出意外按照下面的修改应该是能连接成功的。点击上传等到代码烧录到NodeMCU中。</p>
 
 <pre class="has">
-<code class="language-python">    def post(request):
-        """
-        绑定微信
-        :param request: data&#123;username, password, code&#125;
-        :return: &#123;'code': 0, 'msg': '', 'data': jwt&#125;
-        """
-        res = &#123;'code': 0, 'msg': '', 'data': ''&#125;
-        try:
-            print(request.data)
-            code = request.data.get('code')
-            openid = get_openid(code)
-            # 获取openID
-            data = request.data.copy()
-            data['openid'] = openid
-            # 表单验证
-            login_form = LoginForm(data)
-            # 验证失败
-            if not login_form.is_valid():
-                res['code'] = 1
-                for i, error in login_form.errors.items():
-                    res['msg'] = error[0]
-            # 验证成功，生成jwt并返回给客户端
-            else:
-                res['data'] = create_jwt.create_jwt(user_id = login_form.cleaned_data.get('uid'))
-        except Exception:
-            res['code'] = 1
-            res['msg'] = '绑定失败'
-        return JsonResponse(res)</code></pre>
+<code class="language-cpp">//分别填写WIFI名、密码、mqtt服务器IP
+const char* ssid = "........";
+const char* password = "........";
+const char* mqtt_server = "broker.mqtt-dashboard.com";
 
-<p>至此这个微信小程序的登录和绑定基本完成了，下面是绑定、注册页面效果图</p>
+//由于我们之前mqtt服务器开启了认证功能，这里连接的时候还需要携带用户名和密码
+//大概在95行附近
+if (client.connect("NodeMCU","admin","123456")) &#123;
 
-<p><img alt="" class="has" height="694" src="https://img-blog.csdnimg.cn/20190319210941637.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="391" /><img alt="" class="has" height="699" src="https://img-blog.csdnimg.cn/20190319214039324.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="392" /></p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-07T11:42:49.000Z" title="8/7/2021, 7:42:49 PM">2021-08-07</time>发表</span><span class="level-item"><time dateTime="2022-03-22T16:47:32.611Z" title="3/23/2022, 12:47:32 AM">2022-03-23</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/">未分类</a></span><span class="level-item">24 分钟读完 (大约3570个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2021/08/07/HTTP%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%80/">HTTP协议基础</a></h1><div class="content"><h2 id="HTTP协议基础"><a href="#HTTP协议基础" class="headerlink" title="HTTP协议基础"></a>HTTP协议基础</h2><p><strong>总结于图解HTTP协议</strong></p>
-<h3 id="什么是URI和URL？"><a href="#什么是URI和URL？" class="headerlink" title="什么是URI和URL？"></a>什么是URI和URL？</h3><p>URI（统一资源标识符）表示的是某一个互联网资源， URL（统一资源定位符）相交于URI我们对于URL要更为熟悉一些，我们在浏览器上输入的网站地址其实就是一个URL 例如：<a target="_blank" rel="noopener" href="http://www.google.com/">http://www.google.com</a> ，URL表示的是资源的地点，所以呢URL是URI的一个子集，URI中包含URL的。</p>
-<p>用一个形象点的例子来说明URI和URL的区别：我们每一个人都有身份证，每一个人的身份证号都是不同的，可以根据这个号码来找到这个唯一的人，这就相当于URI，而URL呢则类似于身份证上的地址信息，例如（某某省&#x2F;某某市&#x2F;某某区&#x2F;某某街道&#x2F;某某门牌号&#x2F;姓名）通过这个地址我们也能找到这个人。</p>
-<h3 id="URI格式"><a href="#URI格式" class="headerlink" title="URI格式"></a>URI格式</h3><p>绝对URI格式<br><img src="/2021/08/07/HTTP%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%80/1.png"><br>一个绝对的URI包含了</p>
+//如果返回值为4需要检查一下用户名和密码是否正确</code></pre>
+
+<p style="text-indent:50px;">打开串口监视器，如果连接成功会得到下图信息。如果有错根据返回码去查看MQTT连接返回码对应什么问题在一步一步排查。至此硬件于MQTT服务器的连接测试完成，接下来应该会是后台的搭建，也是最困难的一步了。</p>
+
+<p style="text-align:center;"><img alt="" class="has" height="259" src="https://img-blog.csdnimg.cn/20181104033727715.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" width="840" /></p>
+
+<p><img alt="" class="has" height="350" src="https://img-blog.csdnimg.cn/20181104033847740.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=,size_16,color_FFFFFF,t_70" /></p>
+
+<p> </p>
+
+<p style="text-indent:50px;"> </p></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-10-25T06:52:09.000Z" title="10/25/2018, 2:52:09 PM">2018-10-25</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/Python/">Python</a><span> / </span><a class="link-muted" href="/categories/Python/%E7%AE%97%E6%B3%95/">算法</a></span><span class="level-item">1 分钟读完 (大约188个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/10/25/%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%9A%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F/">常用排序算法：基数排序</a></h1><div class="content"><h3 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h3><p>步骤：</p>
 <ol>
-<li>协议名<ul>
-<li>使用 http: 或 https: 等协议方案名获取访问资源时要指定协议类型。不区分字母大小写，最后附一个冒号</li>
-</ul>
-</li>
-<li>认证信息（可选）<ul>
-<li>指定用户名和密码作为从服务器端获取资源时必要的登录信息</li>
-</ul>
-</li>
-<li>服务器地址<ul>
-<li>使用绝对 URI 必须指定待访问的服务器地址。地址可以是类似google.com 这种 DNS 可解析的名称，或是 192.168.1.1 这类 IPv4 地址名，还可以是 [0:0:0:0:0:0:0:1] 这样用方括号括起来的 IPv6 地址名。</li>
-</ul>
-</li>
-<li>服务器端口号（可选）<ul>
-<li>指定服务器连接的网络端口号。此项也是可选项，若用户省略则自动使用默认端口号。</li>
-</ul>
-</li>
-<li>带层次的文件路径<ul>
-<li>指定服务器上的文件路径来定位特指的资源。这与 UNIX 系统的文件目录结构相似。</li>
-</ul>
-</li>
-<li>查询字符串（可选）<ul>
-<li>针对已指定的文件路径内的资源，可以使用查询字符串传入任意参数。</li>
-</ul>
-</li>
-<li>片段标识位（可选）</li>
+<li>创建10个队列(0-9)</li>
+<li>遍历每个数位，按照位数存入不同的桶中</li>
+<li>然后再将桶中的元素依次取出，放回到原有列表中</li>
+<li>继续执行上两步操作，直到列表中每个数的每一位都做完成排序</li>
+<li>最后取出桶内元素，排序完成</li>
 </ol>
-<h3 id="HTTP协议用于客户端和服务器端之间的通信"><a href="#HTTP协议用于客户端和服务器端之间的通信" class="headerlink" title="HTTP协议用于客户端和服务器端之间的通信"></a>HTTP协议用于客户端和服务器端之间的通信</h3><p>在应用HTTP协议的时候必定一端为客户端而另一端为服务端角色，客户端通过请求，服务器端反馈响应实现两者之间的通信（请求必定是客户端发送的，服务器端在没有接收到请求的时候是不能发送响应的）</p>
-<ul>
-<li><p>发送请求</p>
-<p>一个简单的请求报文内容</p>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/index.html</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>baidu.com</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>keep-alive</span><br></pre></td></tr></table></figure>
+<p><img src="/2018/10/25/%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%9A%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F/1.png"></p>
+<p>时间复杂度： O(kn) k为最大数位数<br>空间复杂度： O(k+n)</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">radix_sort</span>(<span class="params">nums</span>):</span><br><span class="line">    max_num = <span class="built_in">max</span>(nums)</span><br><span class="line">    bucket = [[] <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>)]  <span class="comment"># 创建空桶</span></span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="number">10</span> ** i &amp;lt; max_num:</span><br><span class="line">        <span class="comment"># 按位数将数组存入桶中</span></span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">            bucket[num // (<span class="number">10</span> ** i) % <span class="number">10</span>].append(num)</span><br><span class="line">        nums.clear()</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> bucket:  <span class="comment"># 取出桶中元素，顺便情况桶</span></span><br><span class="line">            nums.extend(j)</span><br><span class="line">            j.clear()</span><br><span class="line">        i += <span class="number">1</span></span><br></pre></td></tr></table></figure></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-10-24T09:39:25.000Z" title="10/24/2018, 5:39:25 PM">2018-10-24</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/Python/">Python</a><span> / </span><a class="link-muted" href="/categories/Python/%E7%AE%97%E6%B3%95/">算法</a></span><span class="level-item">2 分钟读完 (大约341个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/10/24/%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%9A%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F/">常用排序算法：计数排序</a></h1><div class="content"><h3 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h3><p>顾名思义计数排序就是统计每个数出现的次数，例如给0-20范围内的数排序，首先建立一个长度为21的空数组，然后统计每个数出现的次数，再按照下标存入空数组中，例如1出现10次那么数组中的第二个元素为10 ，统计完所有的数之后呢在新建一个数组，在遍历之前存放次数的数组，按照个数往新数组中添加对应的数。</p>
+<p>以一个例子来说明[1,2,3,1,0,4,1,3,4,2,0,1,2,3,4]排序过程如下图所示</p>
+<p><img src="/2018/10/24/%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%9A%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F/1.png"></p>
+<p>计数排序虽然时间复杂度小O(n)，但是局限性很大，首先是需要知道最大数是多少，其次当无序列表分布很分散例如[1,3,1000000]，明明只有三个数但是却需要开辟一个长度为1000000的空列表，会造成空间浪费。所以计数排序只适合在特定的情况下使用。</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">count_sort</span>(<span class="params">nums, max_num</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    计数排序</span></span><br><span class="line"><span class="string">    :param nums: 无序数组</span></span><br><span class="line"><span class="string">    :param max_num: 最大数</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    count = [<span class="number">0</span> <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(max_num+<span class="number">1</span>)]  <span class="comment"># 新建一个统计数组</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> nums:  <span class="comment"># 计数</span></span><br><span class="line">        count[i] += <span class="number">1</span></span><br><span class="line">    nums.clear()  <span class="comment"># 清空原有数组</span></span><br><span class="line">    <span class="keyword">for</span> c, i <span class="keyword">in</span> <span class="built_in">enumerate</span>(count):  <span class="comment"># 往空数组中添加元素</span></span><br><span class="line">        <span class="keyword">while</span> i &amp;gt; <span class="number">0</span>:</span><br><span class="line">            nums.append(c)</span><br><span class="line">            i -= <span class="number">1</span></span><br></pre></td></tr></table></figure></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-10-24T09:39:25.000Z" title="10/24/2018, 5:39:25 PM">2018-10-24</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/Python/">Python</a><span> / </span><a class="link-muted" href="/categories/Python/%E7%AE%97%E6%B3%95/">算法</a></span><span class="level-item">4 分钟读完 (大约544个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/10/24/%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%9A%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">常用排序算法：快速排序</a></h1><div class="content"><h3 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h3><p>快速排序差不多是面试中问的最多的一种排序算法了，快排是比较容易理解的，核心思路就是，选取一个数作为基准，将原来的列表分为两个部分，一部分全部小于这个基准数，另外一部分全部大于这个基准数，然后呢再按照这个方法对划分出来的两部分继续做同样的操作，直到无法划分的时候排序也就完成了。</p>
+<p>以数组[3,2,1,5,4,6]为例，其排序过程如下图所示。<br><img src="/2018/10/24/%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%9A%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/1.png"></p>
+<p>关于时间复杂度问题， 平均复杂度n log(n) 最坏情况 n^2，以长度为16的list为例<br><img src="/2018/10/24/%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%9A%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/2.png"></p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><h4 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h4><p>按照上述的思路可分为两个部分来写代码，一部分是使用递归，一部分是调整位置。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">partition</span>(<span class="params">nums, left, right</span>):</span><br><span class="line">    temp = nums[left]</span><br><span class="line">    <span class="keyword">while</span> left &amp;lt; right:</span><br><span class="line">        <span class="keyword">while</span> left &amp;lt; right <span class="keyword">and</span> nums[right] &amp;gt;= temp:   <span class="comment"># 从右往左搜索比基准值小</span></span><br><span class="line">            right -= <span class="number">1</span>   <span class="comment"># 没有则往右走一位</span></span><br><span class="line">        nums[left] = nums[right]  <span class="comment"># 找到了比基准值小的则调整顺序</span></span><br><span class="line">        <span class="keyword">while</span> left &amp;lt; right <span class="keyword">and</span> nums[left] &amp;lt;= temp:  <span class="comment"># 从左往右找比基准大的数</span></span><br><span class="line">            left += <span class="number">1</span></span><br><span class="line">        nums[right] = nums[left]</span><br><span class="line">    nums[left] = temp   <span class="comment"># 交换完成之后归位</span></span><br><span class="line">    <span class="keyword">return</span> left  <span class="comment"># 返回基准值的位置</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">quick_sort</span>(<span class="params">nums, left, right</span>):</span><br><span class="line">    <span class="keyword">if</span> left &amp;lt; right:</span><br><span class="line">        mid = partition(nums, left, right)</span><br><span class="line">        quick_sort(nums, left, mid - <span class="number">1</span>)   <span class="comment"># 比基准值小的一部分再次进行快排</span></span><br><span class="line">        quick_sort(nums, mid + <span class="number">1</span>, right)  <span class="comment"># 比基准值大的一部分&lt;/code&gt;&lt;/pre&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>起始行首先声明了请求访问服务器的类型为GET ， 随后的字符串<code>/index.html</code>指明了请求访问的资源对象，最后是HTTP协议的版本号</p>
-<p>下面的是请求首部字段，这里面通常会有Host、Connection、Content-Type等等，除了这些可能还会包含内容实体用于发送请求的数据</p>
-</li>
-<li><p>返回响应</p>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Date</span><span class="punctuation">: </span>Mon, 04 Mar 2019 07:34:18 GMT</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>text/html</span><br><span class="line"></span><br><span class="line"><span class="language-apache"><span class="section">&lt;html&gt;</span></span></span><br><span class="line"><span class="language-apache"><span class="section">&lt;/html&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h4><p>上面这种呢是在原有的list进行变换，如果不考虑原有变换还有一种更直观的方法来实现，使用列表生成式来实现，只不过在数据量很大的时候会占用更多的空间。不考虑交换操作，直接简单粗暴的把list分割成两部分。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">quick_sort</span>(<span class="params">nums</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(nums) &amp;lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> nums</span><br><span class="line">    pivot = nums[<span class="built_in">len</span>(nums)//<span class="number">2</span>]</span><br><span class="line">    left = [x <span class="keyword">for</span> x <span class="keyword">in</span> nums <span class="keyword">if</span> x &amp;lt; pivot]</span><br><span class="line">    middle = [x <span class="keyword">for</span> x <span class="keyword">in</span> nums <span class="keyword">if</span> x == pivot]</span><br><span class="line">    right = [x <span class="keyword">for</span> x <span class="keyword">in</span> nums <span class="keyword">if</span> x &amp;gt; pivot]</span><br><span class="line">    <span class="keyword">return</span> quick_sort(left) + middle + quick_sort(right)</span><br></pre></td></tr></table></figure></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-10-24T09:39:25.000Z" title="10/24/2018, 5:39:25 PM">2018-10-24</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/Python/">Python</a><span> / </span><a class="link-muted" href="/categories/Python/%E7%AE%97%E6%B3%95/">算法</a></span><span class="level-item">4 分钟读完 (大约590个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2018/10/24/%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%9A%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/">常用排序算法：冒泡排序</a></h1><div class="content"><h3 id="冒泡排序思路"><a href="#冒泡排序思路" class="headerlink" title="冒泡排序思路"></a>冒泡排序思路</h3><p>列表中的每两个相邻的数，如果前面比后面的大，则交换这两个数。直到列表变为有序的时候为止，例如下面这个列表<br /><br>[ 2,  1,  3,  0,  7,  6,  5,  4]</p>
+<p>第一趟<br /><br>第一步：列表的第一位和第二位比较：如果第一位大于第二位，则交换两者位置。由于2大于1，所以此时列表 为：[1,  2,  3,  0,  7,  6,  5,  4]<br /><br>第二步：再比较第二位和第三位，重复上面的操作，第一趟排序完成之后列表变为 [1,  2,  3,  0,   6,  5,  4 ,  7]，第一 趟完成之后最大数7跑到列表最后一位了。<br /></p>
+<p>第二趟<br /><br>还是从第一位开始比较，1小于2顺序不变，比较第二位和第三位2 小于3依然不变，比较第三位3大于0交换位 置， 此时列表变为[1,  2,  0,   3,   6,  5,  4 ,  7]，这一趟排序完成之后列表最终变为[1,  2,  0,   3,  5,  4,   6,  7]</p>
+<p>冒泡排序的思想还是比较简单的，只是反复不断的比较相邻位置大小，并作交换，不再把每一步都交代明白了，只需重复上述的操作即可实现，最终裂变会变为[0,1,2,3,4,5,6,7],也就达到我们的排序目的了<br /></p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">bubble_sort</span>(<span class="params">nums</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums) - <span class="number">1</span>):  <span class="comment"># i表示第几趟</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums) - i - <span class="number">1</span>):  <span class="comment"># j表示是第几个元素在比较</span></span><br><span class="line">            <span class="keyword">if</span> nums[j] &amp;gt; nums[j + <span class="number">1</span>]:  <span class="comment"># 如果大于则交换位置</span></span><br><span class="line">                nums[j], nums[j + <span class="number">1</span>] = nums[j + <span class="number">1</span>], nums[j]</span><br><span class="line">                <span class="built_in">print</span>(nums)</span><br><span class="line">    <span class="keyword">return</span> nums</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">bubble_sort([<span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">7</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># [1, 2, 3, 0, 7, 6, 5, 4]</span></span><br><span class="line"><span class="comment"># [1, 2, 0, 3, 7, 6, 5, 4]</span></span><br><span class="line"><span class="comment"># [1, 2, 0, 3, 6, 7, 5, 4]</span></span><br><span class="line"><span class="comment"># [1, 2, 0, 3, 6, 5, 7, 4]</span></span><br><span class="line"><span class="comment"># [1, 2, 0, 3, 6, 5, 4, 7]</span></span><br><span class="line"><span class="comment"># [1, 0, 2, 3, 6, 5, 4, 7]</span></span><br><span class="line"><span class="comment"># [1, 0, 2, 3, 5, 6, 4, 7]</span></span><br><span class="line"><span class="comment"># [1, 0, 2, 3, 5, 4, 6, 7]</span></span><br><span class="line"><span class="comment"># [0, 1, 2, 3, 5, 4, 6, 7]</span></span><br><span class="line"><span class="comment"># [0, 1, 2, 3, 4, 5, 6, 7]</span></span><br></pre></td></tr></table></figure>
 
-<p>同样的在第一行中HTTP&#x2F;1.1 表示了服务器对应的HTTP版本， 200 OK表示请求的处理结构的状态码和原因短语，第二行显示了创建响应的日期和时间，接着空一行，之后的就是响应的资源实体了</p>
-</li>
-<li><p><strong>HTTP协议是不保存状态的协议</strong></p>
-<p>HTTP本身是无状态的协议，自身不会对请求和响应之间的通信状态进行保存，但是往往我们在浏览网页的时候进行页面跳转需要保留我们的登陆信息以便服务器知道每次请求是谁发送的，所以就有了Cookie技术</p>
-</li>
-<li><p><strong>使用Cooke实现状态管理</strong></p>
-<p>Cookie技术通过在请求和响应报文中写入Cookie信息来实现对客户端的状态的控制</p>
-<p>首先Cookie会根据服务器端响应报文内的set-cookie字段信息通知客户端保存cookie，下次客户端再请求的时候将接收到的cookie值添加到请求报文中发出</p>
-<p>客户端在接收到携带有cookie的请求后会根据cookie值和服务器上的记录进行比对以此来确定客户端的状态</p>
-<ul>
-<li><p>没有cookie时候的请求报文</p>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/index.html</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>baidu.com</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>服务器接收到没有cookie的响应返回</p>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Date</span><span class="punctuation">: </span>Mon, 04 Mar 2019 07:34:18 GMT</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>text/html</span><br><span class="line">＜Set-Cookie: sid=1342077140226724; path=/; expires=Mon, 04 Mar 2019 07:34:18 GMT＞</span><br><span class="line"></span><br><span class="line"><span class="language-apache"><span class="section">&lt;html&gt;</span></span></span><br><span class="line"><span class="language-apache"><span class="section">&lt;/html&gt;</span></span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>客户端携带cookie发送请求</p>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/index.html</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>baidu.com</span><br><span class="line"><span class="attribute">Cookie</span><span class="punctuation">: </span>sid=1342077140226724</span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><p><strong>更进一步：session的使用</strong></p>
-<p>session的应用是基于cookie的，cookie无法存储复杂的数据，这时候就需要用到session来实现，session保存于服务器端类似以key-value结构，其中key值可以使用cookie存放，每次请求过来时候服务器端可以通过cookie值去session中获取对应的用户信息，以此记录控制客户端的状态（cookie存放在客户端中，session保存于服务器端）</p>
-</li>
-<li><p><strong>http请求方法</strong></p>
-<ul>
-<li><p>GET：获取资源</p>
-</li>
-<li><p>POST：传输实体主体</p>
-</li>
-<li><p>PUT：传输文件</p>
-</li>
-<li><p>DELETE：删除文件</p>
-</li>
-<li><p>HEAD：获取报文首部</p>
-</li>
-<li><p>OPTIONS：询问支持的方法</p>
-<p>响应报文</p>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Allow</span><span class="punctuation">: </span>GET, POST, HEAD, OPTIONS</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>TRACE：追踪路径，让服务器端将之前的请求通信环回给客户端（可以用来查询请求是如何加工或者传递到服务器端的）</p>
-</li>
-<li><p>CONNECT: 使用隧道协议连接代理</p>
-<p>CONNECT 方法要求在与代理服务器通信时建立隧道，实现用隧道协议进行 TCP 通信。主要使用 SSL（Secure Sockets Layer，安全套接层）和 TLS（Transport Layer Security，传输层安全）协议把通信内容加 密后经网络隧道传输。</p>
-</li>
-</ul>
-</li>
-</ul>
-<p><img src="/2021/08/07/HTTP%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%80/2.png"></p>
-<ul>
-<li><p>长连接</p>
-<p>在早期的http协议中，每次通信就需要断开TCP连接，随着时代的发展一个页面可能需要请求很多次，这样一来就会不断的断开连接增加通信的开销，所以在1.1和部分1.0版本中出现了持久连接，只要一端没有明确提出断开连接，那么就会保持TCP的连接状态</p>
-</li>
-<li><p>HTTP报文内的HTTP信息</p>
-<p>HTTP报文大致可分为报文首部+报文主体两块，两者通过（CR+LF）来划分</p>
-</li>
-</ul>
-<p> <img src="/2021/08/07/HTTP%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%80/3.png"></p>
-<ul>
-<li><p>获取部分内容的范围请求</p>
-<p>执行范围请求的时候，请求体的首部字段Range需要用来指定资源的byte范围</p>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/index.html</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Range</span><span class="punctuation">: </span>bytes=5001-10000   请求50001-10000字节内容</span><br><span class="line"><span class="attribute">Range</span><span class="punctuation">: </span>bytes=5001-        请求5001之后的所有内容    </span><br><span class="line"><span class="attribute">Range</span><span class="punctuation">: </span>bytes=-3000, 6000-7000   请求前3000字节和6000-7000字节内容的多重范围</span><br></pre></td></tr></table></figure>
-
-<p>范围请求的响应会返回状态码为206 Partial Content的响应报文，多重范围响应会在首部字段Content-type标明multipart&#x2F;byteranges，如果服务器不支持范围请求那么会返回200 OK和全部实体内容</p>
-</li>
-</ul>
-<h3 id="HTTP状态码"><a href="#HTTP状态码" class="headerlink" title="HTTP状态码"></a>HTTP状态码</h3><p><img src="/2021/08/07/HTTP%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%80/4.png"></p>
-<ul>
-<li><p>2XX成功   （服务器返回2XX表明请求被正常处理了）</p>
-<ul>
-<li><p>200 OK</p>
-<p>表示客服端发送的请求被服务器端正常处理了</p>
-</li>
-<li><p>204 No Content</p>
-<p>表示客服端发送的请求被服务器端正常处理了，但是在返回的响应报文中不包含实体部分</p>
-</li>
-<li><p>206 Partial Content</p>
-<p>就是上面说的范围请求响应</p>
-</li>
-</ul>
-</li>
-<li><p>3XX重定向  （浏览器需要执行某些其他的处理才能服务器端才能正常处理请求）</p>
-<ul>
-<li><p>301 Moved Permanently</p>
-<p>永久性的重定向，表明改请求资源的URI发生更改了，需要请求新的URI</p>
-</li>
-<li><p><strong>302 Found</strong></p>
-<p>临时重定向，和上面的不同，服务器希望本次使用新的URI进行访问，只是临时性的</p>
-</li>
-<li><p>303 See Other</p>
-<p>表示请求的资源存在另一个URI，应该使用GET方法请求该资源，例如使用POST方法访问某个资源，但是服务器处理的结果是希望客户端使用GET方法来请求这个资源</p>
-</li>
-<li><p>304 Not Modified</p>
-<p>该状态码表示客户端使用GET方法并且请求报文中包含 If-Match，If-ModifiedSince，If-None-Match，If-Range，If-Unmodified-Since 中任一首部，服务器端允许请求访问资源，但未满足条件的情况。304 状态码返回时，不包含任何响应的主体部分。</p>
-</li>
-<li><p>307 Temporary Redirect</p>
-<p>临时重定向和302相同，但是禁止POST变成GET</p>
-</li>
-</ul>
-</li>
-<li><p>4XX 客户端错误 （客服端发送的请求服务器无法正确处理）</p>
-<ul>
-<li><p><strong>400Bad Request</strong></p>
-<p>请求报文中存在语法错误</p>
-</li>
-<li><p>401 Unauthorized</p>
-<p>需要通过HTTP认证才可访问（BASIC认证、DIGEST认证）</p>
-</li>
-<li><p><strong>403 Forbidden</strong></p>
-<p>这次请求被服务器拒绝了</p>
-</li>
-<li><p><strong>404 Not Found</strong></p>
-<p>服务器无法找到此次请求的资源</p>
-</li>
-</ul>
-</li>
-<li><p>5XX 服务器错误</p>
-<ul>
-<li><p><strong>500 Internal Server Error</strong></p>
-<p>服务器处理请求是发生错误</p>
-</li>
-<li><p>503 Service Unavailable</p>
-<p>服务器超载，无法处理请求</p>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="WEB服务器"><a href="#WEB服务器" class="headerlink" title="WEB服务器"></a>WEB服务器</h3><ul>
-<li><p>在一台主机上部署多个web站点</p>
-<p>在HTTP&#x2F;1.1协议规范中允许一台服务器搭建多个web网站，假如一台服务器中绑定了<a target="_blank" rel="noopener" href="http://www.baidu.com和www.google.com/">www.baidu.com和www.google.com</a> 两个域名的时候，我们输入这两个域名的时候都会解析到同一个IP地址上，这个时候如果想要区分用户请求的是那个域名就必须在请求首部Host指定域名。</p>
-</li>
-<li><p>代理服务器</p>
-<p><img src="/2021/08/07/HTTP%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%80/5.png"></p>
-<p>代理服务器最基本的功能就是接受客户端的请求，并将请求转发给其他的服务器，代理并不会改变请求的URL，会直接将请求进行转发，每次通过代理服务器转发请求的或者响应的时候都会在首部添加Via信息，最常见的代理服务就是我们使用的翻墙服务。</p>
-<p>代理服务还细分为正向代理和反向代理，通俗来说正向代理是针对于客户端（服务器端并不知道客户端的真实信息），反向代理是针对于服务器端（客户端不知道服务器端的实际地址）</p>
-<p>正向代理的作用：</p>
-<ol>
-<li>翻墙（访问客户端无法访问的资源）</li>
-<li>缓存，加速访问速度</li>
-<li>对外隐藏真实的客户端信息</li>
-</ol>
-<p>反向代理的作用：</p>
-<ol>
-<li>保证内网的安全</li>
-<li>负载均衡</li>
-</ol>
-</li>
-<li><p>网关</p>
-<p><img src="/2021/08/07/HTTP%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%80/6.png"></p>
-<p>网关和代理的作用很类似，但是网关能够实现非HTTP协议的服务，利用网关可以提高通信的安全性。</p>
-</li>
-<li><p>隧道</p>
-<p><img src="/2021/08/07/HTTP%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%80/7.png"></p>
-<p>在客户端和服务器端建立一条加密的通信线路，确保客户端和服务器端的安全通信，隧道本身不会解析HTTP请求，会原样将请求转发给服务器。</p>
-</li>
-</ul>
-<h3 id="HTTP首部"><a href="#HTTP首部" class="headerlink" title="HTTP首部"></a>HTTP首部</h3><p>之前提到过一个HTTP的报文主要分为首部和主体两个部分，主体部分不是客户端和服务器端根据操作生成的所以没有办法去介绍，在此只介绍部分常见的首部字段的作用和用法。</p>
-<p>下图是分别是请求报文和响应报文的首部构成：</p>
-<p><img src="/2021/08/07/HTTP%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%80/8.png"></p>
-<p>字段结构：<strong>字段名：字段值1, 字段值2….</strong></p>
-<p>报文首部主要分为以下四个部分： </p>
-<ol>
-<li>通用首都字段</li>
-<li>实体首部字段</li>
-<li>请求实体字段</li>
-<li>响应实体字段</li>
-</ol>
-<p><strong>常见字段一览</strong></p>
-<ul>
-<li><p>通用首部字段</p>
-<table>
-<thead>
-<tr>
-<th>字段名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Cache-Control</td>
-<td>控制缓存行为</td>
-</tr>
-<tr>
-<td>Connection</td>
-<td>逐跳首部、连接的管理</td>
-</tr>
-<tr>
-<td>Date</td>
-<td>创建报文的时间和日期</td>
-</tr>
-<tr>
-<td>Pragma</td>
-<td>报文指令</td>
-</tr>
-<tr>
-<td>Trailer</td>
-<td>报文末端的首部一览</td>
-</tr>
-<tr>
-<td>Transfer-Encoding</td>
-<td>指定报文主体的传输编码方式</td>
-</tr>
-<tr>
-<td>Upgrade</td>
-<td>升级为其他协议</td>
-</tr>
-<tr>
-<td>Via</td>
-<td>代理服务器相关信息</td>
-</tr>
-<tr>
-<td>Warning</td>
-<td>错误通知</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>实体首部字段</p>
-<table>
-<thead>
-<tr>
-<th>字段名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Allow</td>
-<td>资源可支持的HTTP方法</td>
-</tr>
-<tr>
-<td>Content-Encoding</td>
-<td>实体主体适用的编码方式</td>
-</tr>
-<tr>
-<td>Content-Language</td>
-<td>实体主体的自然语言</td>
-</tr>
-<tr>
-<td>Content-Length</td>
-<td>实体主体的大小（单位：字节）</td>
-</tr>
-<tr>
-<td>Content-Location</td>
-<td>替代对应资源的URI</td>
-</tr>
-<tr>
-<td>Content-MD5</td>
-<td>实体主体的报文摘要</td>
-</tr>
-<tr>
-<td>Content-Range</td>
-<td>实体主体的范围位置</td>
-</tr>
-<tr>
-<td>Content-Type</td>
-<td>实体主体的媒体类型</td>
-</tr>
-<tr>
-<td>Expires</td>
-<td>实体主题过期的日期和时间</td>
-</tr>
-<tr>
-<td>Last-Modified</td>
-<td>资源的最后修改日期和时间</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>请求首部字段</p>
-<table>
-<thead>
-<tr>
-<th>字段名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Accept</td>
-<td>用户代理可处理的媒体类型</td>
-</tr>
-<tr>
-<td>Accept-Charset</td>
-<td>优先的字符集</td>
-</tr>
-<tr>
-<td>Accept-Encoding</td>
-<td>优先的内容编码</td>
-</tr>
-<tr>
-<td>Accept-Language</td>
-<td>优先的自然语言</td>
-</tr>
-<tr>
-<td>Authorization</td>
-<td>Web认证信息</td>
-</tr>
-<tr>
-<td>Expect</td>
-<td>期待服务器的特定行为</td>
-</tr>
-<tr>
-<td>From</td>
-<td>用户的电子邮箱地址</td>
-</tr>
-<tr>
-<td>Host</td>
-<td>请求资源所在服务器</td>
-</tr>
-<tr>
-<td>If-Match</td>
-<td>比较实体标记（ETag)</td>
-</tr>
-<tr>
-<td>If-Modified-Since</td>
-<td>比较资源的更新时间</td>
-</tr>
-<tr>
-<td>If-None-Match</td>
-<td>比较实体标记（与If-Match想法）</td>
-</tr>
-<tr>
-<td>If-Range</td>
-<td>资源为更新时发送实体Byte的范围请求</td>
-</tr>
-<tr>
-<td>If-Unmodified-Since</td>
-<td>比较资源的更新时间（与If-Modified-Since相反）</td>
-</tr>
-<tr>
-<td>Max-Forwards</td>
-<td>最大传输逐跳数</td>
-</tr>
-<tr>
-<td>Proxy-Authorization</td>
-<td>代理服务器要求客户端的认证信息</td>
-</tr>
-<tr>
-<td>Range</td>
-<td>实体的字节范围请求</td>
-</tr>
-<tr>
-<td>User-Agent</td>
-<td>HTTP客户端程序的信息</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>响应首部字段</p>
-<table>
-<thead>
-<tr>
-<th>字段名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Accept-Ranges</td>
-<td>是否接收字节范围请求</td>
-</tr>
-<tr>
-<td>Age</td>
-<td>推算资源创建经过的时间</td>
-</tr>
-<tr>
-<td>Etag</td>
-<td>资源的匹配信息</td>
-</tr>
-<tr>
-<td>Location</td>
-<td>命令客户端重定向至指定URI</td>
-</tr>
-<tr>
-<td>Proxy-Authenticate</td>
-<td>代理服务器对客户端的认证信息</td>
-</tr>
-<tr>
-<td>Retry-After</td>
-<td>对再次发送请求的时机要求</td>
-</tr>
-<tr>
-<td>Server</td>
-<td>HTTP服务器安装信息</td>
-</tr>
-<tr>
-<td>Vary</td>
-<td>代理服务器缓存的管理信息</td>
-</tr>
-<tr>
-<td>WWW-Authenticate</td>
-<td>服务器对客户端的认证信息</td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-05-03T08:30:24.000Z" title="5/3/2021, 4:30:24 PM">2021-05-03</time>发表</span><span class="level-item"><time dateTime="2022-03-22T15:30:45.677Z" title="3/22/2022, 11:30:45 PM">2022-03-22</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/Django/">Django</a></span><span class="level-item">5 分钟读完 (大约766个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2021/05/03/Django%20rest%20framework%20%20%E8%AE%A4%E8%AF%81%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">Django rest framework  认证组件源码分析</a></h1><div class="content"><h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><p>想要弄清楚rest framework的执行过程首先需要明白Django中CBV和FBV执行流程，http请求最最本质的就是一个socket，一个请求过来第一步就是做路由匹配，在FBV中因为视图本身就是一个函数，所以直接调用函数就可以了，但是CBV中视图是一个类而在这个类里面是我们编写的视图函数，所以比FBV多了一步如何找到那个函数并且执行它。</p>
-<p>CBV中是基于反射实现请求方式不同执行不同的方法，我们在使用CBV来实现的时候，通常都是在路由中使用as_view方法。<br /></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url(r&#x27;^dashboard$&#x27;, views.Dashboard.as_view())</span><br></pre></td></tr></table></figure>
-
-<p>这个方法存在于我们继承的父类View中，在as_view内部又会调用dispatch方法通过反射去找到对应的函数<br /><br><img src="/2021/05/03/Django%20rest%20framework%20%20%E8%AE%A4%E8%AF%81%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/1.png"><br><img src="/2021/05/03/Django%20rest%20framework%20%20%E8%AE%A4%E8%AF%81%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/2.png"></p>
-<p>所以总得来说，在CBV中一个请求过来的具体流程：url  → view → as_view → dispatch<br><img src="/2021/05/03/Django%20rest%20framework%20%20%E8%AE%A4%E8%AF%81%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/3.png"></p>
-<h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><p>有了上面的基础接下来就比较容易理解了</p>
-<p>首先在使用rest framework框架的时候 CBV不在是继承django的View了而是 rest framework的APIView，只是这个APIView也是继承django的View的，只不过是在原有的View中增加了很多功能而已，依然还是通过反射来实现的，所以跳过前面的内容直接到dispatch这部分</p>
-<p><img src="/2021/05/03/Django%20rest%20framework%20%20%E8%AE%A4%E8%AF%81%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/4.png"><br><img src="/2021/05/03/Django%20rest%20framework%20%20%E8%AE%A4%E8%AF%81%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/5.png"></p>
-<p>正式进入正题，restframework主要包含认证、解析器、分页和序列化四个大的部分，就对应上图框框内的几个部分，这几个部分流程大致相同，所以就以认证为例来具体说说他的流程</p>
-<p>咱们接着上图继续往下一步一步走，首先会获取所有认证类的实例化对象。<br><img src="/2021/05/03/Django%20rest%20framework%20%20%E8%AE%A4%E8%AF%81%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/6.png"></p>
-<p>如果自己写的类里面没有认证类，就会到基类中继续寻找，默认使用rest framework的配置文件中的认证类</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">authentication_classes = api_settings.DEFAULT_AUTHENTICATION_CLASSES</span><br></pre></td></tr></table></figure>
-<p>拿到了认证所需要的类的对象，就继续返回到dispatch中，这时候request已经是增加内容了的request</p>
-<p>返回dispatch之后回调用initial方法，在这个方法里面会执行所有之前我们添加的认证类、解析类<br><img src="/2021/05/03/Django%20rest%20framework%20%20%E8%AE%A4%E8%AF%81%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/7.png"></p>
-<p>initial方法里面跳转比较频繁，这里截图就重叠到一起方便看，经过一路的跳转最终是执行了request对象的_authenticate方法<br><img src="/2021/05/03/Django%20rest%20framework%20%20%E8%AE%A4%E8%AF%81%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/8.png"></p>
-<p>在_authenticate方法里面，会依次执行所有认证类的authenticate方法（由此我们也能知道如果我们想编写自己的认证类，那么认证部分需要放在authenticate方法里面），同时会将返回值赋值给request的user和auth属性<br /><br><img src="/2021/05/03/Django%20rest%20framework%20%20%E8%AE%A4%E8%AF%81%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/9.png"></p>
-<p>所以rest framework的认证流程总得来说就是<br><img src="/2021/05/03/Django%20rest%20framework%20%20%E8%AE%A4%E8%AF%81%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/10.png"></p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-04-17T11:42:49.000Z" title="4/17/2021, 7:42:49 PM">2021-04-17</time>发表</span><span class="level-item"><time dateTime="2022-03-22T16:47:32.621Z" title="3/23/2022, 12:47:32 AM">2022-03-23</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/">未分类</a></span><span class="level-item">10 分钟读完 (大约1571个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2021/04/17/jieba+whoosh%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%9A%84%E5%95%86%E5%93%81%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/">jieba+whoosh实现简单的商品搜索功能</a></h1><div class="content"><h4 id="功能描述"><a href="#功能描述" class="headerlink" title="功能描述"></a>功能描述</h4><p>实现一个类似淘宝的搜索功能，例如下面这个例子<br><img src="/2021/04/17/jieba+whoosh%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%9A%84%E5%95%86%E5%93%81%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/1.png"><br>简单点来说我们需要先根据商品名称创建索引，然后再用索引文件匹配去查询字符串来实现商品的搜索，这种搜索是有别于正则匹配的，他会对字符串进行分词处理，准确度也会更高。</p>
-<hr>
-<h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h4><p>这个项目种主要用到了jieba、whoosh两个库，其中jieba实现对中文的分词处理，whoosh则是创建索引文件。<br>安装依赖：</p>
-<ul>
-<li>系统：Ubuntu 16.04</li>
-<li>Python版本： 3.5  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install jieba</span><br><span class="line">pip install whoosh</span><br></pre></td></tr></table></figure>
-测试数据：<br>从github上找到的空气净化器的csv数据，需要的可点击下载<a target="_blank" rel="noopener" href="https://github.com/Ckend/taobao_scrapy/blob/master/result/%E7%A9%BA%E6%B0%94%E6%B8%85%E6%96%B0%E5%99%A8_result.csv">测试数据</a></li>
-</ul>
-<hr>
-<h4 id="正式开始"><a href="#正式开始" class="headerlink" title="正式开始"></a>正式开始</h4><ul>
-<li><strong>创建索引文件</strong><br>首先需要利用whoosh提供的接口对csv中的数据进行处理，生成索引文件。<br>whoosh对中文分词处理不是很好，所以选择jieba实现对中文的分词处理，jieba这个库也有对whoosh的支持，所以处理起来很方便，直接将索引模式中的analyzer更换为jieba的ChineseAnalyzer即可。<br><br><code>schema</code>定义了索引的模式，规定了索引的字段信息，其中索引字段包含<code>ID</code>、<code>STROED</code>、<code>KEYWORD</code>、<code>TEXT</code>、<code>NUMERIC</code>、<code>BOOLEAN</code>、<code>DATETIME</code>等几种，具体的含义和使用对象还是去看whoosh的官方文档来的直接，另外schema只需要我们创建一次，然后就会和索引一起被保存。（只需在第一次创建的时候声明schema）  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> whoosh.index <span class="keyword">import</span> create_in</span><br><span class="line"><span class="keyword">from</span> whoosh.fields <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> jieba.analyse.analyzer <span class="keyword">import</span> ChineseAnalyzer</span><br><span class="line"><span class="keyword">import</span> os.path</span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">create_index</span>():</span><br><span class="line">   	<span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">   	创建索引文件</span></span><br><span class="line"><span class="string">   	:return: None</span></span><br><span class="line"><span class="string">   	&quot;&quot;&quot;</span></span><br><span class="line">   	analyzer = ChineseAnalyzer()</span><br><span class="line">   	schema = Schema(<span class="built_in">id</span>=ID(stored=<span class="literal">True</span>, unique=<span class="literal">True</span>), content=TEXT(stored=<span class="literal">True</span>, analyzer=analyzer))  <span class="comment"># 声明索引模式</span></span><br><span class="line">   	<span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(<span class="string">&quot;index&quot;</span>):  <span class="comment"># 创建目录</span></span><br><span class="line">       	os.mkdir(<span class="string">&quot;index&quot;</span>)</span><br><span class="line">   	ix = create_in(<span class="string">&quot;index&quot;</span>, schema)</span><br><span class="line">   	writer = ix.writer()</span><br><span class="line"></span><br><span class="line">   	<span class="comment"># csv数据</span></span><br><span class="line">   	csv_file = <span class="built_in">open</span>(<span class="string">&#x27;goods.csv&#x27;</span>, <span class="string">&#x27;r&#x27;</span>)  <span class="comment"># 读取csv文件</span></span><br><span class="line">   	data = csv.reader(csv_file)</span><br><span class="line">   	<span class="keyword">for</span> i <span class="keyword">in</span> data:</span><br><span class="line">       	writer.add_document(</span><br><span class="line">           	<span class="built_in">id</span>=i[<span class="number">3</span>],</span><br><span class="line">           	content=i[<span class="number">0</span>]</span><br><span class="line">       	)</span><br><span class="line"> 		writer.commit()</span><br></pre></td></tr></table></figure>
-  使用<code>create_in</code>来创建索引文件，以后对索引文件的更删改查都是使用<code>open_dir</code>代开文件。<br><br>  在读取csv数据的时候，使用<code>add_document</code>来新增索引，其中并不是所有在schema中申明的字段都需要存储的可以为空。最后使用<code>commit</code>实现索引文件的正式写入，这一点和数据库很像。</li>
-<li><strong>简单的查询</strong><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">	<span class="keyword">from</span> whoosh.index <span class="keyword">import</span> open_dir</span><br><span class="line"><span class="keyword">from</span> whoosh.qparser <span class="keyword">import</span> QueryParser</span><br><span class="line"><span class="keyword">from</span> create_index <span class="keyword">import</span> create_index</span><br><span class="line"><span class="keyword">import</span> os.path</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">search</span>(<span class="params">keyword, limit=<span class="number">10</span></span>):</span><br><span class="line">   <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">   按照关键字搜索商品</span></span><br><span class="line"><span class="string">   :param keyword: 商品名称  type: str</span></span><br><span class="line"><span class="string">   :param limit: 检索数量  type: int</span></span><br><span class="line"><span class="string">   :return: [&#123;&#x27;id&#x27;:&#x27;&#x27;,&#x27;content&#x27;:&#x27;&#x27;&#125;,&#123;&#125;]  type：list</span></span><br><span class="line"><span class="string">   &quot;&quot;&quot;</span></span><br><span class="line">   <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(<span class="string">&quot;index&quot;</span>):  <span class="comment"># 查询时没有缩索引文件，需先创建索引文件</span></span><br><span class="line">       create_index()</span><br><span class="line">   ix = open_dir(<span class="string">&quot;index&quot;</span>)  <span class="comment"># 读取索引文件</span></span><br><span class="line">   <span class="keyword">with</span> ix.searcher() <span class="keyword">as</span> searcher:</span><br><span class="line">       parser = QueryParser(<span class="string">&quot;content&quot;</span>, schema=ix.schema)</span><br><span class="line">       keyword = parser.parse(keyword)  <span class="comment"># 构造查询语句</span></span><br><span class="line">       results = searcher.search(keyword, limit=limit)</span><br><span class="line">       res = []</span><br><span class="line">       <span class="keyword">for</span> i <span class="keyword">in</span> results:</span><br><span class="line">           res.append(&#123;<span class="string">&#x27;id&#x27;</span>: i[<span class="string">&#x27;id&#x27;</span>], <span class="string">&#x27;content&#x27;</span>: i[<span class="string">&#x27;content&#x27;</span>]&#125;)</span><br><span class="line">           <span class="built_in">print</span>(i[<span class="string">&#x27;id&#x27;</span>], i[<span class="string">&#x27;content&#x27;</span>])</span><br><span class="line">       <span class="built_in">print</span>(res)</span><br></pre></td></tr></table></figure>
-在查询的时候需要先调用whoosh的<code>QueryParser</code>来构建查询字符串，通过调试我发现在构造查询字符串的时候whoosh默认会分词处理，并且使用<code>AND</code>连接符<br><img src="/2021/04/17/jieba+whoosh%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%9A%84%E5%95%86%E5%93%81%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/2.png">通过<code>search(keyword,limit)</code>去索引文件中匹配相关信息，其中<code>limit</code>为匹配到的最大数目，默认为10个。</li>
-<li><strong>索引的增删改查</strong><br>在一个系统中商品的信息必然不会是一成不变的，所以我们的索引文件就不可避免的需要按照商品信息去做调整，whoosh同样给我们提供了这样的接口。<ul>
-<li>增：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">from</span> whoosh.index <span class="keyword">import</span> open_dir</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add_index</span>(<span class="params">name, <span class="built_in">id</span></span>):</span><br><span class="line">   <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">   新增索引</span></span><br><span class="line"><span class="string">   :param name: 商品名称  type: str</span></span><br><span class="line"><span class="string">   :param id: 商品id  type: str</span></span><br><span class="line"><span class="string">   :return: None</span></span><br><span class="line"><span class="string">   &quot;&quot;&quot;</span></span><br><span class="line">   ix = open_dir(<span class="string">&quot;index&quot;</span>)</span><br><span class="line">   writer = ix.writer()</span><br><span class="line">   writer.add_document(</span><br><span class="line">       <span class="built_in">id</span>=<span class="built_in">id</span>,</span><br><span class="line">       content=name</span><br><span class="line">   )</span><br><span class="line">   writer.commit(optimize=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
- 索引的增加和创建索引只有稍许不同，在<code>commit</code>中增加了<code>optimize</code>参数，翻看whoosh的文档在Merging Segments中提到了两个参数分别是<code>merge</code>和<code>optimize</code>，在默认情况下<code>merge</code>为True，意味着whoosh会将多个segments文件合并到一个文件中，如果<code>merge</code>为False的时候我们提交commit的时候会重新生成一个单独的索引文件，多个索引文件不会对搜索的结果产生很大的差异，如果过多的存在索引会降低整体的查询速度。通常情况下使用whoosh的合并算法将多个文件合并到一个文件中会更好，这只会让在更新索引的速度变慢，用户查询的速度影响较小，这样的用户体验会更好。</li>
-<li>删:   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">from</span> whoosh.index <span class="keyword">import</span> open_dir</span><br><span class="line">   </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add_index</span>(<span class="params">name, <span class="built_in">id</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    新增索引</span></span><br><span class="line"><span class="string">    :param name: 商品名称  type: str</span></span><br><span class="line"><span class="string">    :param id: 商品id  type: str</span></span><br><span class="line"><span class="string">    :return: None</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">   	ix = open_dir(<span class="string">&quot;index&quot;</span>)</span><br><span class="line">   	writer = ix.writer()</span><br><span class="line">   	writer.add_document(</span><br><span class="line">       	<span class="built_in">id</span>=<span class="built_in">id</span>,</span><br><span class="line">       	content=name</span><br><span class="line">   	)</span><br><span class="line">   	writer.commit(optimize=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
-   whoosh总共有两种删除方式<ul>
-<li><code>delete_by_query(query)</code>：删除与给定查询匹配的所有文档。</li>
-<li><code>delete_by_term(fieldname, termtext)</code>根据字段删除指定的文档，这里的字段需要在创建schema时指定为unique</li>
-</ul>
-</li>
-<li>改<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> whoosh.index <span class="keyword">import</span> open_dir</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">update_index</span>(<span class="params">name, <span class="built_in">id</span></span>):</span><br><span class="line"> 	<span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string"> 	更新索引文件</span></span><br><span class="line"><span class="string"> 	:param name: 商品名称  type: str</span></span><br><span class="line"><span class="string"> 	:param id: 商品id  type: str</span></span><br><span class="line"><span class="string"> 	:return: None</span></span><br><span class="line"><span class="string"> 	&quot;&quot;&quot;</span></span><br><span class="line"> 	ix = open_dir(<span class="string">&quot;index&quot;</span>)</span><br><span class="line"> 	writer = ix.writer()</span><br><span class="line"> 	writer.update_document(</span><br><span class="line">     	<span class="built_in">id</span>=<span class="built_in">id</span>,</span><br><span class="line">     	content=name</span><br><span class="line"> 	)</span><br><span class="line"> 	writer.commit()</span><br></pre></td></tr></table></figure>
-  和删除操作一样索引字段中需要有一个unique</li>
-</ul>
-</li>
-</ul>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><hr>
-<p>整个功能算是比较简单的了，各种库都给了对应的接口，很够很方便的实现功能。在实现的过程中也遇到了一个问题，最开始在实现增删改查功能的时候使用的事<code>create_in</code>来打开索引文件，这样导致操作完成之后之前的数据被覆盖了，还是自己当初粗心没有仔细看文档导致的。以后要注意这个问题。</p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2020-09-24T08:42:49.000Z" title="9/24/2020, 4:42:49 PM">2020-09-24</time>发表</span><span class="level-item"><time dateTime="2022-03-22T15:53:00.994Z" title="3/22/2022, 11:53:00 PM">2022-03-22</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/Django/">Django</a></span><span class="level-item">2 分钟读完 (大约364个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2020/09/24/Django%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%92%8CCSRF%E9%AA%8C%E8%AF%81/">Django中间件执行流程和CSRF验证</a></h1><div class="content"><h3 id="中间件执行流程"><a href="#中间件执行流程" class="headerlink" title="中间件执行流程"></a>中间件执行流程</h3><p>django的中间件是一个轻量级的插件，可以改变django的输入和输出，中间件共有5种方法，分别为</p>
-<ol>
-<li>process_request(self,request)</li>
-<li>process_view(self, request, callback, callback_args, callback_kwargs)</li>
-<li>process_template_response(self,request,response)</li>
-<li>process_exception(self, request, exception)</li>
-<li>process_response(self, request, response)</li>
-</ol>
-<p>前两个方法 都是自上而下的执行每个中间件，后面的三个都是反着来的<br><img src="/2020/09/24/Django%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%92%8CCSRF%E9%AA%8C%E8%AF%81/1.png"></p>
-<h3 id="CSRF验证"><a href="#CSRF验证" class="headerlink" title="CSRF验证"></a>CSRF验证</h3><p>django的CSRF是基于中间件来实现的，而且是放在中间件中的view方法中，原因是：django的中间件是作用于全局的，但是某些情况某个函数可能不需要用到CSRF验证，所以在执行路由匹配的时候找到视图函数，看看他是否需要用到CSRF认证，如果不需要则会跳过CSRF。</p>
-<p>免除认证的方法：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># FBV</span></span><br><span class="line"><span class="keyword">from</span> django.views.decorators.csrf <span class="keyword">import</span> csrf_exempt</span><br><span class="line"><span class="meta">@csrf_exempt</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>(<span class="params">request</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 在CBV的方式中，单独给某个方法通过装饰器来免除是无效的，需要加到dispatch函数上面</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法1</span></span><br><span class="line"><span class="keyword">from</span> django.views.decorators.csrf <span class="keyword">import</span> csrf_exempt</span><br><span class="line"><span class="keyword">from</span> django.utils.decorators <span class="keyword">import</span> method_decorator</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Test1</span>(<span class="title class_ inherited__">APIView</span>):</span><br><span class="line"><span class="meta">    @method_decorator(<span class="params">csrf_exempt</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">dispatch</span>(<span class="params">self, request, *args, **kwargs</span>):</span><br><span class="line">        ret = <span class="built_in">super</span>(Test1,self).dispatch(request, *args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> ret</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法2</span></span><br><span class="line"><span class="meta">@method_decorator(<span class="params">csrf_exempt,name=<span class="string">&#x27;dispatch&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Test2</span>(<span class="title class_ inherited__">APIView</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>单独想用CSRF的方法：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.去掉setting中CSRF中间件</span></span><br><span class="line"><span class="keyword">from</span> django.views.decorators.csrf <span class="keyword">import</span> csrf_protect</span><br><span class="line"><span class="meta">@csrf_protect</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>(<span class="params">request</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2019-12-17T07:59:42.000Z" title="12/17/2019, 3:59:42 PM">2019-12-17</time>发表</span><span class="level-item"><time dateTime="2022-03-22T15:48:22.156Z" title="3/22/2022, 11:48:22 PM">2022-03-22</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/Django/">Django</a></span><span class="level-item">6 分钟读完 (大约844个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2019/12/17/Django+Vue%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%A1%B9%E7%9B%AE%E7%9A%84%E9%83%A8%E7%BD%B2/">Django+Vue前后端分离项目的部署</a></h1><div class="content"><p>前后端分离项目的部署主要使用Nginx和uwsgi来实现，把Nginx换成Apache也是可以的，看个人喜好。Nginx主要处理静态文件，uwsgi用来部署Django项目，处理其他请求。</p>
-<h2 id="uwsgi"><a href="#uwsgi" class="headerlink" title="uwsgi"></a>uwsgi</h2><h3 id="安装uwsgi"><a href="#安装uwsgi" class="headerlink" title="安装uwsgi"></a>安装uwsgi</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install uwsgi</span><br></pre></td></tr></table></figure>
-
-<h3 id="测试uwsgi"><a href="#测试uwsgi" class="headerlink" title="测试uwsgi"></a>测试uwsgi</h3><p>首先创建一个test.py文件</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">application</span>(<span class="params">env, start_response</span>):</span><br><span class="line">    start_response(<span class="string">&#x27;200 OK&#x27;</span>, [(<span class="string">&#x27;Content-Type&#x27;</span>,<span class="string">&#x27;text/html&#x27;</span>)])</span><br><span class="line"><span class="keyword">return</span> [<span class="string">b&quot;Hello World&quot;</span>]</span><br></pre></td></tr></table></figure>
-<p>在文件目录下使用命令</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi --http :80 --wsgi-file test.py</span><br></pre></td></tr></table></figure>
-
-<p>访问我们的网站，能够得到Hello World，则uwsgi安装成功<br><img src="/2019/12/17/Django+Vue%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%A1%B9%E7%9B%AE%E7%9A%84%E9%83%A8%E7%BD%B2/1.png"></p>
-<h2 id="部署django项目"><a href="#部署django项目" class="headerlink" title="部署django项目"></a>部署django项目</h2><p>为了以后使用方便，可先创建一个目录存放uwsgi配置文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir website_uwsgi</span><br><span class="line">cd website_uwsgi</span><br><span class="line">vim uwsgi.ini</span><br></pre></td></tr></table></figure>
-<p>配置文件内容如下</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line"><span class="built_in">chdir</span> = /home/iot/IOTPlatform   <span class="comment">#项目根目录</span></span><br><span class="line">module = IOTPlatform.wsgi:application  <span class="comment"># wsgi</span></span><br><span class="line">http = :8000</span><br><span class="line">master = True</span><br><span class="line">Processes = 4  <span class="comment">#最大进程数</span></span><br><span class="line">harakiri = 60  <span class="comment"># </span></span><br><span class="line">max-requests = 5000</span><br><span class="line"></span><br><span class="line"><span class="comment"># socket = 127.0.0.1:8000</span></span><br><span class="line"></span><br><span class="line">uid = 1000</span><br><span class="line">gid = 2000</span><br><span class="line"></span><br><span class="line">pidfile = /home/iot/website_uwsgi/master.pid</span><br><span class="line">daemonize = /home/iot/website_uwsgi/mysite.log</span><br><span class="line">vacuum = True</span><br></pre></td></tr></table></figure>
-
-<p>部分选项的含义：<br>chdir : 项目根目录路径<br /><br>module： 入口文件<br /><br>http：监听的IP和端口，socket也是，如果使用Nginx做反向代理就应该选择socket方式，因为nginx反向代理使用的是socket方式，在这个项目中没有使用方向代理所以选用了http的方式<br /><br>master：是否启动主进程<br /><br>processes:  设置进程数目<br /><br>harakiri: 请求超时时间<br /><br>max-requests:每个工作进程设置请求数的上限<br /><br>pidfile:指定pid文件<br /><br>daemonize: 日志文件<br /></p>
-<p>uwsgi配置文件写好了，使用命令启动： <code>uwsgi --ini uwsgi.ini</code></p>
-<p>启动完成之后，使用ps -aux | grep uwsgi 查看是否有4个进程来判断uwsgi是否启动成功，另外可以使用接口工具访问接口看是否有正常的数据</p>
-<p>其他的一些命令</p>
-<ul>
-<li>uwsgi –reload master.pid 重启服务</li>
-<li>uwsgi –stop master.pid 停止服务</li>
-</ul>
-<h2 id="部署静态文件"><a href="#部署静态文件" class="headerlink" title="部署静态文件"></a>部署静态文件</h2><p>静态文件有两种方式</p>
-<ol>
-<li>通过django路由访问</li>
-<li>通过nginx直接访问</li>
-</ol>
-<h3 id="方式1"><a href="#方式1" class="headerlink" title="方式1"></a>方式1</h3><p>需要在根目录的URL文件中增加 url(r’^$’, TemplateView.as_view(template_name&#x3D;”index.html”)),作为入口，在setting中更改静态资源位置</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># settings.py</span></span><br><span class="line">STATIC_URL = <span class="string">&#x27;/static/&#x27;</span></span><br><span class="line">STATICFILES_DIRS = (os.path.join(BASE_DIR, <span class="string">&quot;dist/static&quot;</span>))  <span class="comment"># 静态文件目录位置</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="方式2"><a href="#方式2" class="headerlink" title="方式2"></a>方式2</h3><p>安装nginx:   apt-get install nginx<br /><br>配置nginx:   cd &#x2F;etc&#x2F;nginx<br /><br>首先在 nginx的可用配置目录下新建我们的配置文件</p></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> sites-available/</span><br><span class="line">vim mysite.conf</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name iotplatform;</span><br><span class="line">    charset utf-8;</span><br><span class="line">    client_max_body_size 75M;   </span><br><span class="line">    location /static &#123;</span><br><span class="line">        <span class="built_in">alias</span> /home/iot/IOTPlatform/dist/static;</span><br><span class="line">    &#125;    </span><br><span class="line">    location /media &#123;</span><br><span class="line">        <span class="built_in">alias</span> /home/iot/media;</span><br><span class="line">    &#125;   </span><br><span class="line">    location / &#123;</span><br><span class="line">        root /home/iot/IOTPlatform/dist;  </span><br><span class="line">	    index index.html;</span><br><span class="line">        try_files <span class="variable">$uri</span> <span class="variable">$uri</span>/ /index.html;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>再使用命令测试我们的配置文件是否有问题</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s /etc/nginx/sites-available/mysite.conf   /etc/nginx/sites-enabled/mysite.conf</span><br><span class="line">nginx -t</span><br></pre></td></tr></table></figure>
-
-<p>没有问题使用 <code>service nginx restart</code> 重启nginx服务，这样就能访问到静态文件了</p>
-<h2 id="关于反向代理的问题"><a href="#关于反向代理的问题" class="headerlink" title="关于反向代理的问题"></a>关于反向代理的问题</h2><p>反向代理的配置文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name iotplatform;</span><br><span class="line">    charset utf-8;</span><br><span class="line">    client_max_body_size 75M;</span><br><span class="line">    location /static &#123;</span><br><span class="line">        alias /home/iot/IOTPlatform/dist/static</span><br><span class="line">    &#125;</span><br><span class="line">    location /media &#123;</span><br><span class="line">        alias /home/iot/media</span><br><span class="line">    &#125;</span><br><span class="line">    location / &#123;</span><br><span class="line">        uwsgi_pass 127.0.0.1:8000;</span><br><span class="line">        include /etc/nginx/uwsgi_params;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用nginx -t测试的时候出现<br>nginx: [emerg] open() “&#x2F;etc&#x2F;nginx&#x2F;conf&#x2F;uwsgi_params” failed (2: No such file or directory) in &#x2F;etc&#x2F;nginx&#x2F;nginx.conf:81<br>nginx: configuration file &#x2F;etc&#x2F;nginx&#x2F;nginx.conf test failed</p>
-<p>提示说没有找到uwsgi_params文件我的解决方法是：手动新建一个conf目录并将uwsgi_params文件复制过去</p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2019-09-24T11:42:49.000Z" title="9/24/2019, 7:42:49 PM">2019-09-24</time>发表</span><span class="level-item"><time dateTime="2022-03-22T15:58:06.750Z" title="3/22/2022, 11:58:06 PM">2022-03-22</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/Django/">Django</a></span><span class="level-item">3 分钟读完 (大约386个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2019/09/24/Django%E4%BD%BF%E7%94%A8%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%AE%9E%E7%8E%B0%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD%E5%87%BA%E7%8E%B0%E9%87%8D%E5%A4%8D%E8%B7%B3%E8%BD%AC%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">Django使用中间件实现用户登录功能出现重复跳转的问题及解决方法</a></h1><div class="content"><p>先看一下出错的代码</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 中间件</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AuthMiddleware</span>(<span class="title class_ inherited__">MiddlewareMixin</span>):</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_request</span>(<span class="params">self, request</span>):</span><br><span class="line">        <span class="built_in">print</span>(request.path)</span><br><span class="line">        <span class="built_in">print</span>(request.session.get(<span class="string">&#x27;is_log&#x27;</span>))</span><br><span class="line">        <span class="keyword">if</span> request.path != <span class="string">&#x27;/oa/login&#x27;</span>:</span><br><span class="line">            <span class="keyword">if</span> request.session.get(<span class="string">&#x27;is_log&#x27;</span>):</span><br><span class="line">                <span class="keyword">return</span> redirect(<span class="string">&#x27;/oa/dashboard&#x27;</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> redirect(<span class="string">&#x27;/oa/login&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># view</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Login</span>(<span class="title class_ inherited__">View</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get</span>(<span class="params">self, request</span>):</span><br><span class="line">        <span class="keyword">return</span> render(request, <span class="string">&#x27;website/signin.html&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">post</span>(<span class="params">self, request</span>):</span><br><span class="line">        res = &#123;<span class="string">&#x27;status&#x27;</span>: <span class="string">&#x27;succ&#x27;</span>&#125;</span><br><span class="line">        user_name = request.POST.get(<span class="string">&quot;name&quot;</span>, <span class="literal">None</span>)</span><br><span class="line">        password = request.POST.get(<span class="string">&quot;password&quot;</span>, <span class="literal">None</span>)</span><br><span class="line">        re_log = request.POST.get(<span class="string">&quot;remember&quot;</span>, <span class="literal">None</span>)</span><br><span class="line">        <span class="keyword">if</span> user_name == <span class="string">&#x27;root&#x27;</span> <span class="keyword">and</span> password == <span class="string">&#x27;123&#x27;</span>:</span><br><span class="line">            <span class="comment"># 设置session</span></span><br><span class="line">            request.session[<span class="string">&#x27;user&#x27;</span>] = user_name</span><br><span class="line">            request.session[<span class="string">&#x27;is_log&#x27;</span>] = <span class="literal">True</span></span><br><span class="line">            <span class="comment"># 如果选择记住状态则保持一周的session信息</span></span><br><span class="line">            <span class="keyword">if</span> re_log == <span class="number">1</span>:</span><br><span class="line">                request.session.set_expiry(<span class="number">1209600</span>)</span><br><span class="line">            res[<span class="string">&#x27;status&#x27;</span>] = <span class="string">&#x27;succ&#x27;</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            res[<span class="string">&#x27;status&#x27;</span>] = <span class="string">&#x27;密码错误&#x27;</span></span><br><span class="line">        <span class="keyword">return</span> HttpResponse(json.dumps(res), content_type=<span class="string">&quot;application/json&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Dashboard</span>(<span class="title class_ inherited__">View</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get</span>(<span class="params">self, request</span>):</span><br><span class="line">        db = DataBase()</span><br><span class="line">        data = db.dashboard()</span><br><span class="line">        <span class="keyword">return</span> render(request, <span class="string">&#x27;website/dashboard.html&#x27;</span>, &#123;<span class="string">&#x27;data&#x27;</span>: data&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>访问效果<br><img src="/2019/09/24/Django%E4%BD%BF%E7%94%A8%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%AE%9E%E7%8E%B0%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD%E5%87%BA%E7%8E%B0%E9%87%8D%E5%A4%8D%E8%B7%B3%E8%BD%AC%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/1.png"><br>登录成功之后一直出现重复的跳转问题。</p>
-<p>我们在来重新审视一下代码：<br>首先我们登录成功之后访问&#x2F;oa&#x2F;dashboard这个页面，然后在中间间的处理过程中由于第一个if判断和第二个if判断都满足导致再次跳转到oa&#x2F;dashboard页面一直重复。而且在访问其他页面的时候依然是一直跳转dashboard这个页面的，逻辑有误。</p>
-<p>解决方法：在验证用户登录之后的session之后直接return掉而不是进行跳转。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">AuthMiddleware</span>(<span class="title class_ inherited__">MiddlewareMixin</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_request</span>(<span class="params">self, request</span>):</span><br><span class="line">        <span class="keyword">if</span> request.path != <span class="string">&#x27;/oa/login&#x27;</span>:</span><br><span class="line">            <span class="keyword">if</span> request.session.get(<span class="string">&#x27;is_log&#x27;</span>):</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> redirect(<span class="string">&#x27;/oa/login&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
-<p><strong>之前逻辑没看清，现在突然发现这个问题好傻逼</strong></p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2019-03-06T18:21:08.000Z" title="3/7/2019, 2:21:08 AM">2019-03-07</time>发表</span><span class="level-item"><time dateTime="2022-03-22T13:47:52.141Z" title="3/22/2022, 9:47:52 PM">2022-03-22</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/Python/">Python</a></span><span class="level-item">9 分钟读完 (大约1382个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2019/03/07/%E5%AF%B9Python%E8%A3%85%E9%A5%B0%E5%99%A8%E7%9A%84%E7%90%86%E8%A7%A3/">对Python装饰器的理解</a></h1><div class="content"><p>想要弄明白装饰器是什么东西，首先我们需要了解一下什么是闭包，因为装饰器是闭包的一种应用。</p>
-<h4 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h4><p>闭包的定义：</p>
-<p>​    通俗的来说闭包就是在一个函数内部定义另外一个函数，这个函数又引用了外部函数的变量，并且外函数的返回值是内函数的引用，下面是一个最简单的闭包示例：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">outer</span>():</span><br><span class="line">    a = <span class="number">10</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">inner</span>():</span><br><span class="line">        <span class="built_in">print</span>(a)</span><br><span class="line">    <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line">demo = outer()</span><br><span class="line">demo()</span><br></pre></td></tr></table></figure>
-
-<p>那么再回到装饰器上面，我们都知道在python中任何东西都是对象，一个函数也好一个字符串也好都是对象，在传递过程中都是传递其内容的引用，当传递的是函数的时候只需在变量名后边加上()即可调用这个函数。</p>
-<p>好了基础知识了解了，那么下面来看一个简单的装饰器应用：</p>
-<h4 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">auth</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;before run&#x27;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>():</span><br><span class="line">        func()</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@auth</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">response</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;this is a test function&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">response()  </span><br><span class="line"></span><br><span class="line"><span class="comment">###### result ######</span></span><br><span class="line"><span class="comment"># before run</span></span><br><span class="line"><span class="comment"># this is a test function</span></span><br></pre></td></tr></table></figure>
-
-<p>乍一看是不是和闭包一样，只不过把变量替换成函数名了</p>
-<h5 id="参数的传递"><a href="#参数的传递" class="headerlink" title="参数的传递"></a>参数的传递</h5><p>上面的示例中被装饰函数是没有传递参数的，倘若被装饰函数需要传递参数的时候那么就需要稍微做一下调整。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">auth</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;before run&#x27;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">        func(*args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@auth</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">response</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;this is a test function&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(args)</span><br><span class="line">    </span><br><span class="line">response(<span class="number">1</span>,<span class="number">2</span>)  </span><br><span class="line"></span><br><span class="line"><span class="comment">###### result ######</span></span><br><span class="line"><span class="comment"># before run</span></span><br><span class="line"><span class="comment"># this is a test function</span></span><br><span class="line"><span class="comment"># (1, 2)</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="装饰器的高级用法"><a href="#装饰器的高级用法" class="headerlink" title="装饰器的高级用法"></a>装饰器的高级用法</h4><p>有时候实际使用装饰器的时候可能并不会像上面的那样简单，例如我们可能需要给装饰器本身传递参数，来让装饰器更为灵活。先尝试不改代码看看运行的结果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@auth(<span class="params"><span class="number">1</span>,<span class="number">2</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">response</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;this is a test function&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(args)</span><br><span class="line"></span><br><span class="line">response(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">###### result ######</span></span><br><span class="line"><span class="comment"># error:</span></span><br><span class="line"><span class="comment"># TypeError: auth() takes 1 positional argument but 2 were given</span></span><br></pre></td></tr></table></figure>
-
-<p>auth只有一个参数，但是传递了两个参数，这是为什么呢？我们需要先看看@auth这行代码是什么意思，@auth其实是response&#x3D;auth(response)的简写，你看这样的写法就只接收一个参数，那么我们不使用这种简写方式可以吗？</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">auth</span>(<span class="params">func, *args</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;before run&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(args)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">        func(*args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">response</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;this is a test function&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(args)</span><br><span class="line"></span><br><span class="line">response = auth(response, <span class="number">1</span>)</span><br><span class="line">response(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">###### result ######</span></span><br><span class="line"><span class="comment"># before run</span></span><br><span class="line"><span class="comment"># (1,)</span></span><br><span class="line"><span class="comment"># this is a test function</span></span><br><span class="line"><span class="comment"># (1, 2)</span></span><br></pre></td></tr></table></figure>
-
-<p>你看还真是实现了这个功能，只不过没办法使用简写来装饰函数了。那有没有更好的解决方法呢，我们再回到装饰器的原理上（一个闭包）那如果我们在闭包函数外面再套一层函数是不是就可以解决了呢。尝试一下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">outer</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;before run&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(args)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">inner</span>(<span class="params">func</span>):</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">            func(*args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> wrapper</span><br><span class="line">    <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line"><span class="meta">@outer(<span class="params"><span class="number">1</span>, <span class="number">2</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">response</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;this is a test function&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(args)</span><br><span class="line"></span><br><span class="line">response(<span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">###### result ######</span></span><br><span class="line"><span class="comment"># before run</span></span><br><span class="line"><span class="comment"># (1,)</span></span><br><span class="line"><span class="comment"># this is a test function</span></span><br><span class="line"><span class="comment"># (1, 2)</span></span><br></pre></td></tr></table></figure>
-
-<p>实现了和上一个一样的功能，此时的@outer(1,2)还原成本来样子就是 response &#x3D; outer(1,2)(response)，我们打上断点看看装饰器是如何运行的</p>
-<p><img src="/2019/03/07/%E5%AF%B9Python%E8%A3%85%E9%A5%B0%E5%99%A8%E7%9A%84%E7%90%86%E8%A7%A3/1.png"></p>
-<h4 id="多个装饰器同时使用"><a href="#多个装饰器同时使用" class="headerlink" title="多个装饰器同时使用"></a>多个装饰器同时使用</h4><p>先上代码看结果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">decorator1</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Decorator1&#x27;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args,**kwargs</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;----1----&#x27;</span>)</span><br><span class="line">        func(*args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">decorator2</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Decorator2&#x27;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args,**kwargs</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;----2----&#x27;</span>)</span><br><span class="line">        func(*args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@decorator1</span></span><br><span class="line"><span class="meta">@decorator2</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>(<span class="params">*args</span>):</span><br><span class="line">    <span class="built_in">print</span>(args)</span><br><span class="line"></span><br><span class="line">test(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">###### result ######</span></span><br><span class="line"><span class="comment"># Decorator2</span></span><br><span class="line"><span class="comment"># Decorator1</span></span><br><span class="line"><span class="comment"># ----1----</span></span><br><span class="line"><span class="comment"># ----2----</span></span><br><span class="line"><span class="comment"># (1, 2)</span></span><br></pre></td></tr></table></figure>
-
-<p>执行顺序并不是先执行完装饰器1然后在执行装饰器2，而是交替运行的，我们分析一下具体执行过程一探究竟。就装饰顺序来说还是按照decorator1、decorator2来对原函数装饰的，那么装饰的结果是什么呢，这里需要了解一下@符号的作用，在python中@会将紧跟着的函数名作为参数传给装饰函数，经过两个装饰器作用之后 test变成了 ：test &#x3D; decorator1(decorator2(test))</p>
-<p>此时在调用test的时候，就会从里往外执行，</p>
-<ol>
-<li>即先执行decorator2(test)，会先打印出Decorator2</li>
-<li>返回decorator2中的内函数给decorator1，然后打印Decorator1</li>
-<li>返回decorator1内函数给test</li>
-<li>在调用test函数的时候就会先执行decorator1的内函数，打印出了—-1—-</li>
-<li>然后运行decorator2的内函数,打印出—-2—-</li>
-<li>最后才会运行test原函数</li>
-</ol>
-<p><img src="/2019/03/07/%E5%AF%B9Python%E8%A3%85%E9%A5%B0%E5%99%A8%E7%9A%84%E7%90%86%E8%A7%A3/2.png"><br>总结来说，在装饰过程中越靠近被装饰函数越先执行，内函数恰恰相反**</p>
-<h4 id="保留原函数的信息"><a href="#保留原函数的信息" class="headerlink" title="保留原函数的信息"></a>保留原函数的信息</h4><p>回到之前一个最简单的装饰器上，我们看看直接输出被装饰的函数信息是什么?</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">auth</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>():</span><br><span class="line">        func()</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@auth</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">response</span>():</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(response.__name__)</span><br><span class="line"></span><br><span class="line"><span class="comment">###### result ######</span></span><br><span class="line"><span class="comment"># wrapper</span></span><br></pre></td></tr></table></figure>
-
-<p>输出的是装饰器的内函数，原因就不说了，和之前的一样@的作用，难么我们该怎么让打印函数信息能够显示的是被装饰函数本身呢？这里就要用到functools的wraps方法，用法很简单：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">auth</span>(<span class="params">func</span>):</span><br><span class="line"><span class="meta">    @wraps(<span class="params">func</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>():</span><br><span class="line">        func()</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@auth</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">response</span>():</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(response.__name__)</span><br><span class="line"></span><br><span class="line"><span class="comment">###### result ######</span></span><br><span class="line"><span class="comment"># response</span></span><br></pre></td></tr></table></figure>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>装饰器到此差不多都说完了，其作用就不展开说了，经过这么一连串的分析自己也对装饰器的原理有了更深的了解，算是没白浪费时间。</p>
-</div></article></div><nav class="pagination" role="navigation" aria-label="pagination"><div class="pagination-previous"><a href="/page/3/">上一页</a></div><div class="pagination-next"><a href="/page/5/">下一页</a></div><ul class="pagination-list is-hidden-mobile"><li><a class="pagination-link" href="/">1</a></li><li><a class="pagination-link" href="/page/2/">2</a></li><li><a class="pagination-link" href="/page/3/">3</a></li><li><a class="pagination-link is-current" href="/page/4/">4</a></li><li><a class="pagination-link" href="/page/5/">5</a></li><li><span class="pagination-ellipsis">&hellip;</span></li><li><a class="pagination-link" href="/page/8/">8</a></li></ul></nav></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/site/avatar.png" alt="fanmlei"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">fanmlei</p><p class="is-size-6 is-block">努力成为一名GEEK！</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Wuhan, China</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">75</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">9</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">28</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/fanmlei" target="_blank" rel="noopener">关注我</a></div></div></div><!--!--><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Arduino/"><span class="level-start"><span class="level-item">Arduino</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Django/"><span class="level-start"><span class="level-item">Django</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/categories/Docker/"><span class="level-start"><span class="level-item">Docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">16</span></span></a><ul><li><a class="level is-mobile" href="/categories/Python/%E7%AE%97%E6%B3%95/"><span class="level-start"><span class="level-item">算法</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"><span class="level-start"><span class="level-item">未分类</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%AE%97%E6%B3%95/"><span class="level-start"><span class="level-item">算法</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E7%AE%97%E6%B3%95/leetcode/"><span class="level-start"><span class="level-item">leetcode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:40.422Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93%E7%9A%84%E7%89%A9%E8%81%94%E7%BD%91%E6%8E%A7%E5%88%B6%EF%BC%88%E4%B8%80%EF%BC%89/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:39.165Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/WinSCP%E9%BB%98%E8%AE%A4%E4%BD%BF%E7%94%A8root%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%9A%84%E6%96%B9%E6%B3%95/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:37.937Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/Python%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1%E7%9A%84%E6%96%B9%E6%B3%95/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:36.621Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/PyQt5%E6%98%BE%E7%A4%BAGIF%E5%9B%BE%E7%89%87/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-16T17:09:35.436Z">2022-03-17</time></p><p class="title"><a href="/2022/03/17/PyQt5%E6%97%A0%E8%BE%B9%E6%A1%86%E5%90%8E%E7%AA%97%E5%8F%A3%E7%9A%84%E7%A7%BB%E5%8A%A8%E6%96%B9%E6%B3%95/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2022/03/"><span class="level-start"><span class="level-item">三月 2022</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/08/"><span class="level-start"><span class="level-item">八月 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/05/"><span class="level-start"><span class="level-item">五月 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/04/"><span class="level-start"><span class="level-item">四月 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/09/"><span class="level-start"><span class="level-item">九月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/12/"><span class="level-start"><span class="level-item">十二月 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/09/"><span class="level-start"><span class="level-item">九月 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/03/"><span class="level-start"><span class="level-item">三月 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/08/"><span class="level-start"><span class="level-item">八月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/05/"><span class="level-start"><span class="level-item">五月 2018</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/04/"><span class="level-start"><span class="level-item">四月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/Arduino/"><span class="tag">Arduino</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CSRF/"><span class="tag">CSRF</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/DRF/"><span class="tag">DRF</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Django/"><span class="tag">Django</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Django%E6%A8%A1%E7%89%88/"><span class="tag">Django模版</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Excel/"><span class="tag">Excel</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HTTP/"><span class="tag">HTTP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WebSocket/"><span class="tag">WebSocket</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bug/"><span class="tag">bug</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jQuery/"><span class="tag">jQuery</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/web%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">web中间件</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E8%AF%8D/"><span class="tag">分词</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/"><span class="tag">前后端分离</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8E%92%E5%BA%8F/"><span class="tag">排序</span><span class="tag">10</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%94%AF%E4%BB%98/"><span class="tag">支付</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/"><span class="tag">文件处理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%BA%90%E7%A0%81/"><span class="tag">源码</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%99%BB%E5%BD%95/"><span class="tag">登录</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%A1%AC%E4%BB%B6/"><span class="tag">硬件</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AC%94%E8%AE%B0/"><span class="tag">笔记</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95/"><span class="tag">算法</span><span class="tag">14</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/"><span class="tag">编程基础</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"><span class="tag">编程语言</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C/"><span class="tag">网络</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/"><span class="tag">网络请求</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%82%AE%E7%AE%B1/"><span class="tag">邮箱</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%83%A8%E7%BD%B2/"><span class="tag">部署</span><span class="tag">1</span></a></div></div></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/site/avatar.png" alt="fanmlei`s blog" height="28"></a><p class="is-size-7"><span>&copy; 2022 fanmlei</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/fanmlei/blog"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+<h3 id="简单优化"><a href="#简单优化" class="headerlink" title="简单优化"></a>简单优化</h3><p>可以知道的是，如果列表是无序的，那么一趟排序的结果必然最少有一次交换，那么反过来想一下，如果一次完整的一趟没有交换任何位置，那么是不是就表明这个列表已经是有序的呢？按照这个思路我们来改进一下上面的代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">bubble_sort</span>(<span class="params">nums</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums) - <span class="number">1</span>):  <span class="comment"># i表示第几趟</span></span><br><span class="line">        flag = <span class="literal">False</span>  <span class="comment"># 是否发生交换的标志位</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums) - i - <span class="number">1</span>):  <span class="comment"># j表示是第几个元素在比较</span></span><br><span class="line">            <span class="keyword">if</span> nums[j] &amp;gt; nums[j + <span class="number">1</span>]:  <span class="comment"># 如果大于则交换位置</span></span><br><span class="line">                nums[j], nums[j + <span class="number">1</span>] = nums[j + <span class="number">1</span>], nums[j]</span><br><span class="line">                flag = <span class="literal">True</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> flag:  <span class="comment"># 一趟排序完成没有发生交换直接返回</span></span><br><span class="line">            <span class="keyword">return</span> nums     </span><br><span class="line">    <span class="keyword">return</span> nums</span><br></pre></td></tr></table></figure>
+</div></article></div><nav class="pagination" role="navigation" aria-label="pagination"><div class="pagination-previous"><a href="/page/3/">上一页</a></div><div class="pagination-next"><a href="/page/5/">下一页</a></div><ul class="pagination-list is-hidden-mobile"><li><a class="pagination-link" href="/">1</a></li><li><a class="pagination-link" href="/page/2/">2</a></li><li><a class="pagination-link" href="/page/3/">3</a></li><li><a class="pagination-link is-current" href="/page/4/">4</a></li><li><a class="pagination-link" href="/page/5/">5</a></li><li><span class="pagination-ellipsis">&hellip;</span></li><li><a class="pagination-link" href="/page/9/">9</a></li></ul></nav></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/site/avatar.png" alt="fanmlei"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">fanmlei</p><p class="is-size-6 is-block">努力成为一名GEEK！</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Wuhan, China</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">81</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">12</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">37</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/fanmlei" target="_blank" rel="noopener">关注我</a></div></div></div><!--!--><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Arduino/"><span class="level-start"><span class="level-item">Arduino</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Django/"><span class="level-start"><span class="level-item">Django</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/categories/Docker/"><span class="level-start"><span class="level-item">Docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Odoo/"><span class="level-start"><span class="level-item">Odoo</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a><ul><li><a class="level is-mobile" href="/categories/Python/%E7%AE%97%E6%B3%95/"><span class="level-start"><span class="level-item">算法</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="level-start"><span class="level-item">微信小程序</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"><span class="level-start"><span class="level-item">未分类</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/"><span class="level-start"><span class="level-item">物联网</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%AE%97%E6%B3%95/"><span class="level-start"><span class="level-item">算法</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E7%AE%97%E6%B3%95/leetcode/"><span class="level-start"><span class="level-item">leetcode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-08-16T02:35:18.000Z">2021-08-16</time></p><p class="title"><a href="/2021/08/16/Python%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%B5%85%E6%9E%90/">Python的多线程使用浅析</a></p><p class="categories"><a href="/categories/Python/">Python</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-05-14T08:30:24.000Z">2021-05-14</time></p><p class="title"><a href="/2021/05/14/Django%20rest%20framework%20%20%E8%AE%A4%E8%AF%81%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">Django rest framework  认证组件源码分析</a></p><p class="categories"><a href="/categories/Django/">Django</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-05-07T11:42:49.000Z">2021-05-07</time></p><p class="title"><a href="/2021/05/07/HTTP%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%80/">HTTP协议基础</a></p><p class="categories"><a href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/">未分类</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-04-19T18:21:08.000Z">2021-04-20</time></p><p class="title"><a href="/2021/04/20/Postgresql%E7%9A%84%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2%E5%8A%9F%E8%83%BD/">Postgresql的全文检索功能</a></p><p class="categories"><a href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/">未分类</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-04-17T11:42:49.000Z">2021-04-17</time></p><p class="title"><a href="/2021/04/17/jieba+whoosh%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%9A%84%E5%95%86%E5%93%81%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/">jieba+whoosh实现简单的商品搜索功能</a></p><p class="categories"><a href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/">未分类</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2021/08/"><span class="level-start"><span class="level-item">八月 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/05/"><span class="level-start"><span class="level-item">五月 2021</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/04/"><span class="level-start"><span class="level-item">四月 2021</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/09/"><span class="level-start"><span class="level-item">九月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/12/"><span class="level-start"><span class="level-item">十二月 2019</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/09/"><span class="level-start"><span class="level-item">九月 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/03/"><span class="level-start"><span class="level-item">三月 2019</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/02/"><span class="level-start"><span class="level-item">二月 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/08/"><span class="level-start"><span class="level-item">八月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/06/"><span class="level-start"><span class="level-item">六月 2018</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/05/"><span class="level-start"><span class="level-item">五月 2018</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/04/"><span class="level-start"><span class="level-item">四月 2018</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/11/"><span class="level-start"><span class="level-item">十一月 2017</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/Arduino/"><span class="tag">Arduino</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CSRF/"><span class="tag">CSRF</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/DRF/"><span class="tag">DRF</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Django/"><span class="tag">Django</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Django%E6%A8%A1%E7%89%88/"><span class="tag">Django模版</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Excel/"><span class="tag">Excel</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HTTP/"><span class="tag">HTTP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MQ/"><span class="tag">MQ</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/PyQt/"><span class="tag">PyQt</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Reids/"><span class="tag">Reids</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WebSocket/"><span class="tag">WebSocket</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bug/"><span class="tag">bug</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jQuery/"><span class="tag">jQuery</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/odoo/"><span class="tag">odoo</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/web%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">web中间件</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E8%AF%8D/"><span class="tag">分词</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/"><span class="tag">前后端分离</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%90%8E%E7%AB%AF/"><span class="tag">后端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="tag">小程序</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8E%92%E5%BA%8F/"><span class="tag">排序</span><span class="tag">10</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%94%AF%E4%BB%98/"><span class="tag">支付</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/"><span class="tag">文件处理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%BA%90%E7%A0%81/"><span class="tag">源码</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%89%A9%E8%81%94%E7%BD%91/"><span class="tag">物联网</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%99%BB%E5%BD%95/"><span class="tag">登录</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%A1%AC%E4%BB%B6/"><span class="tag">硬件</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AC%94%E8%AE%B0/"><span class="tag">笔记</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95/"><span class="tag">算法</span><span class="tag">14</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/"><span class="tag">编程基础</span><span class="tag">12</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"><span class="tag">编程语言</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C/"><span class="tag">网络</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/"><span class="tag">网络请求</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%82%AE%E7%AE%B1/"><span class="tag">邮箱</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%83%A8%E7%BD%B2/"><span class="tag">部署</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%98%9F%E5%88%97/"><span class="tag">队列</span><span class="tag">1</span></a></div></div></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/site/avatar.png" alt="fanmlei`s blog" height="28"></a><p class="is-size-7"><span>&copy; 2022 fanmlei</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/fanmlei/blog"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
             article: {
                 highlight: {
                     clipboard: true,

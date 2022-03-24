@@ -1,3 +1,11 @@
+---
+title: 从零开始搭建物联网平台（2）：MQTT服务的搭建
+date: 2018-11-04 02:21:08
+categories: 
+- 物联网
+tags:
+- 物联网
+---
 <h3 id="EMQ%EF%BC%9A">EMQ：</h3>
 
 <p style="text-indent:50px;">现有的MQTT服务器有很多，例如Mosquitto、Apache-Apollo、EMQ等等，最后呢选择了EMQ毕，国内公司的开源产品，中文资料相对要多一些。EMQ的官网宣称是百万级分布式开源物联网MQTT消息服务器，百不百万倒无所谓，反正是给自用的没有那么多的数据产生。</p>

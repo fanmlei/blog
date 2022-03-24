@@ -1,4 +1,11 @@
-
+---
+title: Python基础---队列
+date: 2018-03-07 02:21:08
+categories: 
+- Python
+tags:
+- 编程基础
+---
 <p>队列Queue包含三个类&nbsp;</p>
 <p>1：Queue(maxsize=0)&nbsp; 普通模式先进先出</p>
 <p>2：LifoQueue(maxsize=0)&nbsp; 后进先出</p>

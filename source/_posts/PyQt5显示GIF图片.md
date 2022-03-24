@@ -1,3 +1,11 @@
+---
+title: PyQt5显示GIF图片
+date: 2017-11-20 02:21:08
+categories: 
+- 未分类
+tags:
+- PyQt
+---
 <p>使用QMoive方法实现</p>
 
 <p>导入库文件</p>

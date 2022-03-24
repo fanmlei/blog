@@ -1,223 +1,515 @@
+---
+title: Redis基础
+date: 2019-03-07 02:21:08
+categories: 
+- 未分类
+tags:
+- Reids
+- 编程基础
+---
 
-<h4>使用python操作redis</h4>
-<p>数据库的连接：</p>
-<p></p>
-<pre class="python">import redis
-#连接数据库
-db = redis.Redis('localhost',6379)
-#连接池
-# pool = redis.ConnectionPool(host='localhost',port=6379)
-# db = redis.Redis(connection_pool=pool)</pre>
-<p><span style="font-size:14px"><strong>String操作：</strong></span></p>
-<p>使用key-value的模式来存储，相当于每个name对应一个value</p>
-<p><strong><em>set(name, value, ex=None, px=None, nx=False, xx=False)<br>
-</em></strong></p>
-<p><strong><em>ex，过期时间（秒）<br>
-px，过期时间（毫秒）<br>
-nx，如果设置为True，则只有name不存在时，当前set操作才执行<br>
-xx，如果设置为True，则只有name存在时，岗前set操作才执行</em></strong><br>
-</p>
-<p></p>
-<pre class="python">db.set('name','fml')
-print(db.get('name'))</pre>
-结果：fml
-<p><strong><em>setex(name,value,time)</em></strong></p>
-<p><strong><em>time:过期时间（秒）</em></strong></p>
-<p></p>
-<pre class="python">db.setex('name','1',2)
-time.sleep(2)
-print(db.get('name'))</pre>
-结果：None
-<p>同样的还有</p>
-<p><strong><em>setnx(name,value)</em></strong>，相当于set()中的nx参数为True</p>
-<p><strong><em>psetex(name.time,value</em></strong>),time为毫秒数</p>
-<p><em>mset(*args,**kwargs)&nbsp; </em>批量操作，可传入字典</p>
-<p>方式一</p>
-<p></p>
-<pre class="python">db.mset(t1 = 1,t2 = 2)
-print(db.get('t1'))
-print(db.get('t2'))</pre>
-结果 1，2<br>
-方式二
-<p></p>
-<pre class="python">d = {'name':'fml','age':22}
-db.mset(d)
-print(db.get('name'))
-print(db.get('age'))</pre>
-结果：&nbsp;fml ， 22<br>
-<br>
-<p><span style="font-size:12px"><em>get(name):</em></span><span style="font-size:10px">返回name的&#20540;</span></p>
-<p><span style="font-size:10px"><strong>mget(keys, *args):</strong>批量操作，返回多个&#20540;（列表的形式），可传入列表<br>
-</span></p>
-<p><span style="font-size:10px"></span></p>
-<pre class="python">print(db.mget('name','age'))
-print(db.mget(['t1','t2']))</pre>
-<img src="https://img-blog.csdn.net/20180312172020750?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
-<em><br>
-</em>
-<p><span style="font-size:10px"><em>getset(name,value):</em>设置新的&#20540;并返回之前的&#20540;</span></p>
-<p><span style="font-size:10px"></span></p>
-<pre class="python">print(db.getset('name','test'))
-print(db.get('name'))</pre>
-<img src="https://img-blog.csdn.net/20180312172409761?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
-<p><span style="font-size:10px"><em>getrange(key,start,end):</em>获取子序列（根据字节获取，非字符）</span></p>
-<p><span style="font-size:10px"><span style="color:rgb(51,51,51); font-family:verdana,Arial,Helvetica,sans-serif; font-size:10px">start：起始位，end结束位,&#20540;得注意的是这个是按照字节来计算而不是字符个数&nbsp;在utf-8的编码中一个中文汉字占三个字节，一个字符只占一位</span></span></p>
-<p><span style="font-size:10px"><span style="color:rgb(51,51,51); font-family:verdana,Arial,Helvetica,sans-serif; font-size:10px"></span></span></p>
-<pre class="python">db.set('name1','fml')
-print(db.getrange('name1', 0, 1).decode())
-db.set('name2','名字')
-print(db.getrange('name2', 0, 2).decode())</pre>
-<img src="https://img-blog.csdn.net/20180312182537723?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
-<p><em>setrange(name, offset, value):&nbsp; &nbsp;</em>从指定字符串索引开始向后替换（新&#20540;太长时，则向后添加）<br>
-</p>
-<p>offset:字符串索引号</p>
-<p></p>
-<pre class="python">db.set('name','test set range')
-db.setrange('name',1,'ls')  #从第二个字符开始替换
-print(db.get('name').decode())</pre>
-<img src="https://img-blog.csdn.net/20180312183816787?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="">
-<p><em>setbit(name, offset, value)：</em>和上面的一个功能类&#20284;，只不过是用bite方式来更改<br>
-</p>
-<p><strong><em>getbit(name, offset)</em></strong>：获取name的二进制表示中的某一位&#20540;<br>
-</p>
-<p><em>bitcount(key, start=None, end=None)：</em>统计name用二进制表示中的为1的个数</p>
-<p>start，位起始位置end，位结束位置</p>
-<p></p>
-<pre class="python">db.set('name','f')
-print(db.bitcount('name'))
-#f对应的ASCII码的&#20540;为102,102转为二进制为 0110 0110 所以返回&#20540;为4</pre>
-<em>strlen(name):</em>返回name对于&#20540;的<strong>字节长度</strong>，汉字三字节
-<p></p>
-<pre class="python">db.set('name1','发生')
-db.set('name2','fml')
-print(db.strlen('name1'))
-print(db.strlen('name2'))</pre>
-<img src="https://img-blog.csdn.net/20180312214428147?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
-<p><strong><em>incr(self, name, amount=1)：</em></strong> name的对应&#20540;增加amount<br>
-</p>
-<p><strong>自增只适用于整数</strong>，当name不存在的时候会新建一个name&#20540;为amount<br>
-</p>
-<p></p>
-<pre class="python">db.set('num1',2)
-db.incr('num1', amount=2)
-db.incr('num2', amount=2)
-print(db.get('num1').decode())
-print(db.get('num2').decode())</pre>
-<img src="https://img-blog.csdn.net/20180312215147018?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
-<p><strong>incrbyfloat(self, name, amount=1.0)：</strong>同上只不过是浮点型<br>
-</p>
-<p><em>decr(self, name, amount=1)：</em>同上功能为自减<br>
-</p>
-<p><strong><em>append(key, value) ：</em></strong>在name对应&#20540;后面追加value的内容，如果没有name就会新建一个name=value<br>
-</p>
-<p></p>
-<pre class="python">db.set('name','fml')
-db.append('name','test')
-print(db.get('name').decode())</pre>
-<img src="https://img-blog.csdn.net/20180312220700495?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
-<p><br>
-</p>
-<p><span style="font-weight:bold; font-size:14px">Hash操作</span><br>
-<span style="font-size:10px">使用字典的方式来存储，name为字典名</span></p>
-<p><strong><em>hset(name, key, value):</em></strong><br>
-</p>
-<p><pre name="code" class="python">db.hset('info','name','fml')
-db.hset('info','age',22)
-print(db.hget('info','name').decode())
-print(db.hget('info','age').decode())</pre><strong style="font-style:italic">hmset(name, mapping)：</strong>批量操作 ，mapping为字典</p>
-<p><pre name="code" class="python">db.hmset('info1',{'name1':'fml','age1':23})
-print(db.hget('info1','name1').decode())
-print(db.hget('info1','age1').decode())</pre></p>
-<p><img src="https://img-blog.csdn.net/20180313150927616?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
-</p>
-<p><strong style="font-style:italic">hget(name,key)：</strong>同get操作</p>
-<p><strong style="font-style:italic">hmget(name, keys, *args)：</strong>同mget,可传入列表或者多个&#20540;<br>
-</p>
-<p><strong style="font-style:italic">hgetall(name)：</strong>获取name的所有key-和value&#20540;<br>
-</p>
-<p><strong><em>hlen(name)：</em></strong>获取name中key的个数<br>
-</p>
-<p><strong><em>hkeys(name)：</em></strong>获取name中所有的key<br>
-</p>
-<p><strong><em>hvals(name)：</em></strong>获取name中所有的value&#20540;<br>
-</p>
-<p><strong><em>hexists(name, key)：</em></strong>判断name中是否存在传入的key<br>
-</p>
-<p><strong><em>hdel(name,*keys)：</em></strong>删除name中的key，若不存在返回0，删除成功后返回1<br>
-</p>
-<p><strong><em>hincrby(name, key, amount=1)：</em></strong>自增，同string操作一样<br>
-</p>
-<p><strong><em>hincrbyfloat(name, key, amount=1.0)</em></strong>&nbsp;自增浮点型<br>
-</p>
-<p><br>
-</p>
-<p>hscan(name, cursor=0, match=None, count=None)&nbsp;过滤获取多个&#20540;<br>
-</p>
-<p>cursor:起始位置，match：过滤方法 ，count：获取的个数</p>
-<p>过滤方法的例子：1：获取以n开头的key ：n*</p>
-<p><span style="white-space:pre"></span>&nbsp; &nbsp; &nbsp;2：获取包含a的key：*a*</p>
-<p><span style="white-space:pre"></span>&nbsp; &nbsp; &nbsp;3：获取以e结尾的key：*e</p>
-<p><pre name="code" class="python">db.hset('info','name','fml')
-db.hset('info','age',22)
-print(db.hscan('info',cursor=0,match= 'n*'))
-print(db.hscan('info',cursor=0,match= '*e'))
-print(db.hscan('info',cursor=0,match= '*g*'))</pre><img src="https://img-blog.csdn.net/20180313154353952?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
-</p>
-<p><br>
-</p>
-<p><span style="font-size:14px; font-weight:700">List操作</span><br>
-</p>
-<p><span style="font-size:14px; font-weight:700"><br>
-</span></p>
-<p><strong style=""><em style=""><span style="font-size:10px">lpush(name,values):&nbsp;向name添加元素，从左边开始添加</span></em></strong></p>
-<p><pre name="code" class="python" style=""><span style="font-size:10px;">db.lpush('list','1','2','3')
-print(db.lrange('list',0,-1))</span></pre><span style="font-size:14px"><img src="https://img-blog.csdn.net/20180313165641539?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></span><br>
-<em><strong style=""><span style="font-size:10px">lpush(name,values):&nbsp;向name添加元素，从右边开始添加</span></strong></em><br>
-</p>
-<p><pre name="code" class="python">db.rpush('list3','1','2','3')
-print(db.lrange('list3',0,-1))</pre><img src="https://img-blog.csdn.net/20180313165843605?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
-<p><br>
-<strong><em>lpushx(name,value)：</em></strong>只有当name存在的时候才在左边添加，相同的还有rpushx(name.value)<br>
-</p>
-<p><pre name="code" class="python">db.rpush('list3','1','2','3')
-db.lpushx('list3',4)
-print(db.lrange('list3',0,-1))</pre><img src="https://img-blog.csdn.net/20180313170111945?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
-<p><strong><em>llen(name):&nbsp;</em></strong>返回name的存储的长度</p>
-<p><strong><em>linsert(name, where, refvalue, value))&nbsp;</em></strong> 在name的refvalue前面或后面插入value,如果存在多个refvalue的时候只会在从左往右数第一个起作用</p>
-<p>where：BEFORE/AFTER</p>
-<p><pre name="code" class="python">db.rpush('list5','1','2','3')
-db.linsert('list5','BEFORE','2','5')
-db.linsert('list5','AFTER','2','6')
-print(db.lrange('list5',0,-1))</pre><img src="https://img-blog.csdn.net/20180313170630387?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
-<br>
-<strong><em>lset(name, index, value)：</em></strong>修改index索引的&#20540;<br>
-</p>
-<p><pre name="code" class="python">db.rpush('list6','1','2','3')
-db.lset('list6',1,4)
-print(db.lrange('list6',0,-1))</pre><img src="https://img-blog.csdn.net/20180313171210000?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
-<strong><em>lrem(name, value, num)：</em></strong>删除name中的value，num为需要删除的个数<br>
-</p>
-<p><pre name="code" class="python">db.rpush('list7',1,2,3,4,1,2,4,5,7)
-db.lrem('list7',1,1)
-db.lrem('list7',2,2)
-print(db.lrange('list7',0,-1))</pre><img src="https://img-blog.csdn.net/20180313172150477?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
-<p><strong><em>lpop(name)：</em></strong>删除左边第一个&#20540;并返回，同样的还有<strong><em>rpop(name)：</em></strong>从右边弹出<br>
-</p>
-<p><strong><em>lindex(name, index)：</em></strong>获取index索引的&#20540;<br>
-</p>
-<p><strong><em>lrange(name, start, end)：</em></strong>返回切片获得的&#20540;<br>
-</p>
-<p><strong><em>ltrim(name, start, end)：</em></strong>删除除start-end之外的所有&#20540;<br>
-</p>
-<p><strong><em>rpoplpush(src, dst) ：</em></strong>删除src的最右的一个&#20540;，并把它添加到dst的最左边<br>
-</p>
-<p><strong><em>blpop(keys, timeout)：</em></strong>将多个列表排列，按照从左到右去pop对应列表的元素&nbsp; 同<strong><em>brpop(keys, timeout)</em></strong><br>
-</p>
-<p><strong style="font-style:italic">brpoplpush(src, dst, timeout=0)：</strong>从一个列表的右侧移除一个元素并将其添加到另一个列表的左侧<br>
-</p>
-<p><br>
-</p>
-<p><span style="font-size:14px; font-weight:700">set集合操作</span><br>
-</p>
-<p><br>
-</p>
+# Redis基础
+
+# Redis
+[toc]
+
+## Redis的数据结构
+
+Redis 总共有五种不同的数据结构，分别是`STRING`、`LIST`、`SET`、`HASH`、`ZSET`，各种具体含义见下图
+
+
+结构类型| 存储的值
+---|---|---
+ STRING | 字符串、整数、浮点数 
+ List | 一个链表，链表里面每个节点都是一个字符串
+ SET | 集合，集合里面的每个字符串都是唯一的
+ HASH | 包含键值对的无序散列表
+ ZSET | 有序集合，元素顺序由分值的大小决定
+
+## Redis 基础命令
+
+### STRING（字符串）
+
+#### 基础命令
+
+
+命令 | 行为
+---|---
+GET | 获取给定键中的值
+SET | 设置给定键中的值（返回OK，python客户端会转换为True）
+DEL | 删除给定键中的值（返回成功删除数量 *可一次删除多个*）
+
+
+```shell
+# redis-cli
+127.0.0.1:6379> set hello world
+OK
+127.0.0.1:6379> get hello
+"world"
+127.0.0.1:6379> del hello
+(integer) 1
+```
+#### 自增自减命令
+
+
+命令 | 用例和行为
+---|---
+INCR | `INCR key-name` 将对应值加一
+DECR | `DECR key-name` 将对应值减一
+INCRBY | `INCRBY key-name num` 将对应值加上整数`num` (num非整数会报错)
+DECRBY | `DECRBY key-name num` 将对应值减去整数`num`
+INCRBYFLOAT | `INCRBYFLOAT key-name num` 将对应值加上浮点数`num`
+
+
+```shell
+# redis-cli
+127.0.0.1:6379> set amount 1
+OK
+127.0.0.1:6379> incr amount
+(integer) 2
+127.0.0.1:6379> decr amount
+(integer) 1
+127.0.0.1:6379> incrby amount 10
+(integer) 11
+127.0.0.1:6379> decrby amount 5
+(integer) 6
+127.0.0.1:6379> incrbyfloat amount 2.333
+"8.333"
+```
+
+上面的都是正常的数值加减，那么如果值为字符串类型redis会如何处理呢？
+
+在redis中，如果存储的字符串可以十进制转换为整数或者浮点数那么也是可以使用自增自减操作的，否则会出异常。另外如果对一个不存在的键操作的时候，默认会当作0来处理。
+```shell
+# redis-cli
+# 可以转换的字符串自增
+127.0.0.1:6379> set string-test "12"
+OK
+127.0.0.1:6379> incr string-test
+(integer) 13
+# 不可以转换的字符串自增
+127.0.0.1:6379> set string-test "ab"
+OK
+127.0.0.1:6379> incr string-test
+(error) ERR value is not an integer or out of range
+# 空值自增
+127.0.0.1:6379> get nil-test
+(nil)
+127.0.0.1:6379> incr nil-test
+(integer) 1
+```
+
+#### 字符串命令
+
+
+命令 | 用例和行为
+---|---
+APPEND | `APPEND key-name value` 将value追加到对应值的末尾，返回总长度。
+GETRANGE | `GETRANGE key-name start end` 获取对应值从start到end范围类的所有内容(包含start和end)
+SETRANGE | `SETRANGE key-name offset value` 将offset之后所有的内容替换为value，返回总长度。（如果offset超过最大长度，redis会使用空值补位）
+
+
+```shell
+# redis-cli
+127.0.0.1:6379> set string 'abc'
+OK
+# 追加
+127.0.0.1:6379> append string 'def'
+(integer) 6
+# 获取全部
+127.0.0.1:6379> getrange string 0 -1
+"abcdef"
+# 设置offset之后的值
+127.0.0.1:6379> setrange string 3 'abc'
+(integer) 6
+127.0.0.1:6379> get string
+"abcabc"
+# offset超过最大长度时
+127.0.0.1:6379> setrange string 8 'def'
+(integer) 11
+127.0.0.1:6379> get string
+"abcabc\x00\x00def"
+```
+
+
+#### 二进制命令
+
+会将字节串看作是二进制位串来操作
+
+命令 | 用例和行为
+---|---
+GETBIT | `GETBIT key-name offset` 获取偏移量为offset的二进制值值，超过最大长度返回0
+SETBIT | `SETBIT key-name offset value` 将偏移量为offset的二进制值设为value，返回之前的二进制
+BITCOUNT | `BITCOUNT key-name [start end]` 统计值为1的数量，可指定范围
+BITOP | `BITOP operation dest-key key-name [key-name ...]`对一个或多个二进制位串执行`AND`、`OR`、`XOR`、`NOT`的按位运算操作，并将结果报错至dest-key键里面。
+
+
+### LIST（列表）
+
+#### 基础命令
+
+
+命令 | 用例和行为
+---|---
+RPUSH | `RPUSH key-name value [value ...]` 将一个或多个推入列表右端，返回列表长度
+LPUSH | `LPUSH key-name value [value ...]` 将一个或多个推入列表左端，返回列表长度
+RPOP | `RPOP key-name` 移除并返回列表最右端元素
+LPOP | `LPOP key-name` 移除并返回列表最左端元素
+LINDEX | `LINDEX key-name offset` 返回列表中偏移量为offset的元素值
+LRANGE | `LRANGE key-name start end` 返回偏移量在start和end之间的所有元素值(包括start和end)
+LTRIM | `LTRIM key-name start end` 只保留偏移量在start和end之间的元素(包括start和end)
+
+
+```shell
+# redis-cli
+# 右端推入一个或多个元素
+127.0.0.1:6379> rpush list-test 1
+(integer) 1
+127.0.0.1:6379> rpush list-test 2 3
+(integer) 3
+# 左端推入一个或多个元素
+127.0.0.1:6379> lpush list-test 4
+(integer) 4
+127.0.0.1:6379> lrange list-test 0 -1
+1) "4"
+2) "1"
+3) "2"
+4) "3"
+# 弹出右端元素
+127.0.0.1:6379> rpop list-test
+"3"
+# 弹出左端元素
+127.0.0.1:6379> lpop list-test
+"4"
+# 获取偏移量对应元素的值
+127.0.0.1:6379> lindex list-test 1
+"2"
+# 当偏移量不符合时
+127.0.0.1:6379> lindex list-test 10
+(nil)
+127.0.0.1:6379> rpush list-test 5 6 7
+(integer) 5
+127.0.0.1:6379> lrange list-test 0 -1
+1) "1"
+2) "2"
+3) "5"
+4) "6"
+5) "7"
+# 保留0-1间的元素
+127.0.0.1:6379> ltrim list-test 0 1
+OK
+127.0.0.1:6379> lrange list-test 0 -1
+1) "1"
+2) "2"
+```
+
+#### 阻塞弹出、列表间移动
+
+
+命令 | 用例和行为
+---|---
+BRPOP | `BRPOP key-name [key-name ...] timeout` 从第一个非空列表中弹出最右端元素，返回被弹出的key-name和弹出的元素值，如果全部为空则阻塞timeout秒，超过timeout秒任然没有则返回None
+BLPOP | `BLPOP key-name [key-name ...] timeout` 变为最左端元素，其他同上
+RPOPLPUSH | `RPOPLPUSH source-key dest-key` 从source-key中弹出最右端元素并将该元素推入到dest-key的最左端，然后返回该值
+BRPOPLPUSH | `RPOPLPUSH source-key dest-key timeout` 同上，如果source-key为空则阻塞timeout秒等待可弹出元素，超时返回None
+
+
+```shell
+# redis-cli
+# list1为空，按顺序弹出list2的值
+127.0.0.1:6379> rpush list2 1 2
+(integer) 2
+127.0.0.1:6379> rpush list3 1
+(integer) 1
+127.0.0.1:6379> brpop list1 list2 list3 1
+1) "list2"
+2) "2"
+
+# list1阻塞1秒后
+127.0.0.1:6379> brpop list1 1
+(nil)
+(1.08s)
+
+# 在另一个终端向空的list1推入值
+# shell-1
+127.0.0.1:6379> rpush list-test 1
+(integer) 1
+
+# shell-2
+127.0.0.1:6379> brpop list1 1 10
+1) "list1"
+2) "1"
+(10.00s)
+
+# list2和list3间的移动
+127.0.0.1:6379> lrange list2 0 -1
+1) "1"
+127.0.0.1:6379> lrange list3 0 -1
+1) "1"
+127.0.0.1:6379> rpoplpush list2 list3
+"1"
+127.0.0.1:6379> lrange list3 0 -1
+1) "1"
+2) "1"
+```
+
+### SET（集合）
+
+#### 基础命令
+
+
+命令 | 用例和行为
+---|---
+SADD | `SADD key-name item [item ...]` 将一个或多个元素添加到集合里面，返回添加进去的数量
+SREM | `SREM key-name item [item ...]` 从集合里面移除一个或者多个元素，返回成功删除的数量
+SISMEMBER | `SISMEMBER key-name item` 检查item是否存在与集合里面，存在返回1否则返回0
+SCARD | `SCARD key-name` 返回集合包含元素的总数
+SMEMBERS | `SMEMBERS key-name` 返回集合包含的所有元素
+SRANDMEMBER | `SRANDMEMBER key-name [count]` 从集合里面随机返回一个或多个元素，count为正返回结果不会重复，count为负可能会重复
+SPOP | `SPOP key-name [count]` 随机移除一个或多个元素，并返回被移除的元素
+SMOVE | `SMOVE source-key dest-key item` 如果source-key包含item则将item添加到dest-key集合，如果item存在则返回1否则返回0
+
+
+```shell
+# 添加时返回被添加的数量
+127.0.0.1:6379> sadd set-test 1 2 3 1
+(integer) 3
+127.0.0.1:6379> smembers set-test
+1) "1"
+2) "2"
+3) "3"
+# 移除时返回被移除的数量
+127.0.0.1:6379> srem set-test 4 1
+(integer) 1
+# 获取当前元素数量
+127.0.0.1:6379> scard set-test
+(integer) 2
+# 不存在时返回0
+127.0.0.1:6379> sismember set-test 1
+(integer) 0
+# 存在时返回1
+127.0.0.1:6379> sismember set-test 2
+(integer) 1
+127.0.0.1:6379> sadd set-test 5 6 7
+(integer) 3
+# 默认返回一个
+127.0.0.1:6379> srandmember set-test
+"7"
+# count为负数时返回结果重复
+127.0.0.1:6379> srandmember set-test -6
+1) "6"
+2) "2"
+3) "5"
+4) "7"
+5) "6"
+6) "2"
+# count为正数结果不会重复
+127.0.0.1:6379> srandmember set-test 6
+1) "2"
+2) "3"
+3) "5"
+4) "6"
+5) "7"
+# 移除一个
+127.0.0.1:6379> spop set-test
+"2"
+# 移除多个，count不能小于0
+127.0.0.1:6379> spop set-test 2
+1) "7"
+2) "3"
+# 移动失败
+127.0.0.1:6379> smove set-test set2 8
+(integer) 0
+# 移动成功
+127.0.0.1:6379> smove set-test set2 5
+(integer) 1
+127.0.0.1:6379> smembers set2
+1) "5"
+```
+
+
+#### 集合的运算
+
+
+命令 | 用例和行为
+---|---
+SDIFF | `SDIFF key-name [key-name ...]` 返回存在于第一个集合但是不存在与其他集合的元素（差集）
+SDIFFSTORE | `SDIFFSTORE dest-key key-name [key-name ...]` 将存在于第一个不存在于其他集合的元素存到dest-key里面
+SINTER | `SINTER key-name [key-name ...]` 返回同时存在与所有集合的元素（交集）
+SINTERSTORE | `SINTERSTORE dest-key key-name [key-name ...]` 将同时存在于所有集合的元素存放到dest-key里面
+SUNION | `SUNION key-name [key-name ...]` 返回至少存在于一个集合的元素（并集）
+SUNIONSTORE | `SUNIONSTORE dest-key key-name [key-name ...]` 将至少存在于一个集合的元素存放到dest-key里面
+
+
+```shell
+# redis-cli
+# 创建set1、set2、set3
+127.0.0.1:6379> sadd set1 1 2 3 4
+(integer) 4
+127.0.0.1:6379> sadd set2 2 3 4 5
+(integer) 3
+127.0.0.1:6379> sadd set3 0
+(integer) 1
+# set1和set2的差集
+127.0.0.1:6379> sdiff set1 set2
+1) "1"
+# set1和set2的差集存储到set4里面 
+127.0.0.1:6379> sdiffstore set4 set2 set3
+(integer) 4
+127.0.0.1:6379> smembers set4
+1) "2"
+2) "3"
+3) "4"
+4) "5"
+# set1和set2和set3的交集
+127.0.0.1:6379> sinter set1 set2 set3
+(empty array)
+# set1和set2的交集
+127.0.0.1:6379> sinter set1 set2
+1) "2"
+2) "3"
+3) "4"
+# set1和set2和set3的并集
+127.0.0.1:6379> sunion set1 set2 set3
+1) "0"
+2) "1"
+3) "2"
+4) "3"
+5) "4"
+6) "5"
+```
+
+
+### HASH（散列）
+
+#### 基础命令
+
+在以前的版本中，有hset，hmset命令，分别是设置一个键值，设置多个键值，不过在4.0.0版本以后中hset也可以设置获取多个键值对，推荐使用hset
+
+
+命令 | 用例和行为
+---|---
+HSET | `HSET key-name key value [key value ...]` 设置一个或多个键值对，返回设置成功的数量
+HGET | `HGET key-name key ` 获取指定键值对，如果不存在则返回空值
+HMGET | `HMGET key-name key [key ...]` 获取一个或多个键值对，如果不存在则用空值代替
+HGETALL | `HGETALL key-name` 获取所有键值对
+HDEL | `HDEL key-name key [key ...]` 删除一个或多个键值对，返回删除成功数量
+HLEN | `HLEN key-name` 获取所有键值对的数量
+
+
+```shell
+# redis-cli
+# 设置一个键值对
+127.0.0.1:6379> hset hash-test 'a' 1
+(integer) 1
+# 设置多个键值对
+127.0.0.1:6379> hset hash-test 'b' 2 'c' 3
+(integer) 2
+# 获取指定键值对
+127.0.0.1:6379> hget hash-test a
+"1"
+# 获取多个键值对
+127.0.0.1:6379> hmget hash-test b c
+1) "2"
+2) "3"
+# 存在空值的情况
+127.0.0.1:6379> hmget hash-test b c d
+1) "2"
+2) "3"
+3) (nil)
+# 获取所有键值对
+127.0.0.1:6379> hgetall hash-test
+1) "a"
+2) "1"
+3) "b"
+4) "2"
+5) "c"
+6) "3"
+# 删除键值对
+127.0.0.1:6379> hdel hash-test a
+(integer) 1
+# 删除不存在的键值对
+127.0.0.1:6379> hdel hash-test d
+(integer) 0
+# 删除多个键值对
+27.0.0.1:6379> hdel hash-test b c
+(integer) 2
+# 获取所有键值对数量
+127.0.0.1:6379> hlen hash-test
+(integer) 0
+127.0.0.1:6379> hset hash-test d 4
+(integer) 1
+127.0.0.1:6379> hlen hash-test
+(integer) 1
+```
+
+#### 高级命令
+
+
+命令 | 用例和行为
+---|---
+HEXISTS | `HEXISTS key-name key` 检查给定的键是否存在
+HKEYS | `HKEYS key-name` 获取所有的键
+HVALS | `HVALS key-name` 获取所有的值
+HINCRBY | `HINCRBY key-name key num` 将key对应的值加上整数num，如果key对应的值不能增加则会报错
+HINCRBYFLOAT | `HINCRBYFLOAT key-name key increment`将key对应的值加上浮点数数num，如果key对应的值不能增加则会报错
+
+
+```shell
+# redis-cli
+127.0.0.1:6379> hset hash2 a 1 b 2 c 3 d d
+(integer) 4
+127.0.0.1:6379> hexists hash2 a
+(integer) 1
+127.0.0.1:6379> hexists hash2 g
+(integer) 0
+127.0.0.1:6379> hkeys hash2
+1) "a"
+2) "b"
+3) "c"
+4) "d"
+127.0.0.1:6379> hvals hash2
+1) "1"
+2) "2"
+3) "3"
+4) "d"
+127.0.0.1:6379> hincrby hash2 a 1
+(integer) 2
+# 不可增加的情况
+127.0.0.1:6379> hincrby hash2 d 1
+(error) ERR hash value is not an integer
+127.0.0.1:6379> hincrbyfloat hash2 a 1
+"3"
+127.0.0.1:6379> hincrbyfloat hash2 a 1.33
+"4.33"
+# 不可增加的情况
+127.0.0.1:6379> hincrbyfloat hash2 d 1.33
+(error) ERR hash value is not a float
+127.0.0.1:6379>
+```
+
+
+### ZSET（有序集合）
+#### 基础命令
+
+
+命令 | 用例和行为 
+---|---
+ZADD | `ZADD key-name score item [score item ...]` 将带有给定分值的元素添加到集合里面
+ZREM | `ZREM key-name item [item ...]` 删除给定的元素，返回删除成功的个数
+ZCARD | `ZCARD key-name` 返回集合里面元素总数
+ZINCRBY | `ZINCRBY key-name num item` 将指定元素的分值加上num
+ZCOUNT | `ZCOUNT key-name min max` 返回分值在min和max之间的元素数量
+ZRANK | `ZRANK key-name item` 返回指定元素在集合里面的排名
+ZSCORE | `ZSCORE key-name item` 返回指定元素的分值
+ZRANGE | `ZRANGE key-name start stop [WITHSCORES]` 返回排名在start和stop之间的成员，WITHSCORES可同时返回对应的分值
+
+
+
+
+
+
+### 发布与订阅
+
+### 其他命令
+

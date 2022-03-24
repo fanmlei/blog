@@ -1,3 +1,9 @@
+---
+title: WinSCP默认使用root用户登录的方法
+date: 2017-12-29 02:21:08
+categories: 
+- 未分类
+---
 
 <p><span style="white-space:pre"></span><span style="font-size:18px">使用WinSCP远程登录ubuntu系统后，再进行文件的拖拽操作的时候会提示错误&nbsp;</span>&nbsp;</p>
 <h2><span style="white-space:pre"></span><img src="https://img-blog.csdn.net/20171229194959072?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRmFuTUxlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>

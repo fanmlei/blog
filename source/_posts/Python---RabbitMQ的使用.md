@@ -1,4 +1,13 @@
-
+---
+title: Python---RabbitMQ的使用
+date: 2018-04-28 02:21:08
+categories: 
+- Python
+tags:
+- 编程基础
+- 队列
+- MQ
+---
 <h4>安装</h4>
 <div>RabbitMQ是使用Erlang开发的，因此我们需要首先安装Erlang。<a target="_blank" href="http://www.erlang.org/downloads">http://www.erlang.org/downloads</a>下载对应的版本，安装完成后即可进入下一步。</div>
 <div>下载RabbitMQ&nbsp;<a target="_blank" href="http://www.rabbitmq.com/download.html">http://www.rabbitmq.com/download.html</a>&nbsp;选择默认安装即可，安装完成后可在开始菜单中找到</div>

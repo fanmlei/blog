@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Redis基础 - fanmlei`s blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="fanmlei`s blog"><meta name="msapplication-TileImage" content="/img/site/avatar.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="fanmlei`s blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Redis基础Redis[toc] Redis的数据结构Redis 总共有五种不同的数据结构，分别是STRING、LIST、SET、HASH、ZSET，各种具体含义见下图 结构类型| 存储的值—|—|— STRING | 字符串、整数、浮点数 List | 一个链表，链表里面每个节点都是一个字符串 SET | 集合，集合里面的每个字符串都是唯一的 HASH | 包含键值对的无序散列表 ZSET |"><meta property="og:type" content="blog"><meta property="og:title" content="Redis基础"><meta property="og:url" content="https://blog.iotforfml.cn/2019/03/07/Redis%E5%9F%BA%E7%A1%80/"><meta property="og:site_name" content="fanmlei`s blog"><meta property="og:description" content="Redis基础Redis[toc] Redis的数据结构Redis 总共有五种不同的数据结构，分别是STRING、LIST、SET、HASH、ZSET，各种具体含义见下图 结构类型| 存储的值—|—|— STRING | 字符串、整数、浮点数 List | 一个链表，链表里面每个节点都是一个字符串 SET | 集合，集合里面的每个字符串都是唯一的 HASH | 包含键值对的无序散列表 ZSET |"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://blog.iotforfml.cn/img/og_image.png"><meta property="article:published_time" content="2019-03-06T18:21:08.000Z"><meta property="article:modified_time" content="2022-03-24T17:32:56.799Z"><meta property="article:author" content="fanmlei"><meta property="article:tag" content="编程基础"><meta property="article:tag" content="Reids"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.iotforfml.cn/2019/03/07/Redis%E5%9F%BA%E7%A1%80/"},"headline":"Redis基础","image":["https://blog.iotforfml.cn/img/og_image.png"],"datePublished":"2019-03-06T18:21:08.000Z","dateModified":"2022-03-24T17:32:56.799Z","author":{"@type":"Person","name":"fanmlei"},"publisher":{"@type":"Organization","name":"fanmlei`s blog","logo":{"@type":"ImageObject","url":"https://blog.iotforfml.cn/img/site/avatar.png"}},"description":"Redis基础Redis[toc] Redis的数据结构Redis 总共有五种不同的数据结构，分别是STRING、LIST、SET、HASH、ZSET，各种具体含义见下图 结构类型| 存储的值—|—|— STRING | 字符串、整数、浮点数 List | 一个链表，链表里面每个节点都是一个字符串 SET | 集合，集合里面的每个字符串都是唯一的 HASH | 包含键值对的无序散列表 ZSET |"}</script><link rel="canonical" href="https://blog.iotforfml.cn/2019/03/07/Redis%E5%9F%BA%E7%A1%80/"><link rel="icon" href="/img/site/avatar.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/site/avatar.png" alt="fanmlei`s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/fanmlei/blog"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2019-03-06T18:21:08.000Z" title="3/7/2019, 2:21:08 AM">2019-03-07</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/">未分类</a></span><span class="level-item">18 分钟读完 (大约2705个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">Redis基础</h1><div class="content"><h1 id="Redis基础"><a href="#Redis基础" class="headerlink" title="Redis基础"></a>Redis基础</h1><h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><p>[toc]</p>
+<h2 id="Redis的数据结构"><a href="#Redis的数据结构" class="headerlink" title="Redis的数据结构"></a>Redis的数据结构</h2><p>Redis 总共有五种不同的数据结构，分别是<code>STRING</code>、<code>LIST</code>、<code>SET</code>、<code>HASH</code>、<code>ZSET</code>，各种具体含义见下图</p>
+<p>结构类型| 存储的值<br>—|—|—<br> STRING | 字符串、整数、浮点数<br> List | 一个链表，链表里面每个节点都是一个字符串<br> SET | 集合，集合里面的每个字符串都是唯一的<br> HASH | 包含键值对的无序散列表<br> ZSET | 有序集合，元素顺序由分值的大小决定</p>
+<h2 id="Redis-基础命令"><a href="#Redis-基础命令" class="headerlink" title="Redis 基础命令"></a>Redis 基础命令</h2><h3 id="STRING（字符串）"><a href="#STRING（字符串）" class="headerlink" title="STRING（字符串）"></a>STRING（字符串）</h3><h4 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td>获取给定键中的值</td>
+</tr>
+<tr>
+<td>SET</td>
+<td>设置给定键中的值（返回OK，python客户端会转换为True）</td>
+</tr>
+<tr>
+<td>DEL</td>
+<td>删除给定键中的值（返回成功删除数量 <em>可一次删除多个</em>）</td>
+</tr>
+</tbody></table>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">redis-cli</span></span><br><span class="line">127.0.0.1:6379&gt; set hello world</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get hello</span><br><span class="line">&quot;world&quot;</span><br><span class="line">127.0.0.1:6379&gt; del hello</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+<h4 id="自增自减命令"><a href="#自增自减命令" class="headerlink" title="自增自减命令"></a>自增自减命令</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>INCR</td>
+<td><code>INCR key-name</code> 将对应值加一</td>
+</tr>
+<tr>
+<td>DECR</td>
+<td><code>DECR key-name</code> 将对应值减一</td>
+</tr>
+<tr>
+<td>INCRBY</td>
+<td><code>INCRBY key-name num</code> 将对应值加上整数<code>num</code> (num非整数会报错)</td>
+</tr>
+<tr>
+<td>DECRBY</td>
+<td><code>DECRBY key-name num</code> 将对应值减去整数<code>num</code></td>
+</tr>
+<tr>
+<td>INCRBYFLOAT</td>
+<td><code>INCRBYFLOAT key-name num</code> 将对应值加上浮点数<code>num</code></td>
+</tr>
+</tbody></table>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">redis-cli</span></span><br><span class="line">127.0.0.1:6379&gt; set amount 1</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; incr amount</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; decr amount</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; incrby amount 10</span><br><span class="line">(integer) 11</span><br><span class="line">127.0.0.1:6379&gt; decrby amount 5</span><br><span class="line">(integer) 6</span><br><span class="line">127.0.0.1:6379&gt; incrbyfloat amount 2.333</span><br><span class="line">&quot;8.333&quot;</span><br></pre></td></tr></table></figure>
+
+<p>上面的都是正常的数值加减，那么如果值为字符串类型redis会如何处理呢？</p>
+<p>在redis中，如果存储的字符串可以十进制转换为整数或者浮点数那么也是可以使用自增自减操作的，否则会出异常。另外如果对一个不存在的键操作的时候，默认会当作0来处理。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">redis-cli</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">可以转换的字符串自增</span></span><br><span class="line">127.0.0.1:6379&gt; set string-test &quot;12&quot;</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; incr string-test</span><br><span class="line">(integer) 13</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">不可以转换的字符串自增</span></span><br><span class="line">127.0.0.1:6379&gt; set string-test &quot;ab&quot;</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; incr string-test</span><br><span class="line">(error) ERR value is not an integer or out of range</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">空值自增</span></span><br><span class="line">127.0.0.1:6379&gt; get nil-test</span><br><span class="line">(nil)</span><br><span class="line">127.0.0.1:6379&gt; incr nil-test</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+
+<h4 id="字符串命令"><a href="#字符串命令" class="headerlink" title="字符串命令"></a>字符串命令</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>APPEND</td>
+<td><code>APPEND key-name value</code> 将value追加到对应值的末尾，返回总长度。</td>
+</tr>
+<tr>
+<td>GETRANGE</td>
+<td><code>GETRANGE key-name start end</code> 获取对应值从start到end范围类的所有内容(包含start和end)</td>
+</tr>
+<tr>
+<td>SETRANGE</td>
+<td><code>SETRANGE key-name offset value</code> 将offset之后所有的内容替换为value，返回总长度。（如果offset超过最大长度，redis会使用空值补位）</td>
+</tr>
+</tbody></table>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">redis-cli</span></span><br><span class="line">127.0.0.1:6379&gt; set string &#x27;abc&#x27;</span><br><span class="line">OK</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">追加</span></span><br><span class="line">127.0.0.1:6379&gt; append string &#x27;def&#x27;</span><br><span class="line">(integer) 6</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取全部</span></span><br><span class="line">127.0.0.1:6379&gt; getrange string 0 -1</span><br><span class="line">&quot;abcdef&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置offset之后的值</span></span><br><span class="line">127.0.0.1:6379&gt; setrange string 3 &#x27;abc&#x27;</span><br><span class="line">(integer) 6</span><br><span class="line">127.0.0.1:6379&gt; get string</span><br><span class="line">&quot;abcabc&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">offset超过最大长度时</span></span><br><span class="line">127.0.0.1:6379&gt; setrange string 8 &#x27;def&#x27;</span><br><span class="line">(integer) 11</span><br><span class="line">127.0.0.1:6379&gt; get string</span><br><span class="line">&quot;abcabc\x00\x00def&quot;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="二进制命令"><a href="#二进制命令" class="headerlink" title="二进制命令"></a>二进制命令</h4><p>会将字节串看作是二进制位串来操作</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GETBIT</td>
+<td><code>GETBIT key-name offset</code> 获取偏移量为offset的二进制值值，超过最大长度返回0</td>
+</tr>
+<tr>
+<td>SETBIT</td>
+<td><code>SETBIT key-name offset value</code> 将偏移量为offset的二进制值设为value，返回之前的二进制</td>
+</tr>
+<tr>
+<td>BITCOUNT</td>
+<td><code>BITCOUNT key-name [start end]</code> 统计值为1的数量，可指定范围</td>
+</tr>
+<tr>
+<td>BITOP</td>
+<td><code>BITOP operation dest-key key-name [key-name ...]</code>对一个或多个二进制位串执行<code>AND</code>、<code>OR</code>、<code>XOR</code>、<code>NOT</code>的按位运算操作，并将结果报错至dest-key键里面。</td>
+</tr>
+</tbody></table>
+<h3 id="LIST（列表）"><a href="#LIST（列表）" class="headerlink" title="LIST（列表）"></a>LIST（列表）</h3><h4 id="基础命令-1"><a href="#基础命令-1" class="headerlink" title="基础命令"></a>基础命令</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RPUSH</td>
+<td><code>RPUSH key-name value [value ...]</code> 将一个或多个推入列表右端，返回列表长度</td>
+</tr>
+<tr>
+<td>LPUSH</td>
+<td><code>LPUSH key-name value [value ...]</code> 将一个或多个推入列表左端，返回列表长度</td>
+</tr>
+<tr>
+<td>RPOP</td>
+<td><code>RPOP key-name</code> 移除并返回列表最右端元素</td>
+</tr>
+<tr>
+<td>LPOP</td>
+<td><code>LPOP key-name</code> 移除并返回列表最左端元素</td>
+</tr>
+<tr>
+<td>LINDEX</td>
+<td><code>LINDEX key-name offset</code> 返回列表中偏移量为offset的元素值</td>
+</tr>
+<tr>
+<td>LRANGE</td>
+<td><code>LRANGE key-name start end</code> 返回偏移量在start和end之间的所有元素值(包括start和end)</td>
+</tr>
+<tr>
+<td>LTRIM</td>
+<td><code>LTRIM key-name start end</code> 只保留偏移量在start和end之间的元素(包括start和end)</td>
+</tr>
+</tbody></table>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">redis-cli</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">右端推入一个或多个元素</span></span><br><span class="line">127.0.0.1:6379&gt; rpush list-test 1</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; rpush list-test 2 3</span><br><span class="line">(integer) 3</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">左端推入一个或多个元素</span></span><br><span class="line">127.0.0.1:6379&gt; lpush list-test 4</span><br><span class="line">(integer) 4</span><br><span class="line">127.0.0.1:6379&gt; lrange list-test 0 -1</span><br><span class="line">1) &quot;4&quot;</span><br><span class="line">2) &quot;1&quot;</span><br><span class="line">3) &quot;2&quot;</span><br><span class="line">4) &quot;3&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">弹出右端元素</span></span><br><span class="line">127.0.0.1:6379&gt; rpop list-test</span><br><span class="line">&quot;3&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">弹出左端元素</span></span><br><span class="line">127.0.0.1:6379&gt; lpop list-test</span><br><span class="line">&quot;4&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取偏移量对应元素的值</span></span><br><span class="line">127.0.0.1:6379&gt; lindex list-test 1</span><br><span class="line">&quot;2&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">当偏移量不符合时</span></span><br><span class="line">127.0.0.1:6379&gt; lindex list-test 10</span><br><span class="line">(nil)</span><br><span class="line">127.0.0.1:6379&gt; rpush list-test 5 6 7</span><br><span class="line">(integer) 5</span><br><span class="line">127.0.0.1:6379&gt; lrange list-test 0 -1</span><br><span class="line">1) &quot;1&quot;</span><br><span class="line">2) &quot;2&quot;</span><br><span class="line">3) &quot;5&quot;</span><br><span class="line">4) &quot;6&quot;</span><br><span class="line">5) &quot;7&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">保留0-1间的元素</span></span><br><span class="line">127.0.0.1:6379&gt; ltrim list-test 0 1</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; lrange list-test 0 -1</span><br><span class="line">1) &quot;1&quot;</span><br><span class="line">2) &quot;2&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="阻塞弹出、列表间移动"><a href="#阻塞弹出、列表间移动" class="headerlink" title="阻塞弹出、列表间移动"></a>阻塞弹出、列表间移动</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BRPOP</td>
+<td><code>BRPOP key-name [key-name ...] timeout</code> 从第一个非空列表中弹出最右端元素，返回被弹出的key-name和弹出的元素值，如果全部为空则阻塞timeout秒，超过timeout秒任然没有则返回None</td>
+</tr>
+<tr>
+<td>BLPOP</td>
+<td><code>BLPOP key-name [key-name ...] timeout</code> 变为最左端元素，其他同上</td>
+</tr>
+<tr>
+<td>RPOPLPUSH</td>
+<td><code>RPOPLPUSH source-key dest-key</code> 从source-key中弹出最右端元素并将该元素推入到dest-key的最左端，然后返回该值</td>
+</tr>
+<tr>
+<td>BRPOPLPUSH</td>
+<td><code>RPOPLPUSH source-key dest-key timeout</code> 同上，如果source-key为空则阻塞timeout秒等待可弹出元素，超时返回None</td>
+</tr>
+</tbody></table>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">redis-cli</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">list1为空，按顺序弹出list2的值</span></span><br><span class="line">127.0.0.1:6379&gt; rpush list2 1 2</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; rpush list3 1</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; brpop list1 list2 list3 1</span><br><span class="line">1) &quot;list2&quot;</span><br><span class="line">2) &quot;2&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">list1阻塞1秒后</span></span><br><span class="line">127.0.0.1:6379&gt; brpop list1 1</span><br><span class="line">(nil)</span><br><span class="line">(1.08s)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在另一个终端向空的list1推入值</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">shell-1</span></span><br><span class="line">127.0.0.1:6379&gt; rpush list-test 1</span><br><span class="line">(integer) 1</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">shell-2</span></span><br><span class="line">127.0.0.1:6379&gt; brpop list1 1 10</span><br><span class="line">1) &quot;list1&quot;</span><br><span class="line">2) &quot;1&quot;</span><br><span class="line">(10.00s)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">list2和list3间的移动</span></span><br><span class="line">127.0.0.1:6379&gt; lrange list2 0 -1</span><br><span class="line">1) &quot;1&quot;</span><br><span class="line">127.0.0.1:6379&gt; lrange list3 0 -1</span><br><span class="line">1) &quot;1&quot;</span><br><span class="line">127.0.0.1:6379&gt; rpoplpush list2 list3</span><br><span class="line">&quot;1&quot;</span><br><span class="line">127.0.0.1:6379&gt; lrange list3 0 -1</span><br><span class="line">1) &quot;1&quot;</span><br><span class="line">2) &quot;1&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="SET（集合）"><a href="#SET（集合）" class="headerlink" title="SET（集合）"></a>SET（集合）</h3><h4 id="基础命令-2"><a href="#基础命令-2" class="headerlink" title="基础命令"></a>基础命令</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SADD</td>
+<td><code>SADD key-name item [item ...]</code> 将一个或多个元素添加到集合里面，返回添加进去的数量</td>
+</tr>
+<tr>
+<td>SREM</td>
+<td><code>SREM key-name item [item ...]</code> 从集合里面移除一个或者多个元素，返回成功删除的数量</td>
+</tr>
+<tr>
+<td>SISMEMBER</td>
+<td><code>SISMEMBER key-name item</code> 检查item是否存在与集合里面，存在返回1否则返回0</td>
+</tr>
+<tr>
+<td>SCARD</td>
+<td><code>SCARD key-name</code> 返回集合包含元素的总数</td>
+</tr>
+<tr>
+<td>SMEMBERS</td>
+<td><code>SMEMBERS key-name</code> 返回集合包含的所有元素</td>
+</tr>
+<tr>
+<td>SRANDMEMBER</td>
+<td><code>SRANDMEMBER key-name [count]</code> 从集合里面随机返回一个或多个元素，count为正返回结果不会重复，count为负可能会重复</td>
+</tr>
+<tr>
+<td>SPOP</td>
+<td><code>SPOP key-name [count]</code> 随机移除一个或多个元素，并返回被移除的元素</td>
+</tr>
+<tr>
+<td>SMOVE</td>
+<td><code>SMOVE source-key dest-key item</code> 如果source-key包含item则将item添加到dest-key集合，如果item存在则返回1否则返回0</td>
+</tr>
+</tbody></table>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加时返回被添加的数量</span></span><br><span class="line">127.0.0.1:6379&gt; sadd set-test 1 2 3 1</span><br><span class="line">(integer) 3</span><br><span class="line">127.0.0.1:6379&gt; smembers set-test</span><br><span class="line">1) &quot;1&quot;</span><br><span class="line">2) &quot;2&quot;</span><br><span class="line">3) &quot;3&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">移除时返回被移除的数量</span></span><br><span class="line">127.0.0.1:6379&gt; srem set-test 4 1</span><br><span class="line">(integer) 1</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取当前元素数量</span></span><br><span class="line">127.0.0.1:6379&gt; scard set-test</span><br><span class="line">(integer) 2</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">不存在时返回0</span></span><br><span class="line">127.0.0.1:6379&gt; sismember set-test 1</span><br><span class="line">(integer) 0</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">存在时返回1</span></span><br><span class="line">127.0.0.1:6379&gt; sismember set-test 2</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd set-test 5 6 7</span><br><span class="line">(integer) 3</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">默认返回一个</span></span><br><span class="line">127.0.0.1:6379&gt; srandmember set-test</span><br><span class="line">&quot;7&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">count为负数时返回结果重复</span></span><br><span class="line">127.0.0.1:6379&gt; srandmember set-test -6</span><br><span class="line">1) &quot;6&quot;</span><br><span class="line">2) &quot;2&quot;</span><br><span class="line">3) &quot;5&quot;</span><br><span class="line">4) &quot;7&quot;</span><br><span class="line">5) &quot;6&quot;</span><br><span class="line">6) &quot;2&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">count为正数结果不会重复</span></span><br><span class="line">127.0.0.1:6379&gt; srandmember set-test 6</span><br><span class="line">1) &quot;2&quot;</span><br><span class="line">2) &quot;3&quot;</span><br><span class="line">3) &quot;5&quot;</span><br><span class="line">4) &quot;6&quot;</span><br><span class="line">5) &quot;7&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">移除一个</span></span><br><span class="line">127.0.0.1:6379&gt; spop set-test</span><br><span class="line">&quot;2&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">移除多个，count不能小于0</span></span><br><span class="line">127.0.0.1:6379&gt; spop set-test 2</span><br><span class="line">1) &quot;7&quot;</span><br><span class="line">2) &quot;3&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">移动失败</span></span><br><span class="line">127.0.0.1:6379&gt; smove set-test set2 8</span><br><span class="line">(integer) 0</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">移动成功</span></span><br><span class="line">127.0.0.1:6379&gt; smove set-test set2 5</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; smembers set2</span><br><span class="line">1) &quot;5&quot;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="集合的运算"><a href="#集合的运算" class="headerlink" title="集合的运算"></a>集合的运算</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SDIFF</td>
+<td><code>SDIFF key-name [key-name ...]</code> 返回存在于第一个集合但是不存在与其他集合的元素（差集）</td>
+</tr>
+<tr>
+<td>SDIFFSTORE</td>
+<td><code>SDIFFSTORE dest-key key-name [key-name ...]</code> 将存在于第一个不存在于其他集合的元素存到dest-key里面</td>
+</tr>
+<tr>
+<td>SINTER</td>
+<td><code>SINTER key-name [key-name ...]</code> 返回同时存在与所有集合的元素（交集）</td>
+</tr>
+<tr>
+<td>SINTERSTORE</td>
+<td><code>SINTERSTORE dest-key key-name [key-name ...]</code> 将同时存在于所有集合的元素存放到dest-key里面</td>
+</tr>
+<tr>
+<td>SUNION</td>
+<td><code>SUNION key-name [key-name ...]</code> 返回至少存在于一个集合的元素（并集）</td>
+</tr>
+<tr>
+<td>SUNIONSTORE</td>
+<td><code>SUNIONSTORE dest-key key-name [key-name ...]</code> 将至少存在于一个集合的元素存放到dest-key里面</td>
+</tr>
+</tbody></table>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">redis-cli</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建set1、set2、set3</span></span><br><span class="line">127.0.0.1:6379&gt; sadd set1 1 2 3 4</span><br><span class="line">(integer) 4</span><br><span class="line">127.0.0.1:6379&gt; sadd set2 2 3 4 5</span><br><span class="line">(integer) 3</span><br><span class="line">127.0.0.1:6379&gt; sadd set3 0</span><br><span class="line">(integer) 1</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">set1和set2的差集</span></span><br><span class="line">127.0.0.1:6379&gt; sdiff set1 set2</span><br><span class="line">1) &quot;1&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">set1和set2的差集存储到set4里面</span> </span><br><span class="line">127.0.0.1:6379&gt; sdiffstore set4 set2 set3</span><br><span class="line">(integer) 4</span><br><span class="line">127.0.0.1:6379&gt; smembers set4</span><br><span class="line">1) &quot;2&quot;</span><br><span class="line">2) &quot;3&quot;</span><br><span class="line">3) &quot;4&quot;</span><br><span class="line">4) &quot;5&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">set1和set2和set3的交集</span></span><br><span class="line">127.0.0.1:6379&gt; sinter set1 set2 set3</span><br><span class="line">(empty array)</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">set1和set2的交集</span></span><br><span class="line">127.0.0.1:6379&gt; sinter set1 set2</span><br><span class="line">1) &quot;2&quot;</span><br><span class="line">2) &quot;3&quot;</span><br><span class="line">3) &quot;4&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">set1和set2和set3的并集</span></span><br><span class="line">127.0.0.1:6379&gt; sunion set1 set2 set3</span><br><span class="line">1) &quot;0&quot;</span><br><span class="line">2) &quot;1&quot;</span><br><span class="line">3) &quot;2&quot;</span><br><span class="line">4) &quot;3&quot;</span><br><span class="line">5) &quot;4&quot;</span><br><span class="line">6) &quot;5&quot;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="HASH（散列）"><a href="#HASH（散列）" class="headerlink" title="HASH（散列）"></a>HASH（散列）</h3><h4 id="基础命令-3"><a href="#基础命令-3" class="headerlink" title="基础命令"></a>基础命令</h4><p>在以前的版本中，有hset，hmset命令，分别是设置一个键值，设置多个键值，不过在4.0.0版本以后中hset也可以设置获取多个键值对，推荐使用hset</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HSET</td>
+<td><code>HSET key-name key value [key value ...]</code> 设置一个或多个键值对，返回设置成功的数量</td>
+</tr>
+<tr>
+<td>HGET</td>
+<td><code>HGET key-name key </code> 获取指定键值对，如果不存在则返回空值</td>
+</tr>
+<tr>
+<td>HMGET</td>
+<td><code>HMGET key-name key [key ...]</code> 获取一个或多个键值对，如果不存在则用空值代替</td>
+</tr>
+<tr>
+<td>HGETALL</td>
+<td><code>HGETALL key-name</code> 获取所有键值对</td>
+</tr>
+<tr>
+<td>HDEL</td>
+<td><code>HDEL key-name key [key ...]</code> 删除一个或多个键值对，返回删除成功数量</td>
+</tr>
+<tr>
+<td>HLEN</td>
+<td><code>HLEN key-name</code> 获取所有键值对的数量</td>
+</tr>
+</tbody></table>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">redis-cli</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置一个键值对</span></span><br><span class="line">127.0.0.1:6379&gt; hset hash-test &#x27;a&#x27; 1</span><br><span class="line">(integer) 1</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置多个键值对</span></span><br><span class="line">127.0.0.1:6379&gt; hset hash-test &#x27;b&#x27; 2 &#x27;c&#x27; 3</span><br><span class="line">(integer) 2</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取指定键值对</span></span><br><span class="line">127.0.0.1:6379&gt; hget hash-test a</span><br><span class="line">&quot;1&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取多个键值对</span></span><br><span class="line">127.0.0.1:6379&gt; hmget hash-test b c</span><br><span class="line">1) &quot;2&quot;</span><br><span class="line">2) &quot;3&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">存在空值的情况</span></span><br><span class="line">127.0.0.1:6379&gt; hmget hash-test b c d</span><br><span class="line">1) &quot;2&quot;</span><br><span class="line">2) &quot;3&quot;</span><br><span class="line">3) (nil)</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取所有键值对</span></span><br><span class="line">127.0.0.1:6379&gt; hgetall hash-test</span><br><span class="line">1) &quot;a&quot;</span><br><span class="line">2) &quot;1&quot;</span><br><span class="line">3) &quot;b&quot;</span><br><span class="line">4) &quot;2&quot;</span><br><span class="line">5) &quot;c&quot;</span><br><span class="line">6) &quot;3&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除键值对</span></span><br><span class="line">127.0.0.1:6379&gt; hdel hash-test a</span><br><span class="line">(integer) 1</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除不存在的键值对</span></span><br><span class="line">127.0.0.1:6379&gt; hdel hash-test d</span><br><span class="line">(integer) 0</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除多个键值对</span></span><br><span class="line">27.0.0.1:6379&gt; hdel hash-test b c</span><br><span class="line">(integer) 2</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取所有键值对数量</span></span><br><span class="line">127.0.0.1:6379&gt; hlen hash-test</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; hset hash-test d 4</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; hlen hash-test</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+
+<h4 id="高级命令"><a href="#高级命令" class="headerlink" title="高级命令"></a>高级命令</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HEXISTS</td>
+<td><code>HEXISTS key-name key</code> 检查给定的键是否存在</td>
+</tr>
+<tr>
+<td>HKEYS</td>
+<td><code>HKEYS key-name</code> 获取所有的键</td>
+</tr>
+<tr>
+<td>HVALS</td>
+<td><code>HVALS key-name</code> 获取所有的值</td>
+</tr>
+<tr>
+<td>HINCRBY</td>
+<td><code>HINCRBY key-name key num</code> 将key对应的值加上整数num，如果key对应的值不能增加则会报错</td>
+</tr>
+<tr>
+<td>HINCRBYFLOAT</td>
+<td><code>HINCRBYFLOAT key-name key increment</code>将key对应的值加上浮点数数num，如果key对应的值不能增加则会报错</td>
+</tr>
+</tbody></table>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">redis-cli</span></span><br><span class="line">127.0.0.1:6379&gt; hset hash2 a 1 b 2 c 3 d d</span><br><span class="line">(integer) 4</span><br><span class="line">127.0.0.1:6379&gt; hexists hash2 a</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; hexists hash2 g</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; hkeys hash2</span><br><span class="line">1) &quot;a&quot;</span><br><span class="line">2) &quot;b&quot;</span><br><span class="line">3) &quot;c&quot;</span><br><span class="line">4) &quot;d&quot;</span><br><span class="line">127.0.0.1:6379&gt; hvals hash2</span><br><span class="line">1) &quot;1&quot;</span><br><span class="line">2) &quot;2&quot;</span><br><span class="line">3) &quot;3&quot;</span><br><span class="line">4) &quot;d&quot;</span><br><span class="line">127.0.0.1:6379&gt; hincrby hash2 a 1</span><br><span class="line">(integer) 2</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">不可增加的情况</span></span><br><span class="line">127.0.0.1:6379&gt; hincrby hash2 d 1</span><br><span class="line">(error) ERR hash value is not an integer</span><br><span class="line">127.0.0.1:6379&gt; hincrbyfloat hash2 a 1</span><br><span class="line">&quot;3&quot;</span><br><span class="line">127.0.0.1:6379&gt; hincrbyfloat hash2 a 1.33</span><br><span class="line">&quot;4.33&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">不可增加的情况</span></span><br><span class="line">127.0.0.1:6379&gt; hincrbyfloat hash2 d 1.33</span><br><span class="line">(error) ERR hash value is not a float</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="ZSET（有序集合）"><a href="#ZSET（有序集合）" class="headerlink" title="ZSET（有序集合）"></a>ZSET（有序集合）</h3><h4 id="基础命令-4"><a href="#基础命令-4" class="headerlink" title="基础命令"></a>基础命令</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ZADD</td>
+<td><code>ZADD key-name score item [score item ...]</code> 将带有给定分值的元素添加到集合里面</td>
+</tr>
+<tr>
+<td>ZREM</td>
+<td><code>ZREM key-name item [item ...]</code> 删除给定的元素，返回删除成功的个数</td>
+</tr>
+<tr>
+<td>ZCARD</td>
+<td><code>ZCARD key-name</code> 返回集合里面元素总数</td>
+</tr>
+<tr>
+<td>ZINCRBY</td>
+<td><code>ZINCRBY key-name num item</code> 将指定元素的分值加上num</td>
+</tr>
+<tr>
+<td>ZCOUNT</td>
+<td><code>ZCOUNT key-name min max</code> 返回分值在min和max之间的元素数量</td>
+</tr>
+<tr>
+<td>ZRANK</td>
+<td><code>ZRANK key-name item</code> 返回指定元素在集合里面的排名</td>
+</tr>
+<tr>
+<td>ZSCORE</td>
+<td><code>ZSCORE key-name item</code> 返回指定元素的分值</td>
+</tr>
+<tr>
+<td>ZRANGE</td>
+<td><code>ZRANGE key-name start stop [WITHSCORES]</code> 返回排名在start和stop之间的成员，WITHSCORES可同时返回对应的分值</td>
+</tr>
+</tbody></table>
+<h3 id="发布与订阅"><a href="#发布与订阅" class="headerlink" title="发布与订阅"></a>发布与订阅</h3><h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3></div><div class="article-licensing box"><div class="licensing-title"><p>Redis基础</p><p><a href="https://blog.iotforfml.cn/2019/03/07/Redis基础/">https://blog.iotforfml.cn/2019/03/07/Redis基础/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>fanmlei</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2019-03-07</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2022-03-25</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/">编程基础</a><a class="link-muted mr-2" rel="tag" href="/tags/Reids/">Reids</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2019/03/11/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E7%89%A9%E8%81%94%E7%BD%91%E5%B9%B3%E5%8F%B0%EF%BC%889%EF%BC%89%EF%BC%9A%E5%BF%AB%E6%8D%B7%E6%8C%87%E4%BB%A4%E5%92%8C%E6%8C%87%E4%BB%A4%E5%8F%91%E9%80%81/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">从零开始搭建物联网平台（9）：快捷指令和指令发送</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2019/03/07/list.sort%E6%96%B9%E6%B3%95%E5%92%8C%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0sorted/"><span class="level-item">list.sort方法和内置函数sorted</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/site/avatar.png" alt="fanmlei"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">fanmlei</p><p class="is-size-6 is-block">努力成为一名GEEK！</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Wuhan, China</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">81</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">12</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">37</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/fanmlei" target="_blank" rel="noopener">关注我</a></div></div></div><!--!--><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Arduino/"><span class="level-start"><span class="level-item">Arduino</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Django/"><span class="level-start"><span class="level-item">Django</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/categories/Docker/"><span class="level-start"><span class="level-item">Docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Odoo/"><span class="level-start"><span class="level-item">Odoo</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a><ul><li><a class="level is-mobile" href="/categories/Python/%E7%AE%97%E6%B3%95/"><span class="level-start"><span class="level-item">算法</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="level-start"><span class="level-item">微信小程序</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"><span class="level-start"><span class="level-item">未分类</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/"><span class="level-start"><span class="level-item">物联网</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%AE%97%E6%B3%95/"><span class="level-start"><span class="level-item">算法</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E7%AE%97%E6%B3%95/leetcode/"><span class="level-start"><span class="level-item">leetcode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-08-16T02:35:18.000Z">2021-08-16</time></p><p class="title"><a href="/2021/08/16/Python%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%B5%85%E6%9E%90/">Python的多线程使用浅析</a></p><p class="categories"><a href="/categories/Python/">Python</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-05-14T08:30:24.000Z">2021-05-14</time></p><p class="title"><a href="/2021/05/14/Django%20rest%20framework%20%20%E8%AE%A4%E8%AF%81%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">Django rest framework  认证组件源码分析</a></p><p class="categories"><a href="/categories/Django/">Django</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-05-07T11:42:49.000Z">2021-05-07</time></p><p class="title"><a href="/2021/05/07/HTTP%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%80/">HTTP协议基础</a></p><p class="categories"><a href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/">未分类</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-04-19T18:21:08.000Z">2021-04-20</time></p><p class="title"><a href="/2021/04/20/Postgresql%E7%9A%84%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2%E5%8A%9F%E8%83%BD/">Postgresql的全文检索功能</a></p><p class="categories"><a href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/">未分类</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-04-17T11:42:49.000Z">2021-04-17</time></p><p class="title"><a href="/2021/04/17/jieba+whoosh%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%9A%84%E5%95%86%E5%93%81%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/">jieba+whoosh实现简单的商品搜索功能</a></p><p class="categories"><a href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/">未分类</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2021/08/"><span class="level-start"><span class="level-item">八月 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/05/"><span class="level-start"><span class="level-item">五月 2021</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/04/"><span class="level-start"><span class="level-item">四月 2021</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/09/"><span class="level-start"><span class="level-item">九月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/12/"><span class="level-start"><span class="level-item">十二月 2019</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/09/"><span class="level-start"><span class="level-item">九月 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/03/"><span class="level-start"><span class="level-item">三月 2019</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2019/02/"><span class="level-start"><span class="level-item">二月 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/08/"><span class="level-start"><span class="level-item">八月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/06/"><span class="level-start"><span class="level-item">六月 2018</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/05/"><span class="level-start"><span class="level-item">五月 2018</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/04/"><span class="level-start"><span class="level-item">四月 2018</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/11/"><span class="level-start"><span class="level-item">十一月 2017</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/Arduino/"><span class="tag">Arduino</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CSRF/"><span class="tag">CSRF</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/DRF/"><span class="tag">DRF</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Django/"><span class="tag">Django</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Django%E6%A8%A1%E7%89%88/"><span class="tag">Django模版</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Excel/"><span class="tag">Excel</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HTTP/"><span class="tag">HTTP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MQ/"><span class="tag">MQ</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/PyQt/"><span class="tag">PyQt</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Reids/"><span class="tag">Reids</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WebSocket/"><span class="tag">WebSocket</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bug/"><span class="tag">bug</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jQuery/"><span class="tag">jQuery</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/odoo/"><span class="tag">odoo</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/web%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">web中间件</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E8%AF%8D/"><span class="tag">分词</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/"><span class="tag">前后端分离</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%90%8E%E7%AB%AF/"><span class="tag">后端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="tag">小程序</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8E%92%E5%BA%8F/"><span class="tag">排序</span><span class="tag">10</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%94%AF%E4%BB%98/"><span class="tag">支付</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/"><span class="tag">文件处理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%BA%90%E7%A0%81/"><span class="tag">源码</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%89%A9%E8%81%94%E7%BD%91/"><span class="tag">物联网</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%99%BB%E5%BD%95/"><span class="tag">登录</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%A1%AC%E4%BB%B6/"><span class="tag">硬件</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AC%94%E8%AE%B0/"><span class="tag">笔记</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95/"><span class="tag">算法</span><span class="tag">14</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/"><span class="tag">编程基础</span><span class="tag">12</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"><span class="tag">编程语言</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C/"><span class="tag">网络</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/"><span class="tag">网络请求</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%82%AE%E7%AE%B1/"><span class="tag">邮箱</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%83%A8%E7%BD%B2/"><span class="tag">部署</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%98%9F%E5%88%97/"><span class="tag">队列</span><span class="tag">1</span></a></div></div></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/site/avatar.png" alt="fanmlei`s blog" height="28"></a><p class="is-size-7"><span>&copy; 2022 fanmlei</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/fanmlei/blog"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

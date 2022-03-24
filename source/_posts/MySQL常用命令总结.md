@@ -1,3 +1,9 @@
+---
+title: MySQL常用命令总结
+date: 2018-11-20 02:21:08
+categories: 
+- 未分类
+---
 <p style="margin-left:0pt;"><strong><strong>显示所有数据库：</strong></strong>show databases;<br /><img alt="" class="has" height="176" src="https://img-blog.csdn.net/20180818091228226?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0Zhbk1MZWk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="260" /></p>
 
 <p style="margin-left:0pt;"><strong><strong>新建数据库：</strong></strong>create database dbname;</p>

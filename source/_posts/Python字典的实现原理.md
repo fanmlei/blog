@@ -1,3 +1,9 @@
+---
+title: Python字典的实现原理
+date: 2018-02-10 02:21:08
+categories: 
+- Python
+---
 <p>以下是自己的学习记录，算是一个总结。</p>
 
 <p style="text-indent:0;">接下来会依次对下面问题做一个解答：<br />

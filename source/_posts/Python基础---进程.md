@@ -1,4 +1,11 @@
-
+---
+title: Python基础---进程
+date: 2018-03-07 02:21:08
+categories: 
+- Python
+tags:
+- 编程基础
+---
 <p>python的多线程和多进程都是调用系统的原生线程和进程，多进程和多线程在使用上类&#20284;，同样有直接调用和继承调用两种，在进程中还可以创建其他的线程</p>
 <p>可通过os模块中的getpid()获取自己的进程ID，getppid()获取父进程的ID</p>
 <p><pre name="code" class="python">import multiprocessing,time,os

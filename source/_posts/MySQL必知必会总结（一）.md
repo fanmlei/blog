@@ -1,3 +1,9 @@
+---
+title: MySQL必知必会总结（一）
+date: 2019-12-20 02:21:08
+categories: 
+- 未分类
+---
 #### 去重
 
 MySQL中不能部分使用DISTINCT，DISTINCT关键字会应用于所有列而不仅是前置它的列。如果给出SELECT DISTINCT score,age，除非指定的两个列都不同，否则所有行都将被检索出来。
