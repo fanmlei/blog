@@ -1,13 +1,13 @@
 ---
-title: Python的多线程使用浅析
+title: Python多线程使用浅析
 date: 2021-08-16 10:35:18
 categories: 
 - Python
 tags:
 - 编程基础
 ---
-# Python的多线程使用浅析
-
+由于GIL(全局解释器锁)的存在，导致Python无法利用到多核CPU的优势，并行处理能力也是稍显不足，下面将从GIL开始说说什么是资源竞争，以及Python多线程的创建、锁、线程间通信等问题。
+<!--more-->
 在python中谈到多线程问题就绕不开一个点GIL，一个是资源竞争
 
 - GIL全称python全局解释器锁，由于GIL的存在，在任意时刻只有一个线程在执行，这也导致python的多线程无法利用到多核CPU的优势，如果是多IO操作的线程影响较小。

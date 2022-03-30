@@ -13,7 +13,7 @@ tags:
 - null和blank的区别
 
   null和blank默认都是为false的，不能为空，而null是数据库层面的不为空，blank则会影响form验证（blank=True表单验证的时候可以为空，blank=False表单验证不能为空）
-
+<!--more-->
 - choice
 
   choice参数值为列表或元组，可以通过`get_FOO_display()`方法获取其显示的值

@@ -7,6 +7,7 @@ tags:
 - 分词
 ---
 之前做过一个jieba+whoosh的商品搜索功能，后来发现Postgresql数据库自带有全文检索的功能，那么就尝试使用Postgresql的全文检索功能来实现一次
+<!--more-->
 ### postgresql配置
 - 环境：Ubuntu16.04
 - 版本：v9.5

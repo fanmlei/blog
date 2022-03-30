@@ -17,7 +17,7 @@ odoo使用指定的配置文件进行加载 ./odoo-bin -c <配置文件的路径
 odoo脚手架工具-创建简单的模块 ： ./odoo-bin scaffold module-name save-path
 
 odoo的addons路径在命令行中是相对路径，配置文件中为绝对路径
-
+<!--more-->
 ### odoo模块的基本文件结构：
 ---
 - controllers：网页控制器

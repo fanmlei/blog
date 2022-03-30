@@ -15,7 +15,7 @@ django的中间件是一个轻量级的插件，可以改变django的输入和�
 3. process_template_response(self,request,response)
 4. process_exception(self, request, exception)
 5. process_response(self, request, response)
-
+<!--more-->
 前两个方法 都是自上而下的执行每个中间件，后面的三个都是反着来的
 ![](1.png)
 

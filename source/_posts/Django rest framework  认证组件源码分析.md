@@ -7,7 +7,10 @@ tags:
 - 源码
 - Django
 - DRF
+cover: img/covers/rest_framework_auth.png
 ---
+Django rest framework的认证组件是最常用的几个组件之一，内部实现并不复杂，通过源码可以了解Django是如何处理请求的，在认证的过程中组件帮我们实现了哪些功能，以及如何实现我们自己的认证方法。
+<!--more-->
 ### 基础知识
 
 想要弄清楚rest framework的执行过程首先需要明白Django中CBV和FBV执行流程，http请求最最本质的就是一个socket，一个请求过来第一步就是做路由匹配，在FBV中因为视图本身就是一个函数，所以直接调用函数就可以了，但是CBV中视图是一个类而在这个类里面是我们编写的视图函数，所以比FBV多了一步如何找到那个函数并且执行它。
