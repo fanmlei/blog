@@ -1,0 +1,43 @@
+name: Hexo deploy
+
+on: 
+  push:
+    paths-ignore:
+      - 'source/_drafts/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: A job to deploy blog.
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+        submodules: true
+        
+    - name: Use Node.js 16.x
+      uses: actions/setup-node@v2
+      with:
+        node-version: "16"
+        
+    - name: Cache NPM dependencies
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: ${{ runner.OS }}-npm-cache
+        restore-keys: |
+            ${{ runner.OS }}-npm-cache
+    
+    - name: Install Dependencies
+      run: npm install
+        
+    - name: Deploy
+      id: deploy
+      uses: sma11black/hexo-action@v1.0.3
+      with:
+        deploy_key: ${{ secrets.HEXO_DEPLOY_KEY }}
+        user_name: github用户名
+        user_email: github邮箱
+        commit_msg: ${{ github.event.head_commit.message }}ion)
+    - name: Get the output
+      run: |
+        echo "${{ steps.deploy.outputs.notify }}"
