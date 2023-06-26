@@ -14,6 +14,9 @@ jobs:
       with:
         submodules: true
         
+    - name: Install apt-utils
+      run: sudo apt-get install -y apt-utils
+        
     - name: Use Node.js 16.x
       uses: actions/setup-node@v2
       with:
@@ -35,8 +38,8 @@ jobs:
       uses: sma11black/hexo-action@v1.0.3
       with:
         deploy_key: ${{ secrets.HEXO_DEPLOY_KEY }}
-        user_name: github用户名
-        user_email: github邮箱
+        user_name: fanmlei
+        user_email: 15638515832@.com
         commit_msg: ${{ github.event.head_commit.message }}ion)
     - name: Get the output
       run: |
