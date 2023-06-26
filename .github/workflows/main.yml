@@ -14,9 +14,6 @@ jobs:
       with:
         submodules: true
         
-    - name: Install apt-utils
-      run: sudo apt-get install -y apt-utils
-        
     - name: Use Node.js 16.x
       uses: actions/setup-node@v2
       with:
@@ -35,7 +32,7 @@ jobs:
         
     - name: Deploy
       id: deploy
-      uses: sma11black/hexo-action@v1.0.3
+      uses: sma11black/hexo-action@v1.0.4
       with:
         deploy_key: ${{ secrets.HEXO_DEPLOY_KEY }}
         user_name: fanmlei
